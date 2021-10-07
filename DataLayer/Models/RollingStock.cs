@@ -9,5 +9,8 @@ namespace DataLayer.Models.Products
     {
         public float Length { get; set; }
         public int NumOfAxels { get; set; }
+
+        public int RailWayCompanyId { get; set; }
+        public RailwayCompany RailwayCompany { get; set; }
     }
 }

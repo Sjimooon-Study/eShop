@@ -15,7 +15,7 @@ namespace DataLayer.Models
         public decimal Price { get; set; }
 
         public ICollection<Image> Images { get; set; }
-        
+
         public int? TagId { get; set; }
         public Tag Tag { get; set; }
         
