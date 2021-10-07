@@ -8,6 +8,7 @@ Abstract classes are used to devide different categories of products into differ
 This project implements TPH (Table Per Hierarchy), which is the standard in EF5.
 However, the abstract classes used in this project, set the stage for a TPC (Table Per Concrete) implementation (Table Per Concrete), which is *not* supported in EF5.
 Therefore the `Product` base class is used to create one table with appropiate fields to represent any concrete class derrived herefrom, hence TPH.
+A `Discriminator` shadow property of type is implicitly added to the `Product` table to distinguish between each derrived type.
 
 A TPC (Table Per Concrete) implementation would mean a table for each non-abstract class is created.
 In this instance this would be `DigitalDecoder`, `Locomotive`, and `RailCar`, which all derive from `Product`.

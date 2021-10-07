@@ -22,10 +22,7 @@ namespace ServiceLayer.LocomotiveService
                     NextStock = l.StockStatus.NextStock
                 },
                 Images = l.Images.MapImageToDto(),
-                Tag = new TagDto
-                {
-                    Text = l.Tag.Text
-                }
+                Tag = l.Tag.TagId
             });
         }
     }

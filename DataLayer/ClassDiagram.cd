@@ -9,8 +9,15 @@
   </Class>
   <Class Name="DataLayer.Models.Products.DigitalDecoder">
     <Position X="5" Y="2.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="DataLayer.Models.Products.DigitalDecoder.EDecoderInterface" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Models\Products\DigitalDecoder.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
       <FileName>Models\Products\DigitalDecoder.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -57,7 +64,7 @@
   <Class Name="DataLayer.Models.Tag">
     <Position X="0.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAE=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
       <FileName>Models\Tag.cs</FileName>
     </TypeIdentifier>
   </Class>

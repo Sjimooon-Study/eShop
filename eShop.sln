@@ -4,10 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{ECF36C44-60F2-46F6-92FF-10D38AB7A292}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3} = {6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{8F2E96BC-86EB-4095-9CBC-F31494E3735D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceLayer", "ServiceLayer\ServiceLayer.csproj", "{6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8F2E96BC-86EB-4095-9CBC-F31494E3735D} = {8F2E96BC-86EB-4095-9CBC-F31494E3735D}
 	EndProjectSection
