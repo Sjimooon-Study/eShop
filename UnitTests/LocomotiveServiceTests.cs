@@ -204,5 +204,121 @@ namespace UnitTests
             Assert.Equal(locomotives[2].Name, result[1].Name);
             Assert.Equal(locomotives[0].Name, result[2].Name);
         }
+
+        [Fact]
+        public void GetSingleDetailLocomotive()
+        {
+            // Arange
+            int locomotiveId = 1;
+            Locomotive locomotive = new Locomotive
+            {
+                ProductId = locomotiveId,
+                Name = "BR 023 040-9"
+            };
+            DetailsLocomotiveDto result;
+
+            var options = new DbContextOptionsBuilder<EShopContext>()
+                .UseInMemoryDatabase(databaseName: "GetSingleDetailLocomotive")
+                .Options;
+
+            using (var context = new EShopContext(options))
+            {
+                context.Locomotives.Add(locomotive);
+                context.SaveChanges();
+            }
+
+            // Act
+            using (var context = new EShopContext(options))
+            {
+                var service = new LocomotiveService(context);
+                result = service.GetDetailsLocomotive(locomotiveId);
+            }
+
+            // Assert
+            Assert.True(result != null);
+            Assert.Equal(locomotive.Name, result.Name);
+        }
+
+        [Fact]
+        public void EditSingleLocomotive()
+        {
+            // Arange
+            int locomotiveId = 1;
+            Locomotive originalLocomotive = new Locomotive
+            {
+                ProductId = locomotiveId,
+                Name = "Litra MZ"
+            };
+            EditLocomotiveDto editLocomotive = new EditLocomotiveDto
+            {
+                Id = locomotiveId,
+                Name = "Northlander"
+            };
+
+            var options = new DbContextOptionsBuilder<EShopContext>()
+                .UseInMemoryDatabase(databaseName: "EditSingleLocomotive")
+                .Options;
+
+            using (var context = new EShopContext(options))
+            {
+                context.Locomotives.Add(originalLocomotive);
+                context.SaveChanges();
+            }
+
+            // Act
+            using (var context = new EShopContext(options))
+            {
+                var service = new LocomotiveService(context);
+                service.Edit(editLocomotive);
+            }
+
+            // Assert
+            using (var context = new EShopContext(options))
+            {
+                Assert.Equal(context.Locomotives.Find(locomotiveId).Name, editLocomotive.Name);
+                Assert.True(context.Locomotives.Count() == 1);
+            }
+        }
+
+        [Fact]
+        public void DeleteSingleLocomotive()
+        {
+            // Arange
+            var locomotives = new List<Locomotive>()
+            {
+                new Locomotive { ProductId = 1, Name = "Litra MY" },
+                new Locomotive { ProductId = 2, Name = "IC3" },
+                new Locomotive { ProductId = 3, Name = "BR 185" },
+                new Locomotive { ProductId = 4, Name = "IC4" },
+                new Locomotive { ProductId = 5, Name = "BR 001" }
+            };
+            int result;
+
+            var options = new DbContextOptionsBuilder<EShopContext>()
+                .UseInMemoryDatabase(databaseName: "DeleteSingleLocomotive")
+                .Options;
+
+            using (var context = new EShopContext(options))
+            {
+                context.Locomotives.AddRange(locomotives);
+                context.SaveChanges();
+            }
+
+            // Act
+            using (var context = new EShopContext(options))
+            {
+                var service = new LocomotiveService(context);
+                result = service.Delete(4);
+            }
+
+            // Assert
+            Assert.True(result > 0);
+
+            using (var context = new EShopContext(options))
+            {
+                bool locomotiveStillExists = context.Locomotives.Any(l => l.ProductId == 4);
+                Assert.False(locomotiveStillExists);
+            }
+        }
     }
 }

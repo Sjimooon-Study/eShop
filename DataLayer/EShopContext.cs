@@ -8,11 +8,8 @@ namespace DataLayer
 {
     public class EShopContext : DbContext
     {
-        public EShopContext()
-        { }
-        public EShopContext(DbContextOptions<EShopContext> options)
-            : base (options)
-        { }
+        public EShopContext() { }
+        public EShopContext(DbContextOptions<EShopContext> options) : base (options) { }
         
         public DbSet<DigitalDecoder> DigitalDecoders { get; set; }
         public DbSet<Locomotive> Locomotives { get; set; }

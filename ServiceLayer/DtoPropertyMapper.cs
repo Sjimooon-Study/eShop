@@ -10,36 +10,27 @@ namespace ServiceLayer
 {
     public static class DtoPropertyMapper
     {
-        #region To DTO
+        #region General
         public static ICollection<ImageDto> MapImageToDto(this ICollection<Image> images)
         {
-            ICollection<ImageDto> imageCollection = images.Select(i => new ImageDto
+            return images?.Select(i => new ImageDto
             {
                 Url = i.Url
             }).ToList();
-
-            return imageCollection;
         }
-        #endregion
 
-        #region Select
-        public static IQueryable<ListLocomotiveDto> MapListLocomotiveToDto(this IQueryable<Locomotive> locomotives)
+        public static StockStatusDto MapStockStatusDto(this StockStatus stockStatus)
         {
-            return locomotives.Select(l => new ListLocomotiveDto
+            if (stockStatus != null)
             {
-                ProductId = l.ProductId,
-                Name = l.Name,
-                RailwayCompanyName = l.RailwayCompany.Name,
-                Price = l.Price,
-                Scale = l.Scale,
-                StockStatus = new StockStatusDto
+                return new StockStatusDto
                 {
-                    Amount = l.StockStatus.Amount,
-                    NextStock = l.StockStatus.NextStock
-                },
-                Images = l.Images.MapImageToDto(),
-                Tag = l.Tag.TagId
-            });
+                    Amount = stockStatus.Amount,
+                    NextStock = stockStatus.NextStock
+                };
+            }
+            
+            return null;
         }
         #endregion
 
@@ -91,6 +82,61 @@ namespace ServiceLayer
 
         public static T MapLocomotiveProperties<T>(this T locomotive, AddLocomotiveDto properties) where T : Locomotive
         {
+            locomotive.Control = properties.Control;
+            locomotive.LocoType = properties.LocoType;
+            locomotive.AutoCoupling = properties.AutoCoupling;
+            locomotive.NumOfDrivenAxels = properties.NumOfDrivenAxels;
+            locomotive.DigitalDecoderId = properties.DigitalDecoderId;
+
+            return locomotive;
+        }
+        #endregion
+
+        #region Select
+        public static IQueryable<ListLocomotiveDto> MapListLocomotiveToDto(this IQueryable<Locomotive> locomotives)
+        {
+            return locomotives.Select(l => new ListLocomotiveDto
+            {
+                ProductId = l.ProductId,
+                Name = l.Name,
+                RailwayCompanyName = l.RailwayCompany.Name,
+                Price = l.Price,
+                Scale = l.Scale,
+                StockStatus = l.StockStatus.MapStockStatusDto(),
+                Images = l.Images.MapImageToDto(),
+                Tag = l.Tag.TagId
+            });
+        }
+
+        public static DetailsLocomotiveDto MapDetailsLocomotiveDto(this Locomotive locomotive)
+        {
+            return new DetailsLocomotiveDto()
+            {
+                ProductId = locomotive.ProductId,
+                Name = locomotive.Name,
+                Description = locomotive.Description,
+                Price = locomotive.Price,
+                Images = locomotive.Images.MapImageToDto(),
+                Tag = locomotive.Tag?.TagId,
+                StockStatus = locomotive.StockStatus.MapStockStatusDto(),
+                Scale = locomotive.Scale,
+                Epoch = locomotive.Epoch,
+                Length = locomotive.Length,
+                NumOfAxels = locomotive.NumOfAxels,
+                RailwayCompanyName = locomotive.RailwayCompany?.Name,
+                RailwatCompanyCountryName = locomotive.RailwayCompany?.Country.Name,
+                Control = locomotive.Control,
+                LocoType = locomotive.LocoType,
+                AutoCoupling = locomotive.AutoCoupling,
+                NumOfDrivenAxels = locomotive.NumOfDrivenAxels
+            };
+        }
+        #endregion
+
+        #region Edit
+        public static T MapLocomotiveProperties<T>(this T locomotive, EditLocomotiveDto properties) where T : Locomotive
+        {
+            locomotive.ProductId = properties.Id;
             locomotive.Control = properties.Control;
             locomotive.LocoType = properties.LocoType;
             locomotive.AutoCoupling = properties.AutoCoupling;
