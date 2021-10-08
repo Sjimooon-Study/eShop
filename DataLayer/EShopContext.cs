@@ -8,16 +8,25 @@ namespace DataLayer
 {
     public class EShopContext : DbContext
     {
+        public EShopContext()
+        { }
+        public EShopContext(DbContextOptions<EShopContext> options)
+            : base (options)
+        { }
+        
         public DbSet<DigitalDecoder> DigitalDecoders { get; set; }
         public DbSet<Locomotive> Locomotives { get; set; }
         public DbSet<RailCar> RailCars { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder
-                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, Microsoft.Extensions.Logging.LogLevel.Information)
-                .EnableSensitiveDataLogging(true)
-                .UseSqlServer("Server = (localdb)\\mssqllocaldb; Database = EShopDb; Trusted_Connection = True;");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder
+                    .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, Microsoft.Extensions.Logging.LogLevel.Information)
+                    .EnableSensitiveDataLogging(true)
+                    .UseSqlServer("Server = (localdb)\\mssqllocaldb; Database = EShopDb; Trusted_Connection = True;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -81,7 +90,7 @@ namespace DataLayer
 
                     Length = 24.5f,
                     NumOfAxels = 9,
-                    RailWayCompanyId = 2,
+                    RailwayCompanyId = 2,
 
                     Control = Locomotive.EControl.DC,
                     LocoType = Locomotive.ELocoType.SteamLocomotive,
@@ -102,7 +111,7 @@ namespace DataLayer
 
                     Length = 21.2f,
                     NumOfAxels = 4,
-                    RailWayCompanyId = 4,
+                    RailwayCompanyId = 4,
 
                     Control = Locomotive.EControl.DCC,
                     LocoType = Locomotive.ELocoType.ElectricLocomotive,
@@ -123,7 +132,7 @@ namespace DataLayer
 
                     Length = 26.5f,
                     NumOfAxels = 10,
-                    RailWayCompanyId = 2,
+                    RailwayCompanyId = 2,
 
                     Control = Locomotive.EControl.DC,
                     LocoType = Locomotive.ELocoType.SteamLocomotive,

@@ -21,7 +21,11 @@ In this instance this would be `DigitalDecoder`, `Locomotive`, and `RailCar`, wh
 - Microsoft.EntityFrameworkCore v5.0.10
 - Microsoft.EntityFrameworkCore.Tools v5.0.10
 - Microsoft.EntityFrameworkCore.SqlServer v5.0.10
+- Microsoft.EntityFrameworkCore.InMemory v5.0.10
 - Microsoft.Extensions.Logging.Console v5.0.0
+
+*UnitTests*
+- Microsoft.EntityFrameworkCore v5.0.10
 
 *All of the above can be installed using NuGet Package Manager or Package Manager Console (PMC): `Install-Package <package_name>_`*
 
@@ -42,5 +46,6 @@ In this instance this would be `DigitalDecoder`, `Locomotive`, and `RailCar`, wh
 A detailed description of the above and other additional commands can be found in Microsoft Docs: https://docs.microsoft.com/en-us/ef/core/cli/powershell
 
 ## Known Issues & Limitations
+- Enums doesn't have display names yet.
 
 ## Versioning
