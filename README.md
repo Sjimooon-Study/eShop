@@ -65,6 +65,8 @@ In this instance this would be `DigitalDecoder`, `Locomotive`, and `RailCar`, wh
 
 A detailed description of the above and other additional commands can be found in Microsoft Docs: https://docs.microsoft.com/en-us/ef/core/cli/powershell
 
+The `Initial.sql` script located in `DataLayer/Migrations/Scripts` can be used to initialize the `EShopDb` database. 
+
 ## Known Issues & Limitations
 - Enums lack display names.
 - ServiceLayer and UnitTest lack documentation.

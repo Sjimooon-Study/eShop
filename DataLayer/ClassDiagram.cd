@@ -8,7 +8,10 @@
     </TypeIdentifier>
   </Class>
   <Class Name="DataLayer.Models.Products.DigitalDecoder">
-    <Position X="5" Y="2.5" Width="1.5" />
+    <Position X="5" Y="3.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
       <Enum Name="DataLayer.Models.Products.DigitalDecoder.EDecoderInterface" Collapsed="true">
         <TypeIdentifier>
@@ -23,6 +26,9 @@
   </Class>
   <Class Name="DataLayer.Models.ModelItem">
     <Position X="5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
       <Enum Name="DataLayer.Models.ModelItem.EScale" Collapsed="true">
         <TypeIdentifier>
@@ -50,7 +56,7 @@
   <Class Name="DataLayer.Models.Products.RollingStock">
     <Position X="7.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAABAAAAEAABAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <HashCode>AAAAAAQAAAAAAABAAAAEAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\RollingStock.cs</FileName>
     </TypeIdentifier>
   </Class>

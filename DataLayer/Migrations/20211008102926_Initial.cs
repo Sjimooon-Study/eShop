@@ -86,7 +86,7 @@ namespace DataLayer.Migrations
                     Epoch = table.Column<int>(type: "int", nullable: true),
                     Length = table.Column<float>(type: "real", nullable: true),
                     NumOfAxels = table.Column<int>(type: "int", nullable: true),
-                    RailWayCompanyId = table.Column<int>(type: "int", nullable: true)
+                    RailwayCompanyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -98,11 +98,11 @@ namespace DataLayer.Migrations
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Product_RailwayCompany_RailWayCompanyId",
-                        column: x => x.RailWayCompanyId,
+                        name: "FK_Product_RailwayCompany_RailwayCompanyId",
+                        column: x => x.RailwayCompanyId,
                         principalTable: "RailwayCompany",
                         principalColumn: "RailwayCompanyId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Product_Tag_TagId",
                         column: x => x.TagId,
@@ -211,21 +211,21 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "StockStatus",
                 columns: new[] { "StockStatusId", "Amount", "NextStock", "ProductId" },
-                values: new object[] { 1, 23L, new DateTime(2021, 11, 7, 17, 0, 19, 449, DateTimeKind.Local).AddTicks(4564), 1 });
+                values: new object[] { 1, 23L, new DateTime(2021, 11, 8, 12, 29, 26, 110, DateTimeKind.Local).AddTicks(5528), 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
-                columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailWayCompanyId", "Scale", "TagId" },
+                columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
                 values: new object[] { 2, false, 3, "The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.", null, "Locomotive", 4, 24.5f, 1, "BR 023 040-9", 9, 4, 229.9m, 2, 1, "New" });
 
             migrationBuilder.InsertData(
                 table: "Product",
-                columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailWayCompanyId", "Scale", "TagId" },
+                columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
                 values: new object[] { 4, false, 3, "In the period between 1942 to 1950, over 7000 units of the class 52 war locomotive were built. These were constructed with as little effort as possible and savings were also made on the material wherever possible. With a weight of 84 tons, the loco achieved an output of 1,192 kW and a top speed of 80 km / h. The Deutsche Bundesbahn mainly got rid of the locomotives as early as 1953 - since it had sufficient machines of the series 50 and series 44 to haul the heavy goods trains. Only a few locomotives built in 1945 remained with the DB until 1962.", null, "Locomotive", 3, 26.5f, 1, "BR 52", 10, 4, 319.9m, 2, 1, "New" });
 
             migrationBuilder.InsertData(
                 table: "Product",
-                columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailWayCompanyId", "Scale", "TagId" },
+                columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
                 values: new object[] { 3, false, 4, "In 1992, the first locomotive Re 460 of the Swiss Federal Railways rolled out of the factory halls of the companies SLM and BBC in Oerlikon, Switzerland. The locomotive became known to the public as \"Lok 2000\". It stands for fast and modern passenger transport in Switzerland. An eye-catching and particularly aerodynamic design with a large front window, roof cladding and beads on the side wall make the class 460 visually an unbeatable rail vehicle.", 1, "Locomotive", 6, 21.2f, 3, "Re 460 068-0", 4, 4, 321.9m, 4, 1, null });
 
             migrationBuilder.InsertData(
@@ -244,9 +244,9 @@ namespace DataLayer.Migrations
                 columns: new[] { "StockStatusId", "Amount", "NextStock", "ProductId" },
                 values: new object[,]
                 {
-                    { 2, 5L, new DateTime(2021, 12, 7, 17, 0, 19, 453, DateTimeKind.Local).AddTicks(7554), 2 },
-                    { 4, 1L, new DateTime(2022, 5, 7, 17, 0, 19, 453, DateTimeKind.Local).AddTicks(7727), 4 },
-                    { 3, 2L, new DateTime(2021, 10, 23, 17, 0, 19, 453, DateTimeKind.Local).AddTicks(7687), 3 }
+                    { 2, 5L, new DateTime(2021, 12, 8, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3276), 2 },
+                    { 4, 1L, new DateTime(2022, 5, 8, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3395), 4 },
+                    { 3, 2L, new DateTime(2021, 10, 24, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3365), 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -260,9 +260,9 @@ namespace DataLayer.Migrations
                 column: "DigitalDecoderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_RailWayCompanyId",
+                name: "IX_Product_RailwayCompanyId",
                 table: "Product",
-                column: "RailWayCompanyId");
+                column: "RailwayCompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_TagId",

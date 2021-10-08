@@ -199,28 +199,28 @@ namespace DataLayer.Migrations
                         {
                             StockStatusId = 1,
                             Amount = 23L,
-                            NextStock = new DateTime(2021, 11, 7, 17, 0, 19, 449, DateTimeKind.Local).AddTicks(4564),
+                            NextStock = new DateTime(2021, 11, 8, 12, 29, 26, 110, DateTimeKind.Local).AddTicks(5528),
                             ProductId = 1
                         },
                         new
                         {
                             StockStatusId = 2,
                             Amount = 5L,
-                            NextStock = new DateTime(2021, 12, 7, 17, 0, 19, 453, DateTimeKind.Local).AddTicks(7554),
+                            NextStock = new DateTime(2021, 12, 8, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3276),
                             ProductId = 2
                         },
                         new
                         {
                             StockStatusId = 3,
                             Amount = 2L,
-                            NextStock = new DateTime(2021, 10, 23, 17, 0, 19, 453, DateTimeKind.Local).AddTicks(7687),
+                            NextStock = new DateTime(2021, 10, 24, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3365),
                             ProductId = 3
                         },
                         new
                         {
                             StockStatusId = 4,
                             Amount = 1L,
-                            NextStock = new DateTime(2022, 5, 7, 17, 0, 19, 453, DateTimeKind.Local).AddTicks(7727),
+                            NextStock = new DateTime(2022, 5, 8, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3395),
                             ProductId = 4
                         });
                 });
@@ -342,7 +342,7 @@ namespace DataLayer.Migrations
                     b.Property<int>("NumOfDrivenAxels")
                         .HasColumnType("int");
 
-                    b.Property<int>("RailWayCompanyId")
+                    b.Property<int?>("RailwayCompanyId")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
@@ -352,7 +352,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("DigitalDecoderId");
 
-                    b.HasIndex("RailWayCompanyId");
+                    b.HasIndex("RailwayCompanyId");
 
                     b.HasDiscriminator().HasValue("Locomotive");
 
@@ -371,7 +371,7 @@ namespace DataLayer.Migrations
                             LocoType = 1,
                             NumOfAxels = 9,
                             NumOfDrivenAxels = 4,
-                            RailWayCompanyId = 2,
+                            RailwayCompanyId = 2,
                             Scale = 1
                         },
                         new
@@ -388,7 +388,7 @@ namespace DataLayer.Migrations
                             LocoType = 3,
                             NumOfAxels = 4,
                             NumOfDrivenAxels = 4,
-                            RailWayCompanyId = 4,
+                            RailwayCompanyId = 4,
                             Scale = 1
                         },
                         new
@@ -405,7 +405,7 @@ namespace DataLayer.Migrations
                             LocoType = 1,
                             NumOfAxels = 10,
                             NumOfDrivenAxels = 4,
-                            RailWayCompanyId = 2,
+                            RailwayCompanyId = 2,
                             Scale = 1
                         });
                 });
@@ -426,7 +426,7 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
-                    b.Property<int>("RailWayCompanyId")
+                    b.Property<int?>("RailwayCompanyId")
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
@@ -434,7 +434,7 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int");
 
-                    b.HasIndex("RailWayCompanyId");
+                    b.HasIndex("RailwayCompanyId");
 
                     b.HasDiscriminator().HasValue("RailCar");
                 });
@@ -491,9 +491,7 @@ namespace DataLayer.Migrations
 
                     b.HasOne("DataLayer.Models.RailwayCompany", "RailwayCompany")
                         .WithMany()
-                        .HasForeignKey("RailWayCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RailwayCompanyId");
 
                     b.Navigation("DigitalDecoder");
 
@@ -504,9 +502,7 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.RailwayCompany", "RailwayCompany")
                         .WithMany()
-                        .HasForeignKey("RailWayCompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RailwayCompanyId");
 
                     b.Navigation("RailwayCompany");
                 });
