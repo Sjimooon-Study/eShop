@@ -18,6 +18,12 @@ namespace ServiceLayer.LocomotiveService.Concrete
         }
 
         #region Add
+        /// <summary>
+        /// Add single <see cref="Locomotive"/> to underlying database.
+        /// </summary>
+        /// <param name="locomotive">Locomotive to add.</param>
+        /// <param name="saveChanges">Whether to save changes or not.</param>
+        /// <returns>Number of affected entries.</returns>
         public int Add(AddLocomotiveDto locomotive, bool saveChanges = true)
         {
             Locomotive locomotiveToAdd = new Locomotive()
@@ -36,7 +42,12 @@ namespace ServiceLayer.LocomotiveService.Concrete
             return 0;
         }
 
-        public int Add(List<AddLocomotiveDto> locomotives)
+        /// <summary>
+        /// Add multiple <see cref="Locomotive"/>s to underlying database.
+        /// </summary>
+        /// <param name="locomotives">Locomotives to add.</param>
+        /// <returns>Number of affected entries.</returns>
+        public int Add(ICollection<AddLocomotiveDto> locomotives)
         {
             foreach (AddLocomotiveDto locomotive in locomotives)
             {
@@ -48,12 +59,23 @@ namespace ServiceLayer.LocomotiveService.Concrete
         #endregion
 
         #region Get
+        /// <summary>
+        /// Get all locomotive details from underlying databse.
+        /// </summary>
+        /// <param name="locomotiveId"><see cref="Locomotive"/> ID</param>
+        /// <returns>Locomotive details of <see cref="Locomotive"/> with <paramref name="locomotiveId"/>; otherwise null.</returns>
         public DetailsLocomotiveDto GetDetailsLocomotive(int locomotiveId)
         {
-            return _context.Locomotives.Find(locomotiveId)?
+            return _context.Locomotives
+                .Find(locomotiveId)?
                 .MapDetailsLocomotiveDto();
         }
 
+        /// <summary>
+        /// Get queryable to list locomotives on a product page.
+        /// </summary>
+        /// <param name="queryOptions">Options including ordering, filters, and paging.</param>
+        /// <returns><see cref="IQueryable"/> of <see cref="ListLocomotiveDto"/>.</returns>
         public IQueryable<ListLocomotiveDto> GetListLocomotives(QueryOptions queryOptions)
         {
             var locomotiveQuery = _context.Locomotives
@@ -66,6 +88,11 @@ namespace ServiceLayer.LocomotiveService.Concrete
         #endregion
 
         #region Edit
+        /// <summary>
+        /// Edit <see cref="Locomotive"/> in underlying database.
+        /// </summary>
+        /// <param name="locomotive">Locomotive to edit.</param>
+        /// <returns>Number of affected entries.</returns>
         public int Edit(EditLocomotiveDto locomotive)
         {
             Locomotive locomotiveToUpdate = new Locomotive()
@@ -81,6 +108,11 @@ namespace ServiceLayer.LocomotiveService.Concrete
         #endregion
 
         #region Delete
+        /// <summary>
+        /// Delete one or more <see cref="Locomotive"/> in underlying database.
+        /// </summary>
+        /// <param name="locomotiveIds"><see cref="Locomotive"/> ID(s)</param>
+        /// <returns>Number of affected entries.</returns>
         public int Delete(params int[] locomotiveIds)
         {
             _context.Locomotives.RemoveRange(_context.Locomotives.Where(l => locomotiveIds.Contains(l.ProductId)));

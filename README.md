@@ -33,7 +33,12 @@ The looped one-to-many relation ship on the product table is caused by the `Loco
 A TPC (Table Per Concrete) implementation would mean a table for each non-abstract class is created.
 In this instance this would be `DigitalDecoder`, `Locomotive`, and `RailCar`, which all derive from `Product`. 
 
-### Nuget Packages
+#### ServiceLayer
+Responsible for calling the underlying database (through the DataLayer).
+Retrievd entities from the database get their properties mapped into DTO's and passed to the depending application - or wise versa.
+This conversion is handled by the `DtoPropertyMapper` class and brought to the application via the '<entity_name>Service' class.
+
+#### NuGet Packages & Dependecies
 *ConsoleApp*
 - Microsoft.EntityFrameworkCore.Design v5.0.10
 
@@ -41,13 +46,24 @@ In this instance this would be `DigitalDecoder`, `Locomotive`, and `RailCar`, wh
 - Microsoft.EntityFrameworkCore v5.0.10
 - Microsoft.EntityFrameworkCore.Tools v5.0.10
 - Microsoft.EntityFrameworkCore.SqlServer v5.0.10
-- Microsoft.EntityFrameworkCore.InMemory v5.0.10
+- Microsoft.EntityFrameworkCore.InMemory v5.0.10 *(for unit testing)*
 - Microsoft.Extensions.Logging.Console v5.0.0
 
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
 
-*All of the above can be installed using NuGet Package Manager or Package Manager Console (PMC): `Install-Package <package_name>`*
+*All of the above can be installed using NuGet Package Manager or Package Manager Console (PMC): `Install-Package <package_name>` (See script below)*
+
+##### Script
+```
+Install-Package Microsoft.EntityFrameworkCore.Design -ProjectName ConsoleApp
+Install-Package Microsoft.EntityFrameworkCore -ProjectName DataLayer
+Install-Package Microsoft.EntityFrameworkCore.Tools -ProjectName DataLayer
+Install-Package Microsoft.EntityFrameworkCore.SqlServer -ProjectName DataLayer
+Install-Package Microsoft.EntityFrameworkCore.InMemory -Projectname DataLayer
+Install-Package Microsoft.Extensions.Logging.Console -Projectname DataLayer
+Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
+```
 
 ## Usage
 ### Migrations & Database

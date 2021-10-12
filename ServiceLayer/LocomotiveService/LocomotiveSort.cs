@@ -17,6 +17,12 @@ namespace ServiceLayer.LocomotiveService
 
     public static class LocomotiveSort
     {
+        /// <summary>
+        /// Order list locomotives.
+        /// </summary>
+        /// <param name="locomotives">Locomotives to order.</param>
+        /// <param name="orderByOptions">What property to order by.</param>
+        /// <returns><see cref="IQueryable"/> of <see cref="ListLocomotiveDto"/>.</returns>
         public static IQueryable<ListLocomotiveDto> OrderLocomotivesBy(this IQueryable<ListLocomotiveDto> locomotives, OrderByOptions orderByOptions) => orderByOptions switch
         {
             OrderByOptions.ByNameAsc => locomotives.OrderBy(l => l.Name),
