@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ServiceLayer.LocomotiveService.Concrete
 {
-    public class LocomotiveService
+    public class LocomotiveService : ILocomotiveService
     {
         private readonly EShopContext _context;
         public LocomotiveService(EShopContext context)
