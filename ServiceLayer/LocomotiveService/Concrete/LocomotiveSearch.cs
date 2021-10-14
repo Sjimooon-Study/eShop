@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ServiceLayer.LocomotiveService
 {
-    public static class LocomotiveSort
+    public static class LocomotiveSearch
     {
         /// <summary>
         /// Order list locomotives.
