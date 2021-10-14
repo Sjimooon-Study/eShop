@@ -38,6 +38,10 @@ Responsible for calling the underlying database (through the DataLayer).
 Retrievd entities from the database get their properties mapped into DTO's and passed to the depending application - or wise versa.
 This conversion is handled by the `DtoPropertyMapper` class and brought to the application via the '<entity_name>Service' class.
 
+The ServiceLayer contains interfaces (ie. `ILocomotiveService`) for accessing a specific service. The concrete class is conveniently located in the 'concrete' folder, from where it accesses various utility classes. These are located in both 'Utilities' (if they are shared or generic) and alongside the conrete class itself.
+
+The `GetList<entity_name>` methods provide options for ordering, filtering, searching, and pagination.
+
 #### NuGet Packages & Dependecies
 *ConsoleApp*
 - Microsoft.EntityFrameworkCore.Design v5.0.10
