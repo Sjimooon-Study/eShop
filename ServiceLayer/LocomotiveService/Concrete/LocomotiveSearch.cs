@@ -15,6 +15,7 @@ namespace ServiceLayer.LocomotiveService
         /// <returns><see cref="IQueryable"/> of <see cref="ListLocomotiveDto"/>.</returns>
         public static IQueryable<ListLocomotiveDto> OrderLocomotivesBy(this IQueryable<ListLocomotiveDto> locomotives, EOrderByOptions orderByOptions) => orderByOptions switch
         {
+            EOrderByOptions.Default => locomotives,
             EOrderByOptions.ByNameAsc => locomotives.OrderBy(l => l.Name),
             EOrderByOptions.ByNameDesc => locomotives.OrderByDescending(l => l.Name),
             EOrderByOptions.ByPriceAsc => locomotives.OrderBy(l => l.Price),
@@ -40,10 +41,15 @@ namespace ServiceLayer.LocomotiveService
             
             string[] searchParams = searchString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             
-            return locomotives
-                .Where(l => searchParams.Any(sp => l.Name.Contains(sp))
-                || searchParams.Any(sp => l.RailwayCompanyName.Contains(sp))
-                );
+            foreach (string searchParam in searchParams)
+            {
+                locomotives = locomotives
+                    .Where(l => l.Name.Contains(searchParam)
+                    || l.RailwayCompanyName.Contains(searchParam)
+                    );
+            }
+
+            return locomotives;
         }
 
         /// <summary>

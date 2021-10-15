@@ -8,8 +8,10 @@ namespace ServiceLayer.LocomotiveService
 {
     public enum EOrderByOptions
     {
+        [Display(Name = "Default")]
+        Default = 0,
         [Display(Name = "Name (Ascending)")]
-        ByNameAsc = 0,
+        ByNameAsc,
         [Display(Name = "Name (Descending)")]
         ByNameDesc,
         [Display(Name = "Price (Ascending)")]
@@ -27,7 +29,7 @@ namespace ServiceLayer.LocomotiveService
         public string SearchString { get; set; }
         public FilterOptions FilterOptions { get; set; }
         [Display(Name = "Order by")]
-        public EOrderByOptions EOrderByOptions { get; set; }
+        public EOrderByOptions OrderByOptions { get; set; }
 
         public ushort PageNumber { get; set; }
         [Display(Name = "Page size")]

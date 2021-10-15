@@ -18,7 +18,7 @@ namespace ConsoleApp
 
                 QueryOptions queryOptions = new QueryOptions
                 {
-                    EOrderByOptions = EOrderByOptions.ByNameDesc
+                    OrderByOptions = EOrderByOptions.ByNameDesc
                 };
 
                 var result = locomotiveService.GetListLocomotives(queryOptions);

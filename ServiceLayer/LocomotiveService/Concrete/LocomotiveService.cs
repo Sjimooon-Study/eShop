@@ -86,7 +86,7 @@ namespace ServiceLayer.LocomotiveService.Concrete
                 .MapListLocomotiveToDto()
                 .SearchFor(queryOptions.SearchString)
                 .Filter(queryOptions.FilterOptions)
-                .OrderLocomotivesBy(queryOptions.EOrderByOptions)
+                .OrderLocomotivesBy(queryOptions.OrderByOptions)
                 .Page(ref pageNumber, queryOptions.PageNumber, out ushort numberOfPages);
 
             return Tuple.Create(locomotiveQuery, pageNumber, numberOfPages);

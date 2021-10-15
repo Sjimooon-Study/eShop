@@ -6,12 +6,43 @@
 }
 
 <div class="container">
-  <form>
+  <form class="product-listing">
     <div class="row">
-      <div class="col-4">
+      <div class="col col-3">
+        @* Search *@
+        <div class="input-group mb-3">
+          <input type="search" asp-for="@Model.QueryOptions.SearchString" class="form-control" placeholder="Search">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <hr />
 
       </div>
-      <div class="col-8">
+      <div class="col col-9">
+        <div class="form-row justify-content-end">
+          @* Ordering *@
+          <div class="col col-4 input-group input-group-sm">
+            <div class="input-group-prepend">
+              <label class="input-group-text" asp-for="@Model.QueryOptions.OrderByOptions"></label>
+            </div>
+            <select class="custom-select" asp-for="@Model.QueryOptions.OrderByOptions" asp-items="Html.GetEnumSelectList<ServiceLayer.LocomotiveService.EOrderByOptions>()" onchange="this.form.submit()"></select>
+          </div>
+
+          @* Pagination *@
+          <div class="col col-3 input-group input-group-sm">
+            <div class="input-group-prepend">
+              <label class="input-group-text" asp-for="@Model.QueryOptions.PageSize"></label>
+            </div>
+            <select class="custom-select" asp-for="@Model.QueryOptions.PageSize" asp-items="Html.GetEnumSelectList<ServiceLayer.Utilities.Pagination.EPageSize>()" onchange="this.form.submit()"></select>
+          </div>
+        </div>
+        
+        <hr />
+
         @{ int itemsPerRow = 2; }
         @for (int i = 0; i < (Model.Locomotives.Count / itemsPerRow) + 1; i++)
         {
@@ -22,7 +53,7 @@
               {
                 break;
               }
-              <div class="col-@(12 / itemsPerRow)">
+              <div class="col col-@(12 / itemsPerRow)">
                 <partial name="Locomotives\_ListLocomotiveCard" model="@Model.Locomotives[j]" />
               </div>
             }
