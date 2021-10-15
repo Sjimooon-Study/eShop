@@ -18,12 +18,12 @@ namespace ConsoleApp
 
                 QueryOptions queryOptions = new QueryOptions
                 {
-                    OrderByOptions = OrderByOptions.ByNameDesc
+                    EOrderByOptions = EOrderByOptions.ByNameDesc
                 };
 
-                var locomotives = locomotiveService.GetListLocomotives(queryOptions);
+                var result = locomotiveService.GetListLocomotives(queryOptions);
 
-                foreach (var locomotive in locomotives)
+                foreach (var locomotive in result.Item1)
                 {
                     Console.WriteLine("{0}, {1} (ID: {2})", locomotive.Name, locomotive.RailwayCompanyName, locomotive.ProductId);
                     Console.WriteLine($"Price: EUR {locomotive.Price}");

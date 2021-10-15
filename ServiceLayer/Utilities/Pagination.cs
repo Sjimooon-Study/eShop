@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -7,11 +8,24 @@ namespace ServiceLayer.Utilities
 {
     public static class Pagination
     {
+        public enum EPageSize : ushort
+        {
+            [Display(Name = "5")]
+            PS1 = 5,
+            [Display(Name = "10")]
+            PS10 = 10,
+            [Display(Name = "20")]
+            PS20 = 20,
+            [Display(Name = "All")]
+            PSALL = 0
+        }
+
         public static IQueryable<T> Page<T>(this IQueryable<T> query, ref ushort pageNumber, ushort pageSize, out ushort numberOfPages)
         {
-            if (pageSize == 0)
+            if (pageSize == ((ushort)EPageSize.PSALL))
             {
-                throw new ArgumentOutOfRangeException(nameof(pageSize), "Page size cannot be zero.");
+                numberOfPages = 1;
+                return query;
             }
 
             numberOfPages = (ushort)Math.Ceiling((double)query.Count() / pageSize);

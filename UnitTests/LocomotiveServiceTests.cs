@@ -123,7 +123,7 @@ namespace UnitTests
 
             var queryOptions = new QueryOptions
             {
-                OrderByOptions = OrderByOptions.ByNameAsc
+                EOrderByOptions = EOrderByOptions.ByNameAsc
             };
 
             var options = new DbContextOptionsBuilder<EShopContext>()
@@ -141,9 +141,9 @@ namespace UnitTests
             {
                 var service = new LocomotiveService(context);
 
-                IQueryable<ListLocomotiveDto> query = service.GetListLocomotives(queryOptions);
+                var query = service.GetListLocomotives(queryOptions);
                 
-                foreach (var locomotive in query)
+                foreach (var locomotive in query.Item1)
                 {
                     result.Add(locomotive);
                 }
@@ -171,7 +171,7 @@ namespace UnitTests
 
             var queryOptions = new QueryOptions
             {
-                OrderByOptions = OrderByOptions.ByPriceDesc
+                EOrderByOptions = EOrderByOptions.ByPriceDesc
             };
 
             var options = new DbContextOptionsBuilder<EShopContext>()
@@ -189,9 +189,9 @@ namespace UnitTests
             {
                 var service = new LocomotiveService(context);
 
-                IQueryable<ListLocomotiveDto> query = service.GetListLocomotives(queryOptions);
+                var query = service.GetListLocomotives(queryOptions);
 
-                foreach (var locomotive in query)
+                foreach (var locomotive in query.Item1)
                 {
                     result.Add(locomotive);
                 }

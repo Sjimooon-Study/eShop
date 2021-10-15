@@ -2,6 +2,7 @@
 using DataLayer.Models;
 using DataLayer.Models.Products;
 using Microsoft.EntityFrameworkCore;
+using ServiceLayer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,15 +76,20 @@ namespace ServiceLayer.LocomotiveService.Concrete
         /// Get queryable to list locomotives on a product page.
         /// </summary>
         /// <param name="queryOptions">Options including ordering, filters, and paging.</param>
-        /// <returns><see cref="IQueryable"/> of <see cref="ListLocomotiveDto"/>.</returns>
-        public IQueryable<ListLocomotiveDto> GetListLocomotives(QueryOptions queryOptions)
+        /// <returns>Tuple of <see cref="IQueryable"/> of <see cref="ListLocomotiveDto"/>, <see cref="ushort"/> (page number), and <see cref="ushort"/> (number of pages).</returns>
+        public Tuple<IQueryable<ListLocomotiveDto>, ushort, ushort> GetListLocomotives(QueryOptions queryOptions)
         {
-            var locomotiveQuery = _context.Locomotives
+            ushort pageNumber = queryOptions.PageNumber;
+
+            IQueryable<ListLocomotiveDto> locomotiveQuery = _context.Locomotives
                 .AsNoTracking()
                 .MapListLocomotiveToDto()
-                .OrderLocomotivesBy(queryOptions.OrderByOptions);
+                .SearchFor(queryOptions.SearchString)
+                .Filter(queryOptions.FilterOptions)
+                .OrderLocomotivesBy(queryOptions.EOrderByOptions)
+                .Page(ref pageNumber, queryOptions.PageNumber, out ushort numberOfPages);
 
-            return locomotiveQuery;
+            return Tuple.Create(locomotiveQuery, pageNumber, numberOfPages);
         }
         #endregion
 

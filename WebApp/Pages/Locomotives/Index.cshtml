@@ -1,0 +1,35 @@
+﻿@page
+@using ServiceLayer.LocomotiveService;
+@model WebApp.Pages.Locomotive.IndexModel
+@{
+    ViewData["Title"] = "Locomotives";
+}
+
+<div class="container">
+  <form>
+    <div class="row">
+      <div class="col-4">
+
+      </div>
+      <div class="col-8">
+        @{ int itemsPerRow = 2; }
+        @for (int i = 0; i < (Model.Locomotives.Count / itemsPerRow) + 1; i++)
+        {
+          <div class="row">
+            @for (int j = (i * itemsPerRow); j < (i * itemsPerRow) + itemsPerRow; j++)
+            {
+              if (j >= Model.Locomotives.Count)
+              {
+                break;
+              }
+              <div class="col-@(12 / itemsPerRow)">
+                <partial name="Locomotives\_ListLocomotiveCard" model="@Model.Locomotives[j]" />
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </form>
+</div>
+
