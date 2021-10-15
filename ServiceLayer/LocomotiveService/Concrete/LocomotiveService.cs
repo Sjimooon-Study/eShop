@@ -91,6 +91,12 @@ namespace ServiceLayer.LocomotiveService.Concrete
 
             return Tuple.Create(locomotiveQuery, pageNumber, numberOfPages);
         }
+
+        public IQueryable<string> GetTags() => _context.Locomotives
+            .AsNoTracking()
+            .Where(l => l.TagId != null)
+            .Select(l => l.TagId)
+            .Distinct();
         #endregion
 
         #region Edit

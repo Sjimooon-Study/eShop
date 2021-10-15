@@ -21,6 +21,15 @@
 
         <hr />
 
+        @* Filters *@
+        <h6>Tags</h6>
+        @foreach (string tag in Model.AllTags)
+        { 
+          <div class="form-check">
+            <input class="form-check-input" id="Tags" name="Tags" type="checkbox" value="@tag" @(Model.Tags.Contains(tag) ? "checked" : "")/>
+            <label class="form-check-label" for="Tags">@tag</label>
+          </div>
+        }
       </div>
       <div class="col col-9">
         <div class="form-row justify-content-end">

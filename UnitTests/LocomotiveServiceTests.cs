@@ -123,7 +123,7 @@ namespace UnitTests
 
             var queryOptions = new QueryOptions
             {
-                EOrderByOptions = EOrderByOptions.ByNameAsc
+                OrderByOptions = EOrderByOptions.ByNameAsc
             };
 
             var options = new DbContextOptionsBuilder<EShopContext>()
@@ -171,7 +171,7 @@ namespace UnitTests
 
             var queryOptions = new QueryOptions
             {
-                EOrderByOptions = EOrderByOptions.ByPriceDesc
+                OrderByOptions = EOrderByOptions.ByPriceDesc
             };
 
             var options = new DbContextOptionsBuilder<EShopContext>()
