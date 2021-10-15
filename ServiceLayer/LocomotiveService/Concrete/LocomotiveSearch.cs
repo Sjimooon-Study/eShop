@@ -65,8 +65,28 @@ namespace ServiceLayer.LocomotiveService
                 return locomotives;
             }
 
-            return locomotives
-                .Where(l => (!filterOptions.Tags.Any() || filterOptions.Tags.Contains(l.Tag)));
+            if (filterOptions.Tags?.Count > 0)
+            {
+                locomotives = locomotives.Where(l => filterOptions.Tags.Contains(l.Tag));
+            }
+            if (filterOptions.Scales?.Count > 0)
+            {
+                locomotives = locomotives.Where(l => filterOptions.Scales.Contains(l.Scale));
+            }
+            if (filterOptions.Epochs?.Count > 0)
+            {
+                locomotives = locomotives.Where(l => filterOptions.Epochs.Contains(l.Epoch));
+            }
+            if (filterOptions.Controls?.Count > 0)
+            {
+                locomotives = locomotives.Where(l => filterOptions.Controls.Contains(l.Control));
+            }
+            if (filterOptions.LocoTypes?.Count > 0)
+            {
+                locomotives = locomotives.Where(l => filterOptions.LocoTypes.Contains(l.LocoType));
+            }
+
+            return locomotives;
         }
     }
 }

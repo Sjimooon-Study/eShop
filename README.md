@@ -53,6 +53,11 @@ The `GetList<entity_name>` methods provide options for ordering, filtering, sear
 - Microsoft.EntityFrameworkCore.InMemory v5.0.10 *(for unit testing)*
 - Microsoft.Extensions.Logging.Console v5.0.0
 
+*ServiceLayer*
+
+*WebApp*
+- Microsoft.VisualStudio.Web.BrowserLink
+
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
 

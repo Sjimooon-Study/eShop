@@ -1,8 +1,11 @@
 ﻿@page
-@using ServiceLayer.LocomotiveService;
+@using System.Reflection;
+@using System.ComponentModel.DataAnnotations;
+@using static DataLayer.Models.ModelItem;
+@using static DataLayer.Models.Products.Locomotive;
 @model WebApp.Pages.Locomotive.IndexModel
 @{
-    ViewData["Title"] = "Locomotives";
+  ViewData["Title"] = "Locomotives";
 }
 
 <div class="container">
@@ -22,14 +25,89 @@
         <hr />
 
         @* Filters *@
-        <h6>Tags</h6>
-        @foreach (string tag in Model.AllTags)
-        { 
-          <div class="form-check">
-            <input class="form-check-input" id="Tags" name="Tags" type="checkbox" value="@tag" @(Model.Tags.Contains(tag) ? "checked" : "")/>
-            <label class="form-check-label" for="Tags">@tag</label>
-          </div>
-        }
+        <button class="btn btn-light btn-sm" type="submit">Apply filters</button>
+        <div class="filter-group">
+          <label asp-for="@Model.QueryOptions.FilterOptions.Tags"></label>
+          @foreach (string tag in Model.AllTags)
+          {
+            <div class="form-check">
+              <input class="form-check-input" id="tag-@tag" name="Tags" type="checkbox" value="@tag" @(Model.Tags.Contains(tag) ? "checked" : "") />
+              <label class="form-check-label" for="tag-@tag">@tag</label>
+            </div>
+          }
+        </div>
+
+        <div class="filter-group">
+          <label asp-for="@Model.QueryOptions.FilterOptions.Scales"></label>
+          @foreach (int value in Enum.GetValues(typeof(EScale)))
+          {
+            string label = typeof(EScale)
+              .GetMember(typeof(EScale)
+              .GetEnumName(value))
+              .First()
+              .GetCustomAttribute<DisplayAttribute>()
+              .Name;
+            <div class="form-check">
+              <input class="form-check-input" id="scale-@value" name="Scales" type="checkbox" value="@value" @(Model.Scales.Contains((EScale)value) ? "checked" : "") />
+              <label class="form-check-label" for="scale-@value">@label</label>
+            </div>
+          }
+        </div>
+
+        <div class="filter-group">
+          <label asp-for="@Model.QueryOptions.FilterOptions.Controls"></label>
+          @foreach (int value in Enum.GetValues(typeof(EControl)))
+          {
+            string label = typeof(EControl)
+              .GetMember(typeof(EControl)
+              .GetEnumName(value))
+              .First()
+              .GetCustomAttribute<DisplayAttribute>()
+              .Name;
+            <div class="form-check">
+              <input class="form-check-input" id="control-@value" name="Controls" type="checkbox" value="@value" @(Model.Controls.Contains((EControl)value) ? "checked" : "") />
+              <label class="form-check-label" for="control-@value">@label</label>
+            </div>
+          }
+        </div>
+
+        <div class="filter-group">
+          <label asp-for="@Model.QueryOptions.FilterOptions.LocoTypes"></label>
+          @foreach (int value in Enum.GetValues(typeof(ELocoType)))
+          {
+            string label = typeof(ELocoType)
+              .GetMember(typeof(ELocoType)
+              .GetEnumName(value))
+              .First()
+              .GetCustomAttribute<DisplayAttribute>()
+              .Name;
+            <div class="form-check">
+              <input class="form-check-input" id="loco-type-@value" name="LocoTypes" type="checkbox" value="@value" @(Model.LocoTypes.Contains((ELocoType)value) ? "checked" : "") />
+              <label class="form-check-label" for="loco-type-@value">@label</label>
+            </div>
+          }
+        </div>
+
+        <div class="filter-group">
+          <label asp-for="@Model.QueryOptions.FilterOptions.Epochs"></label>
+          @foreach (int value in Enum.GetValues(typeof(EEpoch)))
+          {
+            string label = typeof(EEpoch)
+              .GetMember(typeof(EEpoch)
+              .GetEnumName(value))
+              .First()
+              .GetCustomAttribute<DisplayAttribute>()
+              .Name;
+            <div class="form-check">
+              <input class="form-check-input" id="epoch-@value" name="Epochs" type="checkbox" value="@value" @(Model.Epochs.Contains((EEpoch)value) ? "checked" : "") />
+              <label class="form-check-label" for="epoch-@value">@label</label>
+            </div>
+          }
+        </div>
+
+        <button class="btn btn-light btn-sm" type="submit">Apply filters</button>
+
+        <hr />
       </div>
       <div class="col col-9">
         <div class="form-row justify-content-end">
@@ -49,9 +127,10 @@
             <select class="custom-select" asp-for="@Model.QueryOptions.PageSize" asp-items="Html.GetEnumSelectList<ServiceLayer.Utilities.Pagination.EPageSize>()" onchange="this.form.submit()"></select>
           </div>
         </div>
-        
+
         <hr />
 
+        @* Locomotives *@
         @{ int itemsPerRow = 2; }
         @for (int i = 0; i < (Model.Locomotives.Count / itemsPerRow) + 1; i++)
         {

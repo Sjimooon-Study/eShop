@@ -147,12 +147,15 @@ namespace ServiceLayer
             {
                 ProductId = l.ProductId,
                 Name = l.Name,
-                RailwayCompanyName = l.RailwayCompany.Name,
                 Price = l.Price,
-                Scale = l.Scale,
-                StockStatus = l.StockStatus.MapStockStatusDto(),
                 Images = l.Images.MapImageToDto(),
-                Tag = l.Tag.TagId
+                Tag = l.Tag.TagId,
+                StockStatus = l.StockStatus.MapStockStatusDto(),
+                Scale = l.Scale,
+                Epoch = l.Epoch,
+                RailwayCompanyName = l.RailwayCompany.Name,
+                Control = l.Control,
+                LocoType = l.LocoType
             });
         }
 

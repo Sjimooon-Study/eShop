@@ -10,18 +10,27 @@ namespace DataLayer.Models
     {
         public enum EScale
         {
-            HO = 1,
-            HOe,
-            TT
+            [Display(Name = "HO (1:87)")]
+            HO = 0,
+            [Display(Name = "TT (1:120)")]
+            TT,
+            [Display(Name = "N (1∶160)")]
+            N
         }
 
         public enum EEpoch
         {
-            I = 1,
+            [Display(Name = "I")]
+            I = 0,
+            [Display(Name = "II")]
             II,
+            [Display(Name = "III")]
             III,
+            [Display(Name = "IV")]
             IV,
+            [Display(Name = "V")]
             V,
+            [Display(Name = "VI")]
             VI
         }
 
