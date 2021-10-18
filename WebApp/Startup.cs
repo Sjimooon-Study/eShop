@@ -27,6 +27,12 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+            });
+            
             services.AddDbContext<EShopContext>(options => options = new DbContextOptionsBuilder());
 
             services.AddScoped<ILocomotiveService, LocomotiveService>();
@@ -51,6 +57,7 @@ namespace WebApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
