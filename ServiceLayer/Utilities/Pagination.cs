@@ -10,8 +10,10 @@ namespace ServiceLayer.Utilities
     {
         public enum EPageSize : ushort
         {
+            [Display(Name = "1")]
+            PS1 = 1,
             [Display(Name = "5")]
-            PS1 = 5,
+            PS5 = 5,
             [Display(Name = "10")]
             PS10 = 10,
             [Display(Name = "20")]

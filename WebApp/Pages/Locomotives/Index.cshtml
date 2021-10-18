@@ -119,7 +119,7 @@
             <select class="custom-select" asp-for="@Model.QueryOptions.OrderByOptions" asp-items="Html.GetEnumSelectList<ServiceLayer.LocomotiveService.EOrderByOptions>()" onchange="this.form.submit()"></select>
           </div>
 
-          @* Pagination *@
+          @* Page size select *@
           <div class="col col-3 input-group input-group-sm">
             <div class="input-group-prepend">
               <label class="input-group-text" asp-for="@Model.QueryOptions.PageSize"></label>
@@ -147,6 +147,52 @@
             }
           </div>
         }
+
+        @* Pagination *@
+        <ul class="pagination justify-content-center">
+          @{int prev = Model.QueryOptions.PageNumber - 1, next = Model.QueryOptions.PageNumber + 1;}
+          @if (prev < 1)
+          {
+            <li class="page-item disabled">
+              <input class="page-link" type="submit" name="pg" value="@prev" disabled" />
+            </li>
+          }
+          else
+          {
+            <li class="page-item">
+              <input class="page-link" type="submit" name="pg" value="@prev" />
+            </li>
+          }
+
+
+          @for (var i = 1; i <= Model.NumberOfPages; i++)
+          {
+            @if (i == Model.QueryOptions.PageNumber)
+            {
+              <li class="page-item active">
+                <input class="page-link" type="submit" name="pg" value="@i" disabled />
+              </li>
+            }
+            else
+            {
+              <li class="page-item">
+                <input class="page-link" type="submit" name="pg" value="@i" />
+              </li>
+            }
+          }
+          @if (next > Model.NumberOfPages)
+          {
+            <li class="page-item disabled">
+              <input class="page-link" type="submit" name="pg" value="@next" disabled" />
+            </li>
+          }
+          else
+          {
+            <li class="page-item">
+              <input class="page-link" type="submit" name="pg" value="@next" />
+            </li>
+          }
+        </ul>
       </div>
     </div>
   </form>

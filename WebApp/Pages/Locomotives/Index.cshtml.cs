@@ -40,7 +40,7 @@ namespace WebApp.Pages.Locomotive
             _locomotiveService = locomotiveService;
         }
 
-        public void OnGet()
+        public void OnGet(int? pg = 1)
         {
             // Prepare query options
             if (Tags?.Count > 0
@@ -59,10 +59,7 @@ namespace WebApp.Pages.Locomotive
                 };
             }
 
-
-
-            var test = typeof(ELocoType).GetMember(typeof(ELocoType).GetEnumName(1)).First().GetCustomAttribute<DisplayAttribute>().Name;
-
+            QueryOptions.PageNumber = (ushort)pg;
 
             // Do query
             var result = _locomotiveService.GetListLocomotives(QueryOptions);

@@ -87,7 +87,7 @@ namespace ServiceLayer.LocomotiveService.Concrete
                 .SearchFor(queryOptions.SearchString)
                 .Filter(queryOptions.FilterOptions)
                 .OrderLocomotivesBy(queryOptions.OrderByOptions)
-                .Page(ref pageNumber, queryOptions.PageNumber, out ushort numberOfPages);
+                .Page(ref pageNumber, (ushort)queryOptions.PageSize, out ushort numberOfPages);
 
             return Tuple.Create(locomotiveQuery, pageNumber, numberOfPages);
         }
