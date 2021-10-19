@@ -1,14 +1,19 @@
-﻿@model ServiceLayer.LocomotiveService.ListLocomotiveDto
+﻿@using Microsoft.AspNetCore.Http
+@using WebApp.Helpers
+@model ServiceLayer.LocomotiveService.ListLocomotiveDto
 
-<a asp-page="./Details/" asp-route-id="@Model.ProductId">
-  <div class="card product-card">
+<div class="card product-card">
+  <a asp-page="./Details/" asp-route-id="@Model.ProductId">
     <img class="card-img-top" src="..." alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">@Model.Name, @Model.RailwayCompanyName</h5>
       <p class="card-text"></p>
     </div>
+  </a>
+  @if ((Context.Session.GetInt32(Session.IS_ADMIN) ?? 0) > 0)
+  {
     <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
+      <a class="text-muted" asp-page="./AddEdit/" asp-route-id="@Model.ProductId">Edit <i class="fas fa-edit"></i></a>
     </div>
-  </div>
-</a>
+  }
+</div>

@@ -1,23 +1,22 @@
-﻿a {
-    color: inherit;
-    text-decoration: none;
-
-    > .product-card.card {
-        margin-bottom: 1.5rem;
-        transition: box-shadow 0.5s;
-    }
+﻿.product-card.card {
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.5s;
 
     &:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    > a {
         color: inherit;
         text-decoration: none;
-        cursor: pointer;
 
-        > .product-card.card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        &:hover {
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
         }
     }
 }
-
 
 form.product-listing > .row > .col {
     > button {

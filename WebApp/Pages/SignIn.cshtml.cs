@@ -14,8 +14,12 @@ namespace WebApp.Pages
 {
     public class SignInModel : PageModel
     {
+        private readonly string _WRONG_CREDENTIALS_MSG = "Wrong e-mail/username or password.";
+
         [BindProperty]
         public SignInUserDto SiteUser { get; set; } = new SignInUserDto();
+        
+        public string ValidationMessage { get; set; }
 
         readonly IUserService _userService;
 
@@ -30,14 +34,27 @@ namespace WebApp.Pages
 
         public IActionResult OnPost()
         {
+            ValidationMessage = "";
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+            
             if (_userService.SignIn(SiteUser, out SessionUserDto sessionUser))
             {
                 HttpContext.Session.SetInt32(Session.USER_ID, sessionUser.UserId);
                 HttpContext.Session.SetString(Session.USERNAME, sessionUser.Username);
                 HttpContext.Session.SetInt32(Session.IS_ADMIN, Convert.ToInt32(sessionUser.IsAdmin));
+                
+                return RedirectToPage("/Index");
             }
+            else
+            {
+                ValidationMessage = _WRONG_CREDENTIALS_MSG;
 
-            return RedirectToPage("/Index");
+                return Page();
+            }
         }
     }
 }

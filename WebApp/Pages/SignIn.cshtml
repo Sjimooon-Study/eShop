@@ -1,7 +1,7 @@
 ﻿@page
 @model WebApp.Pages.SignInModel
 @{
-    ViewData["Title"] = "Sign in";
+  ViewData["Title"] = "Sign in";
 }
 
 <div class="container">
@@ -12,12 +12,15 @@
         <div class="form-group">
           <label asp-for="@Model.SiteUser.EmailUsername"></label>
           <input class="form-control" type="text" asp-for="@Model.SiteUser.EmailUsername" placeholder="Enter email">
+          <span class="text-danger" asp-validation-for="@Model.SiteUser.EmailUsername"></span>
         </div>
         <div class="form-group">
           <label asp-for="@Model.SiteUser.Password"></label>
           <input class="form-control" type="password" asp-for="@Model.SiteUser.Password" placeholder="Password">
+          <span class="text-danger" asp-validation-for="@Model.SiteUser.Password"></span>
         </div>
         <button type="submit" class="btn btn-primary">Log in</button>
+        <span class="text-danger">@Model.ValidationMessage</span>
       </form>
     </div>
     <div class="col col-8">
@@ -25,3 +28,7 @@
     </div>
   </div>
 </div>
+
+@section scripts{
+  <partial name="_ValidationScriptsPartial" />
+}
