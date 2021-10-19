@@ -1,0 +1,13 @@
+﻿@model ValueTuple<bool, string>
+
+@if (Model.Item1)
+{
+  <small style="padding-right: 0.5rem">@Model.Item2</small>
+  <form method="post">
+    <button class="btn btn-sm btn-outline-secondary" type="submit">Sign out <i class="fas fa-user"></i></button>
+  </form>
+}
+else
+{
+  <a class="btn btn-sm btn-secondary" asp-area="" asp-page="/SignIn">Sign in <i class="fas fa-user"></i></a>
+}

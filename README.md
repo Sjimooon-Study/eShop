@@ -57,6 +57,7 @@ The `GetList<entity_name>` methods provide options for ordering, filtering, sear
 
 *WebApp*
 - Microsoft.VisualStudio.Web.BrowserLink
+- Microsoft.AspNetCore.Session
 
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
@@ -93,9 +94,9 @@ A detailed description of the above and other additional commands can be found i
 The `Initial.sql` script located in `DataLayer/Migrations/Scripts` can be used to initialize the `EShopDb` database. 
 
 ## Known Issues & Limitations
-- Enums lack display names.
-- ServiceLayer and UnitTest lack documentation.
+- ServiceLayer, WebApp, and UnitTest lack documentation.
 - ServiceLayer doesn't provide all types of GRUD actions for all entities.
+- Redundant fields exist in the Address table in the DataLayer.
 
 ## Versioning
 **v0.1.0**

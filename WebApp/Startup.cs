@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ServiceLayer.LocomotiveService;
 using ServiceLayer.LocomotiveService.Concrete;
+using ServiceLayer.UserService;
+using ServiceLayer.UserService.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +38,20 @@ namespace WebApp
             services.AddDbContext<EShopContext>(options => options = new DbContextOptionsBuilder());
 
             services.AddScoped<ILocomotiveService, LocomotiveService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddRazorPages();
+
+            #region Session
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(15);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,6 +72,7 @@ namespace WebApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseRouting();
 

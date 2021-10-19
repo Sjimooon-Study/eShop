@@ -45,13 +45,37 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Address",
+                columns: table => new
+                {
+                    AddressId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StreetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StreetNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Zip = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CountryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Address", x => x.AddressId);
+                    table.ForeignKey(
+                        name: "FK_Address_Country_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Country",
+                        principalColumn: "CountryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RailwayCompany",
                 columns: table => new
                 {
                     RailwayCompanyId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CountryId = table.Column<int>(type: "int", nullable: true)
+                    CountryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,6 +85,31 @@ namespace DataLayer.Migrations
                         column: x => x.CountryId,
                         principalTable: "Country",
                         principalColumn: "CountryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SiteUsers",
+                columns: table => new
+                {
+                    SiteUserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AddressId = table.Column<int>(type: "int", nullable: true),
+                    IsAdmin = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SiteUsers", x => x.SiteUserId);
+                    table.ForeignKey(
+                        name: "FK_SiteUsers_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "AddressId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -184,6 +233,11 @@ namespace DataLayer.Migrations
                 values: new object[] { 1, "Suitable for Gauge H0. The decoder is equipped with the RailCom® function. Maximum motor current: 1.2 A.", "DigitalDecoder", 0, "PluX22 sound decoder (NEM 658)", 92.4m, true, null });
 
             migrationBuilder.InsertData(
+                table: "SiteUsers",
+                columns: new[] { "SiteUserId", "AddressId", "Email", "FirstName", "IsAdmin", "LastName", "Password", "UserName" },
+                values: new object[] { 1, null, null, null, true, null, "admin", "admin" });
+
+            migrationBuilder.InsertData(
                 table: "Tag",
                 column: "TagId",
                 values: new object[]
@@ -211,22 +265,22 @@ namespace DataLayer.Migrations
             migrationBuilder.InsertData(
                 table: "StockStatus",
                 columns: new[] { "StockStatusId", "Amount", "NextStock", "ProductId" },
-                values: new object[] { 1, 23L, new DateTime(2021, 11, 8, 12, 29, 26, 110, DateTimeKind.Local).AddTicks(5528), 1 });
+                values: new object[] { 1, 23L, new DateTime(2021, 11, 19, 12, 36, 55, 960, DateTimeKind.Local).AddTicks(2997), 1 });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
-                values: new object[] { 2, false, 3, "The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.", null, "Locomotive", 4, 24.5f, 1, "BR 023 040-9", 9, 4, 229.9m, 2, 1, "New" });
+                values: new object[] { 2, false, 2, "The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.", null, "Locomotive", 3, 24.5f, 0, "BR 023 040-9", 9, 4, 229.9m, 2, 0, "New" });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
-                values: new object[] { 4, false, 3, "In the period between 1942 to 1950, over 7000 units of the class 52 war locomotive were built. These were constructed with as little effort as possible and savings were also made on the material wherever possible. With a weight of 84 tons, the loco achieved an output of 1,192 kW and a top speed of 80 km / h. The Deutsche Bundesbahn mainly got rid of the locomotives as early as 1953 - since it had sufficient machines of the series 50 and series 44 to haul the heavy goods trains. Only a few locomotives built in 1945 remained with the DB until 1962.", null, "Locomotive", 3, 26.5f, 1, "BR 52", 10, 4, 319.9m, 2, 1, "New" });
+                values: new object[] { 4, false, 2, "In the period between 1942 to 1950, over 7000 units of the class 52 war locomotive were built. These were constructed with as little effort as possible and savings were also made on the material wherever possible. With a weight of 84 tons, the loco achieved an output of 1,192 kW and a top speed of 80 km / h. The Deutsche Bundesbahn mainly got rid of the locomotives as early as 1953 - since it had sufficient machines of the series 50 and series 44 to haul the heavy goods trains. Only a few locomotives built in 1945 remained with the DB until 1962.", null, "Locomotive", 2, 26.5f, 0, "BR 52", 10, 4, 319.9m, 2, 0, "New" });
 
             migrationBuilder.InsertData(
                 table: "Product",
                 columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
-                values: new object[] { 3, false, 4, "In 1992, the first locomotive Re 460 of the Swiss Federal Railways rolled out of the factory halls of the companies SLM and BBC in Oerlikon, Switzerland. The locomotive became known to the public as \"Lok 2000\". It stands for fast and modern passenger transport in Switzerland. An eye-catching and particularly aerodynamic design with a large front window, roof cladding and beads on the side wall make the class 460 visually an unbeatable rail vehicle.", 1, "Locomotive", 6, 21.2f, 3, "Re 460 068-0", 4, 4, 321.9m, 4, 1, null });
+                values: new object[] { 3, false, 3, "In 1992, the first locomotive Re 460 of the Swiss Federal Railways rolled out of the factory halls of the companies SLM and BBC in Oerlikon, Switzerland. The locomotive became known to the public as \"Lok 2000\". It stands for fast and modern passenger transport in Switzerland. An eye-catching and particularly aerodynamic design with a large front window, roof cladding and beads on the side wall make the class 460 visually an unbeatable rail vehicle.", 1, "Locomotive", 5, 21.2f, 2, "Re 460 068-0", 4, 4, 321.9m, 4, 0, null });
 
             migrationBuilder.InsertData(
                 table: "ImageProduct",
@@ -244,10 +298,15 @@ namespace DataLayer.Migrations
                 columns: new[] { "StockStatusId", "Amount", "NextStock", "ProductId" },
                 values: new object[,]
                 {
-                    { 2, 5L, new DateTime(2021, 12, 8, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3276), 2 },
-                    { 4, 1L, new DateTime(2022, 5, 8, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3395), 4 },
-                    { 3, 2L, new DateTime(2021, 10, 24, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3365), 3 }
+                    { 2, 5L, new DateTime(2021, 12, 19, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6149), 2 },
+                    { 4, 1L, new DateTime(2022, 5, 19, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6256), 4 },
+                    { 3, 2L, new DateTime(2021, 11, 4, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6227), 3 }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Address_CountryId",
+                table: "Address",
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImageProduct_ProductsProductId",
@@ -275,6 +334,11 @@ namespace DataLayer.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SiteUsers_AddressId",
+                table: "SiteUsers",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StockStatus_ProductId",
                 table: "StockStatus",
                 column: "ProductId",
@@ -287,10 +351,16 @@ namespace DataLayer.Migrations
                 name: "ImageProduct");
 
             migrationBuilder.DropTable(
+                name: "SiteUsers");
+
+            migrationBuilder.DropTable(
                 name: "StockStatus");
 
             migrationBuilder.DropTable(
                 name: "Image");
+
+            migrationBuilder.DropTable(
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "Product");

@@ -31,12 +31,39 @@ CREATE TABLE [Tag] (
 );
 GO
 
+CREATE TABLE [Address] (
+    [AddressId] int NOT NULL IDENTITY,
+    [StreetName] nvarchar(max) NOT NULL,
+    [StreetNumber] nvarchar(max) NOT NULL,
+    [City] nvarchar(max) NOT NULL,
+    [State] nvarchar(max) NOT NULL,
+    [Zip] nvarchar(max) NOT NULL,
+    [CountryId] int NOT NULL,
+    CONSTRAINT [PK_Address] PRIMARY KEY ([AddressId]),
+    CONSTRAINT [FK_Address_Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [Country] ([CountryId]) ON DELETE CASCADE
+);
+GO
+
 CREATE TABLE [RailwayCompany] (
     [RailwayCompanyId] int NOT NULL IDENTITY,
     [Name] nvarchar(max) NULL,
-    [CountryId] int NULL,
+    [CountryId] int NOT NULL,
     CONSTRAINT [PK_RailwayCompany] PRIMARY KEY ([RailwayCompanyId]),
-    CONSTRAINT [FK_RailwayCompany_Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [Country] ([CountryId]) ON DELETE NO ACTION
+    CONSTRAINT [FK_RailwayCompany_Country_CountryId] FOREIGN KEY ([CountryId]) REFERENCES [Country] ([CountryId]) ON DELETE CASCADE
+);
+GO
+
+CREATE TABLE [User] (
+    [UserId] int NOT NULL IDENTITY,
+    [UserName] nvarchar(max) NOT NULL,
+    [Password] nvarchar(max) NOT NULL,
+    [Email] nvarchar(max) NULL,
+    [FirstName] nvarchar(max) NULL,
+    [LastName] nvarchar(max) NULL,
+    [AddressId] int NULL,
+    [IsAdmin] bit NOT NULL,
+    CONSTRAINT [PK_User] PRIMARY KEY ([UserId]),
+    CONSTRAINT [FK_User_Address_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [Address] ([AddressId]) ON DELETE NO ACTION
 );
 GO
 
@@ -124,6 +151,14 @@ IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'TagId') AND
     SET IDENTITY_INSERT [Tag] OFF;
 GO
 
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'UserId', N'AddressId', N'Email', N'FirstName', N'IsAdmin', N'LastName', N'Password', N'UserName') AND [object_id] = OBJECT_ID(N'[User]'))
+    SET IDENTITY_INSERT [User] ON;
+INSERT INTO [User] ([UserId], [AddressId], [Email], [FirstName], [IsAdmin], [LastName], [Password], [UserName])
+VALUES (1, NULL, NULL, NULL, CAST(1 AS bit), NULL, N'admin', N'admin');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'UserId', N'AddressId', N'Email', N'FirstName', N'IsAdmin', N'LastName', N'Password', N'UserName') AND [object_id] = OBJECT_ID(N'[User]'))
+    SET IDENTITY_INSERT [User] OFF;
+GO
+
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ImagesImageId', N'ProductsProductId') AND [object_id] = OBJECT_ID(N'[ImageProduct]'))
     SET IDENTITY_INSERT [ImageProduct] ON;
 INSERT INTO [ImageProduct] ([ImagesImageId], [ProductsProductId])
@@ -146,7 +181,7 @@ GO
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'StockStatusId', N'Amount', N'NextStock', N'ProductId') AND [object_id] = OBJECT_ID(N'[StockStatus]'))
     SET IDENTITY_INSERT [StockStatus] ON;
 INSERT INTO [StockStatus] ([StockStatusId], [Amount], [NextStock], [ProductId])
-VALUES (1, CAST(23 AS bigint), '2021-11-08T12:29:26.1105528+01:00', 1);
+VALUES (1, CAST(23 AS bigint), '2021-11-18T16:41:47.5138321+01:00', 1);
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'StockStatusId', N'Amount', N'NextStock', N'ProductId') AND [object_id] = OBJECT_ID(N'[StockStatus]'))
     SET IDENTITY_INSERT [StockStatus] OFF;
 GO
@@ -154,7 +189,7 @@ GO
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId', N'AutoCoupling', N'Control', N'Description', N'DigitalDecoderId', N'Discriminator', N'Epoch', N'Length', N'LocoType', N'Name', N'NumOfAxels', N'NumOfDrivenAxels', N'Price', N'RailwayCompanyId', N'Scale', N'TagId') AND [object_id] = OBJECT_ID(N'[Product]'))
     SET IDENTITY_INSERT [Product] ON;
 INSERT INTO [Product] ([ProductId], [AutoCoupling], [Control], [Description], [DigitalDecoderId], [Discriminator], [Epoch], [Length], [LocoType], [Name], [NumOfAxels], [NumOfDrivenAxels], [Price], [RailwayCompanyId], [Scale], [TagId])
-VALUES (2, CAST(0 AS bit), 3, N'The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.', NULL, N'Locomotive', 4, CAST(24.5 AS real), 1, N'BR 023 040-9', 9, 4, 229.9, 2, 1, N'New');
+VALUES (2, CAST(0 AS bit), 2, N'The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.', NULL, N'Locomotive', 3, CAST(24.5 AS real), 0, N'BR 023 040-9', 9, 4, 229.9, 2, 0, N'New');
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId', N'AutoCoupling', N'Control', N'Description', N'DigitalDecoderId', N'Discriminator', N'Epoch', N'Length', N'LocoType', N'Name', N'NumOfAxels', N'NumOfDrivenAxels', N'Price', N'RailwayCompanyId', N'Scale', N'TagId') AND [object_id] = OBJECT_ID(N'[Product]'))
     SET IDENTITY_INSERT [Product] OFF;
 GO
@@ -162,7 +197,7 @@ GO
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId', N'AutoCoupling', N'Control', N'Description', N'DigitalDecoderId', N'Discriminator', N'Epoch', N'Length', N'LocoType', N'Name', N'NumOfAxels', N'NumOfDrivenAxels', N'Price', N'RailwayCompanyId', N'Scale', N'TagId') AND [object_id] = OBJECT_ID(N'[Product]'))
     SET IDENTITY_INSERT [Product] ON;
 INSERT INTO [Product] ([ProductId], [AutoCoupling], [Control], [Description], [DigitalDecoderId], [Discriminator], [Epoch], [Length], [LocoType], [Name], [NumOfAxels], [NumOfDrivenAxels], [Price], [RailwayCompanyId], [Scale], [TagId])
-VALUES (4, CAST(0 AS bit), 3, N'In the period between 1942 to 1950, over 7000 units of the class 52 war locomotive were built. These were constructed with as little effort as possible and savings were also made on the material wherever possible. With a weight of 84 tons, the loco achieved an output of 1,192 kW and a top speed of 80 km / h. The Deutsche Bundesbahn mainly got rid of the locomotives as early as 1953 - since it had sufficient machines of the series 50 and series 44 to haul the heavy goods trains. Only a few locomotives built in 1945 remained with the DB until 1962.', NULL, N'Locomotive', 3, CAST(26.5 AS real), 1, N'BR 52', 10, 4, 319.9, 2, 1, N'New');
+VALUES (4, CAST(0 AS bit), 2, N'In the period between 1942 to 1950, over 7000 units of the class 52 war locomotive were built. These were constructed with as little effort as possible and savings were also made on the material wherever possible. With a weight of 84 tons, the loco achieved an output of 1,192 kW and a top speed of 80 km / h. The Deutsche Bundesbahn mainly got rid of the locomotives as early as 1953 - since it had sufficient machines of the series 50 and series 44 to haul the heavy goods trains. Only a few locomotives built in 1945 remained with the DB until 1962.', NULL, N'Locomotive', 2, CAST(26.5 AS real), 0, N'BR 52', 10, 4, 319.9, 2, 0, N'New');
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId', N'AutoCoupling', N'Control', N'Description', N'DigitalDecoderId', N'Discriminator', N'Epoch', N'Length', N'LocoType', N'Name', N'NumOfAxels', N'NumOfDrivenAxels', N'Price', N'RailwayCompanyId', N'Scale', N'TagId') AND [object_id] = OBJECT_ID(N'[Product]'))
     SET IDENTITY_INSERT [Product] OFF;
 GO
@@ -170,7 +205,7 @@ GO
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId', N'AutoCoupling', N'Control', N'Description', N'DigitalDecoderId', N'Discriminator', N'Epoch', N'Length', N'LocoType', N'Name', N'NumOfAxels', N'NumOfDrivenAxels', N'Price', N'RailwayCompanyId', N'Scale', N'TagId') AND [object_id] = OBJECT_ID(N'[Product]'))
     SET IDENTITY_INSERT [Product] ON;
 INSERT INTO [Product] ([ProductId], [AutoCoupling], [Control], [Description], [DigitalDecoderId], [Discriminator], [Epoch], [Length], [LocoType], [Name], [NumOfAxels], [NumOfDrivenAxels], [Price], [RailwayCompanyId], [Scale], [TagId])
-VALUES (3, CAST(0 AS bit), 4, N'In 1992, the first locomotive Re 460 of the Swiss Federal Railways rolled out of the factory halls of the companies SLM and BBC in Oerlikon, Switzerland. The locomotive became known to the public as "Lok 2000". It stands for fast and modern passenger transport in Switzerland. An eye-catching and particularly aerodynamic design with a large front window, roof cladding and beads on the side wall make the class 460 visually an unbeatable rail vehicle.', 1, N'Locomotive', 6, CAST(21.2 AS real), 3, N'Re 460 068-0', 4, 4, 321.9, 4, 1, NULL);
+VALUES (3, CAST(0 AS bit), 3, N'In 1992, the first locomotive Re 460 of the Swiss Federal Railways rolled out of the factory halls of the companies SLM and BBC in Oerlikon, Switzerland. The locomotive became known to the public as "Lok 2000". It stands for fast and modern passenger transport in Switzerland. An eye-catching and particularly aerodynamic design with a large front window, roof cladding and beads on the side wall make the class 460 visually an unbeatable rail vehicle.', 1, N'Locomotive', 5, CAST(21.2 AS real), 2, N'Re 460 068-0', 4, 4, 321.9, 4, 0, NULL);
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId', N'AutoCoupling', N'Control', N'Description', N'DigitalDecoderId', N'Discriminator', N'Epoch', N'Length', N'LocoType', N'Name', N'NumOfAxels', N'NumOfDrivenAxels', N'Price', N'RailwayCompanyId', N'Scale', N'TagId') AND [object_id] = OBJECT_ID(N'[Product]'))
     SET IDENTITY_INSERT [Product] OFF;
 GO
@@ -189,11 +224,14 @@ GO
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'StockStatusId', N'Amount', N'NextStock', N'ProductId') AND [object_id] = OBJECT_ID(N'[StockStatus]'))
     SET IDENTITY_INSERT [StockStatus] ON;
 INSERT INTO [StockStatus] ([StockStatusId], [Amount], [NextStock], [ProductId])
-VALUES (2, CAST(5 AS bigint), '2021-12-08T12:29:26.1143276+01:00', 2),
-(4, CAST(1 AS bigint), '2022-05-08T12:29:26.1143395+02:00', 4),
-(3, CAST(2 AS bigint), '2021-10-24T12:29:26.1143365+02:00', 3);
+VALUES (2, CAST(5 AS bigint), '2021-12-18T16:41:47.5170946+01:00', 2),
+(4, CAST(1 AS bigint), '2022-05-18T16:41:47.5171046+02:00', 4),
+(3, CAST(2 AS bigint), '2021-11-03T16:41:47.5171020+01:00', 3);
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'StockStatusId', N'Amount', N'NextStock', N'ProductId') AND [object_id] = OBJECT_ID(N'[StockStatus]'))
     SET IDENTITY_INSERT [StockStatus] OFF;
+GO
+
+CREATE INDEX [IX_Address_CountryId] ON [Address] ([CountryId]);
 GO
 
 CREATE INDEX [IX_ImageProduct_ProductsProductId] ON [ImageProduct] ([ProductsProductId]);
@@ -214,10 +252,12 @@ GO
 CREATE UNIQUE INDEX [IX_StockStatus_ProductId] ON [StockStatus] ([ProductId]);
 GO
 
+CREATE INDEX [IX_User_AddressId] ON [User] ([AddressId]);
+GO
+
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20211008102926_Initial', N'5.0.10');
+VALUES (N'20211018144148_Initial', N'5.0.10');
 GO
 
 COMMIT;
 GO
-

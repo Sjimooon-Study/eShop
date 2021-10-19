@@ -15,6 +15,8 @@ namespace DataLayer
         public DbSet<Locomotive> Locomotives { get; set; }
         public DbSet<RailCar> RailCars { get; set; }
 
+        public DbSet<SiteUser> SiteUsers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -178,6 +180,16 @@ namespace DataLayer
                     Amount = 1,
                     NextStock = DateTime.Now.AddMonths(7),
                     ProductId = 4
+                }
+                );
+
+            modelBuilder.Entity<SiteUser>().HasData(
+                new SiteUser
+                {
+                    SiteUserId = 1,
+                    UserName = "admin",
+                    Password = "admin",
+                    IsAdmin = true
                 }
                 );
             #endregion

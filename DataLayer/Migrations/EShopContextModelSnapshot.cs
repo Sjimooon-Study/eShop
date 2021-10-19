@@ -19,6 +19,43 @@ namespace DataLayer.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("DataLayer.Models.Address", b =>
+                {
+                    b.Property<int>("AddressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Zip")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AddressId");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("Address");
+                });
+
             modelBuilder.Entity("DataLayer.Models.Country", b =>
                 {
                     b.Property<int>("CountryId")
@@ -132,7 +169,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CountryId")
+                    b.Property<int>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -171,6 +208,52 @@ namespace DataLayer.Migrations
                         });
                 });
 
+            modelBuilder.Entity("DataLayer.Models.SiteUser", b =>
+                {
+                    b.Property<int>("SiteUserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SiteUserId");
+
+                    b.HasIndex("AddressId");
+
+                    b.ToTable("SiteUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            SiteUserId = 1,
+                            IsAdmin = true,
+                            Password = "admin",
+                            UserName = "admin"
+                        });
+                });
+
             modelBuilder.Entity("DataLayer.Models.StockStatus", b =>
                 {
                     b.Property<int>("StockStatusId")
@@ -199,28 +282,28 @@ namespace DataLayer.Migrations
                         {
                             StockStatusId = 1,
                             Amount = 23L,
-                            NextStock = new DateTime(2021, 11, 8, 12, 29, 26, 110, DateTimeKind.Local).AddTicks(5528),
+                            NextStock = new DateTime(2021, 11, 19, 12, 36, 55, 960, DateTimeKind.Local).AddTicks(2997),
                             ProductId = 1
                         },
                         new
                         {
                             StockStatusId = 2,
                             Amount = 5L,
-                            NextStock = new DateTime(2021, 12, 8, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3276),
+                            NextStock = new DateTime(2021, 12, 19, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6149),
                             ProductId = 2
                         },
                         new
                         {
                             StockStatusId = 3,
                             Amount = 2L,
-                            NextStock = new DateTime(2021, 10, 24, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3365),
+                            NextStock = new DateTime(2021, 11, 4, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6227),
                             ProductId = 3
                         },
                         new
                         {
                             StockStatusId = 4,
                             Amount = 1L,
-                            NextStock = new DateTime(2022, 5, 8, 12, 29, 26, 114, DateTimeKind.Local).AddTicks(3395),
+                            NextStock = new DateTime(2022, 5, 19, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6256),
                             ProductId = 4
                         });
                 });
@@ -365,14 +448,14 @@ namespace DataLayer.Migrations
                             Price = 229.9m,
                             TagId = "New",
                             AutoCoupling = false,
-                            Control = 3,
-                            Epoch = 4,
+                            Control = 2,
+                            Epoch = 3,
                             Length = 24.5f,
-                            LocoType = 1,
+                            LocoType = 0,
                             NumOfAxels = 9,
                             NumOfDrivenAxels = 4,
                             RailwayCompanyId = 2,
-                            Scale = 1
+                            Scale = 0
                         },
                         new
                         {
@@ -381,15 +464,15 @@ namespace DataLayer.Migrations
                             Name = "Re 460 068-0",
                             Price = 321.9m,
                             AutoCoupling = false,
-                            Control = 4,
+                            Control = 3,
                             DigitalDecoderId = 1,
-                            Epoch = 6,
+                            Epoch = 5,
                             Length = 21.2f,
-                            LocoType = 3,
+                            LocoType = 2,
                             NumOfAxels = 4,
                             NumOfDrivenAxels = 4,
                             RailwayCompanyId = 4,
-                            Scale = 1
+                            Scale = 0
                         },
                         new
                         {
@@ -399,14 +482,14 @@ namespace DataLayer.Migrations
                             Price = 319.9m,
                             TagId = "New",
                             AutoCoupling = false,
-                            Control = 3,
-                            Epoch = 3,
+                            Control = 2,
+                            Epoch = 2,
                             Length = 26.5f,
-                            LocoType = 1,
+                            LocoType = 0,
                             NumOfAxels = 10,
                             NumOfDrivenAxels = 4,
                             RailwayCompanyId = 2,
-                            Scale = 1
+                            Scale = 0
                         });
                 });
 
@@ -439,6 +522,17 @@ namespace DataLayer.Migrations
                     b.HasDiscriminator().HasValue("RailCar");
                 });
 
+            modelBuilder.Entity("DataLayer.Models.Address", b =>
+                {
+                    b.HasOne("DataLayer.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
             modelBuilder.Entity("DataLayer.Models.Product", b =>
                 {
                     b.HasOne("DataLayer.Models.Tag", "Tag")
@@ -452,9 +546,20 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("DataLayer.Models.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryId");
+                        .HasForeignKey("CountryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("DataLayer.Models.SiteUser", b =>
+                {
+                    b.HasOne("DataLayer.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressId");
+
+                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("DataLayer.Models.StockStatus", b =>
