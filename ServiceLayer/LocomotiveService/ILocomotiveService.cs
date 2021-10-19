@@ -10,9 +10,10 @@ namespace ServiceLayer.LocomotiveService
         int Add(AddLocomotiveDto locomotive, bool saveChanges = true);
         int Add(ICollection<AddLocomotiveDto> locomotives);
 
-        DetailsLocomotiveDto GetDetailsLocomotive(int locomotiveId);
-        Tuple<IQueryable<ListLocomotiveDto>, ushort, ushort> GetListLocomotives(QueryOptions queryOptions);
+        DetailsLocomotiveDto GetDetails(int locomotiveId);
+        Tuple<IQueryable<ListLocomotiveDto>, ushort, ushort> GetList(QueryOptions queryOptions);
         IQueryable<string> GetTags();
+        EditLocomotiveDto GetEdit(int locomotiveId);
 
         int Edit(EditLocomotiveDto locomotiveDto);
 

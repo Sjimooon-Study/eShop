@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataLayer.Migrations
 {
@@ -26,7 +25,7 @@ namespace DataLayer.Migrations
                 {
                     ImageId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,6 +121,7 @@ namespace DataLayer.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    AmountInStock = table.Column<long>(type: "bigint", nullable: false),
                     TagId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Interface = table.Column<int>(type: "int", nullable: true),
@@ -184,27 +184,6 @@ namespace DataLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "StockStatus",
-                columns: table => new
-                {
-                    StockStatusId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<long>(type: "bigint", nullable: false),
-                    NextStock = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ProductId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StockStatus", x => x.StockStatusId);
-                    table.ForeignKey(
-                        name: "FK_StockStatus_Product_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Product",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Country",
                 columns: new[] { "CountryId", "Name" },
@@ -217,20 +196,20 @@ namespace DataLayer.Migrations
 
             migrationBuilder.InsertData(
                 table: "Image",
-                columns: new[] { "ImageId", "Url" },
+                columns: new[] { "ImageId", "Path" },
                 values: new object[,]
                 {
-                    { 1, "https://www.roco.cc/doc/idimages/def2/1633611600/123106022013017006010001016009105021031014117.jpg" },
-                    { 2, "https://www.roco.cc/doc/idimages/def2/1633611600/123109024010020014010001016009105021031014117.jpg" },
-                    { 3, "https://www.roco.cc/doc/idimages/def2/1633611600/123109026011022009010001016009105021031014117.jpg" },
-                    { 4, "https://www.roco.cc/doc/idimages/def2/1633611600/123109023008017012010001016009105021031014117.jpg" },
-                    { 5, "https://www.roco.cc/doc/idimages/def2/1633615200/126105029012017019089002030013103027028015121010010.jpg" }
+                    { 1, "" },
+                    { 2, "" },
+                    { 3, "" },
+                    { 4, "" },
+                    { 5, "" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Product",
-                columns: new[] { "ProductId", "Description", "Discriminator", "Interface", "Name", "Price", "Sound", "TagId" },
-                values: new object[] { 1, "Suitable for Gauge H0. The decoder is equipped with the RailCom® function. Maximum motor current: 1.2 A.", "DigitalDecoder", 0, "PluX22 sound decoder (NEM 658)", 92.4m, true, null });
+                columns: new[] { "ProductId", "AmountInStock", "Description", "Discriminator", "Interface", "Name", "Price", "Sound", "TagId" },
+                values: new object[] { 1, 23L, "Suitable for Gauge H0. The decoder is equipped with the RailCom® function. Maximum motor current: 1.2 A.", "DigitalDecoder", 0, "PluX22 sound decoder (NEM 658)", 92.4m, true, null });
 
             migrationBuilder.InsertData(
                 table: "SiteUsers",
@@ -263,24 +242,19 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "StockStatus",
-                columns: new[] { "StockStatusId", "Amount", "NextStock", "ProductId" },
-                values: new object[] { 1, 23L, new DateTime(2021, 11, 19, 12, 36, 55, 960, DateTimeKind.Local).AddTicks(2997), 1 });
+                table: "Product",
+                columns: new[] { "ProductId", "AmountInStock", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
+                values: new object[] { 2, 5L, false, 2, "The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.", null, "Locomotive", 3, 24.5f, 0, "BR 023 040-9", 9, 4, 229.9m, 2, 0, "New" });
 
             migrationBuilder.InsertData(
                 table: "Product",
-                columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
-                values: new object[] { 2, false, 2, "The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.", null, "Locomotive", 3, 24.5f, 0, "BR 023 040-9", 9, 4, 229.9m, 2, 0, "New" });
+                columns: new[] { "ProductId", "AmountInStock", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
+                values: new object[] { 4, 1L, false, 2, "In the period between 1942 to 1950, over 7000 units of the class 52 war locomotive were built. These were constructed with as little effort as possible and savings were also made on the material wherever possible. With a weight of 84 tons, the loco achieved an output of 1,192 kW and a top speed of 80 km / h. The Deutsche Bundesbahn mainly got rid of the locomotives as early as 1953 - since it had sufficient machines of the series 50 and series 44 to haul the heavy goods trains. Only a few locomotives built in 1945 remained with the DB until 1962.", null, "Locomotive", 2, 26.5f, 0, "BR 52", 10, 4, 319.9m, 2, 0, "New" });
 
             migrationBuilder.InsertData(
                 table: "Product",
-                columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
-                values: new object[] { 4, false, 2, "In the period between 1942 to 1950, over 7000 units of the class 52 war locomotive were built. These were constructed with as little effort as possible and savings were also made on the material wherever possible. With a weight of 84 tons, the loco achieved an output of 1,192 kW and a top speed of 80 km / h. The Deutsche Bundesbahn mainly got rid of the locomotives as early as 1953 - since it had sufficient machines of the series 50 and series 44 to haul the heavy goods trains. Only a few locomotives built in 1945 remained with the DB until 1962.", null, "Locomotive", 2, 26.5f, 0, "BR 52", 10, 4, 319.9m, 2, 0, "New" });
-
-            migrationBuilder.InsertData(
-                table: "Product",
-                columns: new[] { "ProductId", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
-                values: new object[] { 3, false, 3, "In 1992, the first locomotive Re 460 of the Swiss Federal Railways rolled out of the factory halls of the companies SLM and BBC in Oerlikon, Switzerland. The locomotive became known to the public as \"Lok 2000\". It stands for fast and modern passenger transport in Switzerland. An eye-catching and particularly aerodynamic design with a large front window, roof cladding and beads on the side wall make the class 460 visually an unbeatable rail vehicle.", 1, "Locomotive", 5, 21.2f, 2, "Re 460 068-0", 4, 4, 321.9m, 4, 0, null });
+                columns: new[] { "ProductId", "AmountInStock", "AutoCoupling", "Control", "Description", "DigitalDecoderId", "Discriminator", "Epoch", "Length", "LocoType", "Name", "NumOfAxels", "NumOfDrivenAxels", "Price", "RailwayCompanyId", "Scale", "TagId" },
+                values: new object[] { 3, 2L, false, 3, "In 1992, the first locomotive Re 460 of the Swiss Federal Railways rolled out of the factory halls of the companies SLM and BBC in Oerlikon, Switzerland. The locomotive became known to the public as \"Lok 2000\". It stands for fast and modern passenger transport in Switzerland. An eye-catching and particularly aerodynamic design with a large front window, roof cladding and beads on the side wall make the class 460 visually an unbeatable rail vehicle.", 1, "Locomotive", 5, 21.2f, 2, "Re 460 068-0", 4, 4, 321.9m, 4, 0, null });
 
             migrationBuilder.InsertData(
                 table: "ImageProduct",
@@ -291,16 +265,6 @@ namespace DataLayer.Migrations
                     { 4, 4 },
                     { 5, 4 },
                     { 2, 3 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "StockStatus",
-                columns: new[] { "StockStatusId", "Amount", "NextStock", "ProductId" },
-                values: new object[,]
-                {
-                    { 2, 5L, new DateTime(2021, 12, 19, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6149), 2 },
-                    { 4, 1L, new DateTime(2022, 5, 19, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6256), 4 },
-                    { 3, 2L, new DateTime(2021, 11, 4, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6227), 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -337,12 +301,6 @@ namespace DataLayer.Migrations
                 name: "IX_SiteUsers_AddressId",
                 table: "SiteUsers",
                 column: "AddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StockStatus_ProductId",
-                table: "StockStatus",
-                column: "ProductId",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -354,16 +312,13 @@ namespace DataLayer.Migrations
                 name: "SiteUsers");
 
             migrationBuilder.DropTable(
-                name: "StockStatus");
-
-            migrationBuilder.DropTable(
                 name: "Image");
 
             migrationBuilder.DropTable(
-                name: "Address");
+                name: "Product");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Address");
 
             migrationBuilder.DropTable(
                 name: "RailwayCompany");

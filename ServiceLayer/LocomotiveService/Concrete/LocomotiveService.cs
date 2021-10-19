@@ -65,7 +65,7 @@ namespace ServiceLayer.LocomotiveService.Concrete
         /// </summary>
         /// <param name="locomotiveId"><see cref="Locomotive"/> ID</param>
         /// <returns>Locomotive details of <see cref="Locomotive"/> with <paramref name="locomotiveId"/>; otherwise null.</returns>
-        public DetailsLocomotiveDto GetDetailsLocomotive(int locomotiveId)
+        public DetailsLocomotiveDto GetDetails(int locomotiveId)
         {
             return _context.Locomotives
                 .Find(locomotiveId)?
@@ -77,7 +77,7 @@ namespace ServiceLayer.LocomotiveService.Concrete
         /// </summary>
         /// <param name="queryOptions">Options including ordering, filters, and paging.</param>
         /// <returns>Tuple of <see cref="IQueryable"/> of <see cref="ListLocomotiveDto"/>, <see cref="ushort"/> (page number), and <see cref="ushort"/> (number of pages).</returns>
-        public Tuple<IQueryable<ListLocomotiveDto>, ushort, ushort> GetListLocomotives(QueryOptions queryOptions)
+        public Tuple<IQueryable<ListLocomotiveDto>, ushort, ushort> GetList(QueryOptions queryOptions)
         {
             ushort pageNumber = queryOptions.PageNumber;
 
@@ -97,6 +97,13 @@ namespace ServiceLayer.LocomotiveService.Concrete
             .Where(l => l.TagId != null)
             .Select(l => l.TagId)
             .Distinct();
+
+        public EditLocomotiveDto GetEdit(int locomotiveId) => _context.Locomotives
+            .Include(l => l.Images)
+            .AsNoTracking()
+            .Where(l => l.ProductId == locomotiveId)
+            .FirstOrDefault()
+            .MapEditLocomotiveDto();
         #endregion
 
         #region Edit

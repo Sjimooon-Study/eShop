@@ -62,7 +62,7 @@ namespace WebApp.Pages.Locomotive
             QueryOptions.PageNumber = (ushort)pg;
 
             // Do query
-            var result = _locomotiveService.GetListLocomotives(QueryOptions);
+            var result = _locomotiveService.GetList(QueryOptions);
 
             // Prepare data for view
             Locomotives = result.Item1.ToList();

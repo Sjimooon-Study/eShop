@@ -95,7 +95,7 @@ namespace DataLayer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Url")
+                    b.Property<string>("Path")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ImageId");
@@ -106,27 +106,27 @@ namespace DataLayer.Migrations
                         new
                         {
                             ImageId = 1,
-                            Url = "https://www.roco.cc/doc/idimages/def2/1633611600/123106022013017006010001016009105021031014117.jpg"
+                            Path = ""
                         },
                         new
                         {
                             ImageId = 2,
-                            Url = "https://www.roco.cc/doc/idimages/def2/1633611600/123109024010020014010001016009105021031014117.jpg"
+                            Path = ""
                         },
                         new
                         {
                             ImageId = 3,
-                            Url = "https://www.roco.cc/doc/idimages/def2/1633611600/123109026011022009010001016009105021031014117.jpg"
+                            Path = ""
                         },
                         new
                         {
                             ImageId = 4,
-                            Url = "https://www.roco.cc/doc/idimages/def2/1633611600/123109023008017012010001016009105021031014117.jpg"
+                            Path = ""
                         },
                         new
                         {
                             ImageId = 5,
-                            Url = "https://www.roco.cc/doc/idimages/def2/1633615200/126105029012017019089002030013103027028015121010010.jpg"
+                            Path = ""
                         });
                 });
 
@@ -136,6 +136,9 @@ namespace DataLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("AmountInStock")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -254,60 +257,6 @@ namespace DataLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DataLayer.Models.StockStatus", b =>
-                {
-                    b.Property<int>("StockStatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("Amount")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("NextStock")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("StockStatusId");
-
-                    b.HasIndex("ProductId")
-                        .IsUnique();
-
-                    b.ToTable("StockStatus");
-
-                    b.HasData(
-                        new
-                        {
-                            StockStatusId = 1,
-                            Amount = 23L,
-                            NextStock = new DateTime(2021, 11, 19, 12, 36, 55, 960, DateTimeKind.Local).AddTicks(2997),
-                            ProductId = 1
-                        },
-                        new
-                        {
-                            StockStatusId = 2,
-                            Amount = 5L,
-                            NextStock = new DateTime(2021, 12, 19, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6149),
-                            ProductId = 2
-                        },
-                        new
-                        {
-                            StockStatusId = 3,
-                            Amount = 2L,
-                            NextStock = new DateTime(2021, 11, 4, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6227),
-                            ProductId = 3
-                        },
-                        new
-                        {
-                            StockStatusId = 4,
-                            Amount = 1L,
-                            NextStock = new DateTime(2022, 5, 19, 12, 36, 55, 963, DateTimeKind.Local).AddTicks(6256),
-                            ProductId = 4
-                        });
-                });
-
             modelBuilder.Entity("DataLayer.Models.Tag", b =>
                 {
                     b.Property<string>("TagId")
@@ -386,6 +335,7 @@ namespace DataLayer.Migrations
                         new
                         {
                             ProductId = 1,
+                            AmountInStock = 23L,
                             Description = "Suitable for Gauge H0. The decoder is equipped with the RailCom® function. Maximum motor current: 1.2 A.",
                             Name = "PluX22 sound decoder (NEM 658)",
                             Price = 92.4m,
@@ -443,6 +393,7 @@ namespace DataLayer.Migrations
                         new
                         {
                             ProductId = 2,
+                            AmountInStock = 5L,
                             Description = "The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.",
                             Name = "BR 023 040-9",
                             Price = 229.9m,
@@ -460,6 +411,7 @@ namespace DataLayer.Migrations
                         new
                         {
                             ProductId = 3,
+                            AmountInStock = 2L,
                             Description = "In 1992, the first locomotive Re 460 of the Swiss Federal Railways rolled out of the factory halls of the companies SLM and BBC in Oerlikon, Switzerland. The locomotive became known to the public as \"Lok 2000\". It stands for fast and modern passenger transport in Switzerland. An eye-catching and particularly aerodynamic design with a large front window, roof cladding and beads on the side wall make the class 460 visually an unbeatable rail vehicle.",
                             Name = "Re 460 068-0",
                             Price = 321.9m,
@@ -477,6 +429,7 @@ namespace DataLayer.Migrations
                         new
                         {
                             ProductId = 4,
+                            AmountInStock = 1L,
                             Description = "In the period between 1942 to 1950, over 7000 units of the class 52 war locomotive were built. These were constructed with as little effort as possible and savings were also made on the material wherever possible. With a weight of 84 tons, the loco achieved an output of 1,192 kW and a top speed of 80 km / h. The Deutsche Bundesbahn mainly got rid of the locomotives as early as 1953 - since it had sufficient machines of the series 50 and series 44 to haul the heavy goods trains. Only a few locomotives built in 1945 remained with the DB until 1962.",
                             Name = "BR 52",
                             Price = 319.9m,
@@ -562,17 +515,6 @@ namespace DataLayer.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.StockStatus", b =>
-                {
-                    b.HasOne("DataLayer.Models.Product", "Product")
-                        .WithOne("StockStatus")
-                        .HasForeignKey("DataLayer.Models.StockStatus", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("ImageProduct", b =>
                 {
                     b.HasOne("DataLayer.Models.Image", null)
@@ -610,11 +552,6 @@ namespace DataLayer.Migrations
                         .HasForeignKey("RailwayCompanyId");
 
                     b.Navigation("RailwayCompany");
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Product", b =>
-                {
-                    b.Navigation("StockStatus");
                 });
 #pragma warning restore 612, 618
         }

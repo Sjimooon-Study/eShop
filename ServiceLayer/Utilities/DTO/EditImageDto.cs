@@ -4,8 +4,9 @@ using System.Text;
 
 namespace ServiceLayer
 {
-    public class ImageDto
+    public class EditImageDto
     {
+        public int ImageId { get; set; }
         public string Path { get; set; }
     }
 }

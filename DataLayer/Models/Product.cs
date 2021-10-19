@@ -13,12 +13,11 @@ namespace DataLayer.Models
         public string Description { get; set; }
         [Column(TypeName = "decimal(8, 2)")] // precision of 8 and scale of 2: 123456.78
         public decimal Price { get; set; }
+        public uint AmountInStock { get; set; }
 
         public ICollection<Image> Images { get; set; }
 
         public string? TagId { get; set; }
         public Tag Tag { get; set; }
-        
-        public StockStatus StockStatus { get; set; }
     }
 }

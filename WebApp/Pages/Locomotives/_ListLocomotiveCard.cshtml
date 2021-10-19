@@ -4,7 +4,7 @@
 
 <div class="card product-card">
   <a asp-page="./Details/" asp-route-id="@Model.ProductId">
-    <img class="card-img-top" src="..." alt="Card image cap">
+    <img class="card-img-top" src="~/img/products/@Model.Images.FirstOrDefault()?.Path" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">@Model.Name, @Model.RailwayCompanyName</h5>
       <p class="card-text"></p>

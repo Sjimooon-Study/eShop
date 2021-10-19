@@ -51,14 +51,18 @@ namespace DataLayer
 
             modelBuilder.Entity<Image>().HasData(
                 // PluX22 sound decoder
-                new Image { ImageId = 1, Url = "https://www.roco.cc/doc/idimages/def2/1633611600/123106022013017006010001016009105021031014117.jpg" },
+                //new Image { ImageId = 1, Path = "" },
                 // Re 460
-                new Image { ImageId = 2, Url = "https://www.roco.cc/doc/idimages/def2/1633611600/123109024010020014010001016009105021031014117.jpg" },
+                new Image { ImageId = 1, Path = "2021_10_20_b51acd9b-05bc-415d-86ac-c3c2e17b0012.jpeg" },
                 // BR 023
-                new Image { ImageId = 3, Url = "https://www.roco.cc/doc/idimages/def2/1633611600/123109026011022009010001016009105021031014117.jpg" },
+                new Image { ImageId = 2, Path = "2021_10_20_c74b3599-6852-459a-9ee7-1b9129dcf3e0.jpeg" },
                 // BR 52
-                new Image { ImageId = 4, Url = "https://www.roco.cc/doc/idimages/def2/1633611600/123109023008017012010001016009105021031014117.jpg" },
-                new Image { ImageId = 5, Url = "https://www.roco.cc/doc/idimages/def2/1633615200/126105029012017019089002030013103027028015121010010.jpg" }
+                new Image { ImageId = 3, Path = "2021_10_20_06e1d3fa-8751-4c0e-9fac-b830384b0051.jpeg" },
+                new Image { ImageId = 4, Path = "2021_10_20_8aa35a49-50cd-4950-8689-38d547c35c91.jpeg" },
+                new Image { ImageId = 5, Path = "2021_10_20_a6c0169e-1d21-47ce-acef-b0ac88de5990.jpeg" },
+                new Image { ImageId = 6, Path = "2021_10_20_de2a7fc8-702f-4965-893e-816a22a4f403.jpeg" },
+                new Image { ImageId = 7, Path = "2021_10_20_eb718ad5-202f-4fe7-9f36-772da6d3b9a4.jpeg" },
+                new Image { ImageId = 8, Path = "2021_10_20_fa6c395b-d19f-44bc-9afc-d61d0905fe81.jpeg" }
                 );
 
             modelBuilder.Entity<DigitalDecoder>().HasData(
@@ -67,6 +71,7 @@ namespace DataLayer
                     ProductId = 1,
                     Name = "PluX22 sound decoder (NEM 658)",
                     Description = "Suitable for Gauge H0. The decoder is equipped with the RailCom® function. Maximum motor current: 1.2 A.",
+                    AmountInStock = 23,
                     Price = 92.4M,
                     TagId = null,
 
@@ -82,6 +87,7 @@ namespace DataLayer
                     Name = "BR 023 040-9",
                     Description = "The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.",
                     Price = 229.9M,
+                    AmountInStock = 5,
                     TagId = "New",
 
                     Scale = ModelItem.EScale.HO,
@@ -103,6 +109,7 @@ namespace DataLayer
                     Name = "Re 460 068-0",
                     Description = "In 1992, the first locomotive Re 460 of the Swiss Federal Railways rolled out of the factory halls of the companies SLM and BBC in Oerlikon, Switzerland. The locomotive became known to the public as \"Lok 2000\". It stands for fast and modern passenger transport in Switzerland. An eye-catching and particularly aerodynamic design with a large front window, roof cladding and beads on the side wall make the class 460 visually an unbeatable rail vehicle.",
                     Price = 321.9M,
+                    AmountInStock = 2,
                     TagId = null,
 
                     Scale = ModelItem.EScale.HO,
@@ -124,6 +131,7 @@ namespace DataLayer
                     Name = "BR 52",
                     Description = "In the period between 1942 to 1950, over 7000 units of the class 52 war locomotive were built. These were constructed with as little effort as possible and savings were also made on the material wherever possible. With a weight of 84 tons, the loco achieved an output of 1,192 kW and a top speed of 80 km / h. The Deutsche Bundesbahn mainly got rid of the locomotives as early as 1953 - since it had sufficient machines of the series 50 and series 44 to haul the heavy goods trains. Only a few locomotives built in 1945 remained with the DB until 1962.",
                     Price = 319.9M,
+                    AmountInStock = 1,
                     TagId = "New",
 
                     Scale = ModelItem.EScale.HO,
@@ -145,43 +153,14 @@ namespace DataLayer
                 .HasMany(p => p.Images)
                 .WithMany(i => i.Products)
                 .UsingEntity(j => j.HasData(
-                    new { ProductsProductId = 1, ImagesImageId = 1},
-                    new { ProductsProductId = 2, ImagesImageId = 3},
-                    new { ProductsProductId = 3, ImagesImageId = 2},
+                    new { ProductsProductId = 2, ImagesImageId = 2},
+                    new { ProductsProductId = 3, ImagesImageId = 1},
+                    new { ProductsProductId = 4, ImagesImageId = 3},
                     new { ProductsProductId = 4, ImagesImageId = 4},
-                    new { ProductsProductId = 4, ImagesImageId = 5}
+                    new { ProductsProductId = 4, ImagesImageId = 5},
+                    new { ProductsProductId = 4, ImagesImageId = 6},
+                    new { ProductsProductId = 4, ImagesImageId = 7}
                     ));
-            
-            modelBuilder.Entity<StockStatus>().HasData(
-                new StockStatus
-                {
-                    StockStatusId = 1,
-                    Amount = 23,
-                    NextStock = DateTime.Now.AddMonths(1),
-                    ProductId = 1
-                },
-                new StockStatus
-                {
-                    StockStatusId = 2,
-                    Amount = 5,
-                    NextStock = DateTime.Now.AddMonths(2),
-                    ProductId = 2
-                },
-                new StockStatus
-                {
-                    StockStatusId = 3,
-                    Amount = 2,
-                    NextStock = DateTime.Now.AddDays(16),
-                    ProductId = 3
-                },
-                new StockStatus
-                {
-                    StockStatusId = 4,
-                    Amount = 1,
-                    NextStock = DateTime.Now.AddMonths(7),
-                    ProductId = 4
-                }
-                );
 
             modelBuilder.Entity<SiteUser>().HasData(
                 new SiteUser

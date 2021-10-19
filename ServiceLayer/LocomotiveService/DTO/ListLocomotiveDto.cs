@@ -11,9 +11,9 @@ namespace ServiceLayer.LocomotiveService
         public int ProductId { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public uint AmountInStock { get; set; }
         public ICollection<ImageDto> Images { get; set; }
         public string Tag { get; set; }
-        public StockStatusDto StockStatus { get; set; }
 
         public EScale Scale { get; set; }
         public EEpoch Epoch { get; set; }

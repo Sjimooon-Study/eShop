@@ -21,7 +21,7 @@ namespace WebApp.Pages.Locomotives
 
         public void OnGet(int id)
         {
-            Locomotive = _locomotiveService.GetDetailsLocomotive(id);
+            Locomotive = _locomotiveService.GetDetails(id);
         }
     }
 }

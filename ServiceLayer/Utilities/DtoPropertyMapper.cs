@@ -25,66 +25,31 @@ namespace ServiceLayer
             
             return images.Select(i => new ImageDto
             {
-                Url = i.Url
+                Path = i.Path
             }).ToList();
         }
 
         /// <summary>
-        /// Map <see cref="StockStatus"/> to <see cref="StockStatusDto"/>. Takes null.
+        /// Map collection of <see cref="Image"/> to <see cref="EditImageDto"/>. Takes null.
         /// </summary>
-        /// <param name="stockStatus"><see cref="StockStatus"/> to map.</param>
-        /// <returns>Populated <see cref="StockStatusDto"/>; otherwise null.</returns>
-        public static StockStatusDto MapStockStatusDto(this StockStatus stockStatus)
+        /// <param name="images"></param>
+        /// <returns>Collection of <see cref="EditImageDto"/>.</returns>
+        public static ICollection<EditImageDto> MapEditImageToDto(this ICollection<Image> images)
         {
-            if (stockStatus != null)
+            if (images == null)
             {
-                return new StockStatusDto
-                {
-                    Amount = stockStatus.Amount,
-                    NextStock = stockStatus.NextStock
-                };
+                return new List<EditImageDto>();
             }
-            
-            return null;
+
+            return images.Select(i => new EditImageDto
+            {
+                ImageId = i.ImageId,
+                Path = i.Path
+            }).ToList();
         }
         #endregion
 
         #region Add
-        /// <summary>
-        /// Map <see cref="AddProductDto"/> to <see cref="Product"/>.
-        /// </summary>
-        /// <typeparam name="T">Derivative of <see cref="Product"/>.</typeparam>
-        /// <param name="product"><typeparamref name="T"/> to map.</param>
-        /// <param name="properties">Properties to map.</param>
-        /// <returns><typeparamref name="T"/> with populated properties.</returns>
-        public static T MapProductProperties<T>(this T product, AddProductDto properties) where T : Product
-        {
-            product.Name = properties.Name;
-            product.Description = properties.Description;
-            product.Price = properties.Price;
-            product.Images = new List<Image>();
-            product.TagId = properties.Tag;
-            product.StockStatus = new StockStatus
-            {
-                Amount = properties.StockStatus.Amount,
-                NextStock = properties.StockStatus.NextStock
-            };
-
-            // Add existing images
-            foreach (int imageId in properties.ReusedImages)
-            {
-                product.Images.Add(new Image { ImageId = imageId });
-            }
-            
-            // Add new images
-            foreach (AddImageDto image in properties.AddedImages)
-            {
-                product.Images.Add(new Image { Url = image.Url });
-            }
-
-            return product;
-        }
-
         /// <summary>
         /// Map <see cref="AddModelItemDto"/> to <see cref="ModelItem"/>.
         /// </summary>
@@ -135,6 +100,39 @@ namespace ServiceLayer
         }
         #endregion
 
+        #region AddEdit
+        /// <summary>
+        /// Map <see cref="AddEditProductDto"/> to <see cref="Product"/>.
+        /// </summary>
+        /// <typeparam name="T">Derivative of <see cref="Product"/>.</typeparam>
+        /// <param name="product"><typeparamref name="T"/> to map.</param>
+        /// <param name="properties">Properties to map.</param>
+        /// <returns><typeparamref name="T"/> with populated properties.</returns>
+        public static T MapProductProperties<T>(this T product, AddEditProductDto properties) where T : Product
+        {
+            product.Name = properties.Name;
+            product.Description = properties.Description;
+            product.Price = properties.Price;
+            product.Images = new List<Image>();
+            product.TagId = properties.Tag;
+            product.AmountInStock = properties.AmountInStock;
+
+            // Add existing images
+            foreach (EditImageDto image in properties.ReusedImages)
+            {
+                product.Images.Add(new Image { ImageId = image.ImageId, Path = image.Path });
+            }
+
+            // Add new images
+            foreach (AddImageDto image in properties.AddedImages)
+            {
+                product.Images.Add(new Image { Path = image.Path });
+            }
+
+            return product;
+        }
+        #endregion
+
         #region Select
         /// <summary>
         /// Map queryable of <see cref="Locomotive"/> to queryable of <see cref="ListLocomotiveDto"/>.
@@ -148,9 +146,9 @@ namespace ServiceLayer
                 ProductId = l.ProductId,
                 Name = l.Name,
                 Price = l.Price,
+                AmountInStock = l.AmountInStock,
                 Images = l.Images.MapImageToDto(),
                 Tag = l.Tag.TagId,
-                StockStatus = l.StockStatus.MapStockStatusDto(),
                 Scale = l.Scale,
                 Epoch = l.Epoch,
                 RailwayCompanyName = l.RailwayCompany.Name,
@@ -172,9 +170,9 @@ namespace ServiceLayer
                 Name = locomotive.Name,
                 Description = locomotive.Description,
                 Price = locomotive.Price,
+                AmountInStock = locomotive.AmountInStock,
                 Images = locomotive.Images.MapImageToDto(),
                 Tag = locomotive.Tag?.TagId,
-                StockStatus = locomotive.StockStatus.MapStockStatusDto(),
                 Scale = locomotive.Scale,
                 Epoch = locomotive.Epoch,
                 Length = locomotive.Length,
@@ -185,6 +183,35 @@ namespace ServiceLayer
                 LocoType = locomotive.LocoType,
                 AutoCoupling = locomotive.AutoCoupling,
                 NumOfDrivenAxels = locomotive.NumOfDrivenAxels
+            };
+        }
+
+        /// <summary>
+        /// Map <see cref="Locomotive"/> to <see cref="EditLocomotiveDto"/>.
+        /// </summary>
+        /// <param name="locomotive"><see cref="Locomotive"/> to map.</param>
+        /// <returns><see cref="EditLocomotiveDto"/> with populated properties.</returns>
+        public static EditLocomotiveDto MapEditLocomotiveDto(this Locomotive locomotive)
+        {
+            return new EditLocomotiveDto()
+            {
+                Name = locomotive.Name,
+                Description = locomotive.Description,
+                Price = locomotive.Price,
+                AmountInStock = locomotive.AmountInStock,
+                ReusedImages = locomotive.Images.MapEditImageToDto(),
+                Tag = locomotive.TagId,
+                Scale = locomotive.Scale,
+                Epoch = locomotive.Epoch,
+                Length = locomotive.Length,
+                NumOfAxels = locomotive.NumOfAxels,
+                RailwayCompanyId = locomotive.RailwayCompanyId,
+                Id = locomotive.ProductId,
+                Control = locomotive.Control,
+                LocoType = locomotive.LocoType,
+                AutoCoupling = locomotive.AutoCoupling,
+                NumOfDrivenAxels = locomotive.NumOfDrivenAxels,
+                DigitalDecoderId = locomotive.DigitalDecoderId
             };
         }
         #endregion

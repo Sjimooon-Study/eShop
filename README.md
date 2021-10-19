@@ -97,6 +97,7 @@ The `Initial.sql` script located in `DataLayer/Migrations/Scripts` can be used t
 - ServiceLayer, WebApp, and UnitTest lack documentation.
 - ServiceLayer doesn't provide all types of GRUD actions for all entities.
 - Redundant fields exist in the Address table in the DataLayer.
+- Admin edit form is not complete.
 
 ## Versioning
 **v0.1.0**
