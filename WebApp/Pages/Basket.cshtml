@@ -44,6 +44,11 @@
         </div>
         <div class="col col-2">
           € @product.TotalPrice
+          @if (product.Count > 1)
+          {
+            <br />
+            <small><i>€ @product.UnitPrice per unit</i></small>
+          }
         </div>
       </div>
     }
@@ -52,7 +57,7 @@
 
       </div>
       <div class="col col-2">
-        <i>Total price: € @Model.TotalBasketPrice</i>
+        <i>Total: € @Model.TotalBasketPrice</i>
       </div>
     </div>
   }
