@@ -68,7 +68,12 @@ namespace ServiceLayer.LocomotiveService.Concrete
         public DetailsLocomotiveDto GetDetails(int locomotiveId)
         {
             return _context.Locomotives
-                .Find(locomotiveId)?
+                .Include(l => l.Images)
+                .Include(l => l.RailwayCompany)
+                .ThenInclude(rc => rc.Country)
+                .AsNoTracking()
+                .Where(l => l.ProductId == locomotiveId)
+                .FirstOrDefault()
                 .MapDetailsLocomotiveDto();
         }
 

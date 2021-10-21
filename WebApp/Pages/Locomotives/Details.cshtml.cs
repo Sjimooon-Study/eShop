@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ServiceLayer.LocomotiveService;
+using WebApp.Helpers;
 
 namespace WebApp.Pages.Locomotives
 {
@@ -22,6 +23,13 @@ namespace WebApp.Pages.Locomotives
         public void OnGet(int id)
         {
             Locomotive = _locomotiveService.GetDetails(id);
+        }
+
+        public IActionResult OnGetAddToBasket(int id)
+        {
+            HttpContext.AddProductToBasket(id);
+
+            return RedirectToPage("/Basket");
         }
     }
 }

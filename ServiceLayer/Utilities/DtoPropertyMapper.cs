@@ -172,7 +172,7 @@ namespace ServiceLayer
                 Price = locomotive.Price,
                 AmountInStock = locomotive.AmountInStock,
                 Images = locomotive.Images.MapImageToDto(),
-                Tag = locomotive.Tag?.TagId,
+                Tag = locomotive.TagId,
                 Scale = locomotive.Scale,
                 Epoch = locomotive.Epoch,
                 Length = locomotive.Length,
