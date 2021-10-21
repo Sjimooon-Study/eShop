@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace DataLayer.Models.Products
@@ -8,17 +9,25 @@ namespace DataLayer.Models.Products
     {
         public enum EControl
         {
-            AC = 1,
+            [Display(Name = "AC")]
+            AC = 0,
+            [Display(Name = "ACC")]
             ACC,
+            [Display(Name = "DC")]
             DC,
+            [Display(Name = "DCC")]
             DCC
         }
 
         public enum ELocoType
         {
-            SteamLocomotive = 1,
+            [Display(Name = "Steam")]
+            SteamLocomotive = 0,
+            [Display(Name = "Diesel")]
             DieselLocomotive,
+            [Display(Name = "Electric")]
             ElectricLocomotive,
+            [Display(Name = "Rail car")]
             RailCar
         }
 

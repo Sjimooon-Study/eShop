@@ -2,6 +2,7 @@
 using DataLayer.Models;
 using DataLayer.Models.Products;
 using Microsoft.EntityFrameworkCore;
+using ServiceLayer.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,10 +65,15 @@ namespace ServiceLayer.LocomotiveService.Concrete
         /// </summary>
         /// <param name="locomotiveId"><see cref="Locomotive"/> ID</param>
         /// <returns>Locomotive details of <see cref="Locomotive"/> with <paramref name="locomotiveId"/>; otherwise null.</returns>
-        public DetailsLocomotiveDto GetDetailsLocomotive(int locomotiveId)
+        public DetailsLocomotiveDto GetDetails(int locomotiveId)
         {
             return _context.Locomotives
-                .Find(locomotiveId)?
+                .Include(l => l.Images)
+                .Include(l => l.RailwayCompany)
+                .ThenInclude(rc => rc.Country)
+                .AsNoTracking()
+                .Where(l => l.ProductId == locomotiveId)
+                .FirstOrDefault()
                 .MapDetailsLocomotiveDto();
         }
 
@@ -75,16 +81,34 @@ namespace ServiceLayer.LocomotiveService.Concrete
         /// Get queryable to list locomotives on a product page.
         /// </summary>
         /// <param name="queryOptions">Options including ordering, filters, and paging.</param>
-        /// <returns><see cref="IQueryable"/> of <see cref="ListLocomotiveDto"/>.</returns>
-        public IQueryable<ListLocomotiveDto> GetListLocomotives(QueryOptions queryOptions)
+        /// <returns>Tuple of <see cref="IQueryable"/> of <see cref="ListLocomotiveDto"/>, <see cref="ushort"/> (page number), and <see cref="ushort"/> (number of pages).</returns>
+        public Tuple<IQueryable<ListLocomotiveDto>, ushort, ushort> GetList(QueryOptions queryOptions)
         {
-            var locomotiveQuery = _context.Locomotives
+            ushort pageNumber = queryOptions.PageNumber;
+
+            IQueryable<ListLocomotiveDto> locomotiveQuery = _context.Locomotives
                 .AsNoTracking()
                 .MapListLocomotiveToDto()
-                .OrderLocomotivesBy(queryOptions.OrderByOptions);
+                .SearchFor(queryOptions.SearchString)
+                .Filter(queryOptions.FilterOptions)
+                .OrderLocomotivesBy(queryOptions.OrderByOptions)
+                .Page(ref pageNumber, (ushort)queryOptions.PageSize, out ushort numberOfPages);
 
-            return locomotiveQuery;
+            return Tuple.Create(locomotiveQuery, pageNumber, numberOfPages);
         }
+
+        public IQueryable<string> GetTags() => _context.Locomotives
+            .AsNoTracking()
+            .Where(l => l.TagId != null)
+            .Select(l => l.TagId)
+            .Distinct();
+
+        public EditLocomotiveDto GetEdit(int locomotiveId) => _context.Locomotives
+            .Include(l => l.Images)
+            .AsNoTracking()
+            .Where(l => l.ProductId == locomotiveId)
+            .FirstOrDefault()
+            .MapEditLocomotiveDto();
         #endregion
 
         #region Edit

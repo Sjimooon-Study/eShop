@@ -23,14 +23,10 @@ namespace UnitTests
                 Name = "BR 023 040-9",
                 Description = "The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.",
                 Price = 229.9M,
-                ReusedImages = new List<int>(),
+                AmountInStock = 1,
+                ReusedImages = new List<EditImageDto>(),
                 AddedImages = new List<AddImageDto>(),
                 Tag = "New",
-                StockStatus = new AddStockStatusDto
-                {
-                    Amount = 1,
-                    NextStock = DateTime.Now
-                },
 
                 Scale = ModelItem.EScale.HO,
                 Epoch = ModelItem.EEpoch.IV,
@@ -123,7 +119,7 @@ namespace UnitTests
 
             var queryOptions = new QueryOptions
             {
-                OrderByOptions = OrderByOptions.ByNameAsc
+                OrderByOptions = EOrderByOptions.ByNameAsc
             };
 
             var options = new DbContextOptionsBuilder<EShopContext>()
@@ -141,9 +137,9 @@ namespace UnitTests
             {
                 var service = new LocomotiveService(context);
 
-                IQueryable<ListLocomotiveDto> query = service.GetListLocomotives(queryOptions);
+                var query = service.GetList(queryOptions);
                 
-                foreach (var locomotive in query)
+                foreach (var locomotive in query.Item1)
                 {
                     result.Add(locomotive);
                 }
@@ -171,7 +167,7 @@ namespace UnitTests
 
             var queryOptions = new QueryOptions
             {
-                OrderByOptions = OrderByOptions.ByPriceDesc
+                OrderByOptions = EOrderByOptions.ByPriceDesc
             };
 
             var options = new DbContextOptionsBuilder<EShopContext>()
@@ -189,9 +185,9 @@ namespace UnitTests
             {
                 var service = new LocomotiveService(context);
 
-                IQueryable<ListLocomotiveDto> query = service.GetListLocomotives(queryOptions);
+                var query = service.GetList(queryOptions);
 
-                foreach (var locomotive in query)
+                foreach (var locomotive in query.Item1)
                 {
                     result.Add(locomotive);
                 }
@@ -231,7 +227,7 @@ namespace UnitTests
             using (var context = new EShopContext(options))
             {
                 var service = new LocomotiveService(context);
-                result = service.GetDetailsLocomotive(locomotiveId);
+                result = service.GetDetails(locomotiveId);
             }
 
             // Assert

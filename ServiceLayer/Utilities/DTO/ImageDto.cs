@@ -6,6 +6,6 @@ namespace ServiceLayer
 {
     public class ImageDto
     {
-        public string Url { get; set; }
+        public string Path { get; set; }
     }
 }

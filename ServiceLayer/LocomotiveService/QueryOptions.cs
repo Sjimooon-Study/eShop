@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using static ServiceLayer.Utilities.Pagination;
 
 namespace ServiceLayer.LocomotiveService
 {
-    public enum OrderByOptions
+    public enum EOrderByOptions
     {
+        [Display(Name = "Default")]
+        Default = 0,
         [Display(Name = "Name (Ascending)")]
-        ByNameAsc = 0,
+        ByNameAsc,
         [Display(Name = "Name (Descending)")]
         ByNameDesc,
         [Display(Name = "Price (Ascending)")]
@@ -23,7 +26,13 @@ namespace ServiceLayer.LocomotiveService
 
     public class QueryOptions
     {
-        public OrderByOptions OrderByOptions { get; set; }
+        public string SearchString { get; set; }
         public FilterOptions FilterOptions { get; set; }
+        [Display(Name = "Order by")]
+        public EOrderByOptions OrderByOptions { get; set; }
+
+        public ushort PageNumber { get; set; }
+        [Display(Name = "Page size")]
+        public EPageSize PageSize { get; set; } = EPageSize.PS10;
     }
 }

@@ -1,0 +1,80 @@
+﻿@page
+@model WebApp.Pages.Locomotives.AddEditModel
+@{
+  ViewData["Title"] = "Add/edit";
+}
+
+<div class="container">
+  <h2>Add/edit locomotive</h2>
+  <div class="row">
+    <div class="col col-7">
+      <form method="post" enctype="multipart/form-data">
+        <input asp-for="Locomotive.Id" type="hidden" />
+        <div class="form-group">
+          <label asp-for="Locomotive.Name"></label>
+          <input class="form-control" asp-for="Locomotive.Name">
+          <span class="text-danger" asp-validation-for="Locomotive.Name"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="Locomotive.Description"></label>
+          <input class="form-control" asp-for="Locomotive.Description">
+          <span class="text-danger" asp-validation-for="Locomotive.Description"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="Locomotive.Price"></label>
+          <input class="form-control" asp-for="Locomotive.Price">
+          <span class="text-danger" asp-validation-for="Locomotive.Price"></span>
+        </div>
+        <div class="form-group">
+          <label asp-for="Locomotive.AmountInStock"></label>
+          <input class="form-control" asp-for="Locomotive.AmountInStock">
+          <span class="text-danger" asp-validation-for="Locomotive.AmountInStock"></span>
+        </div>
+
+        <hr />
+        <h6>Images</h6>
+        <div class="form-group input-group">
+          <div class="custom-file">
+            <input class="custom-file-input" type="file" asp-for="Images" accept="image/jpeg" multiple>
+            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+          </div>
+        </div>
+
+        <input asp-for="Locomotive.Tag" type="hidden" />
+        @*<div class="form-group">
+          <label asp-for="@Model.Locomotive.Tag"></label>
+          <input class="form-control" type="text" asp-for="@Model.Locomotive.Tag">
+          <span class="text-danger" asp-validation-for="@Model.Locomotive.Tag"></span>
+        </div>*@
+
+        <hr />
+        <h6>Model item</h6>
+        <input asp-for="Locomotive.Scale" type="hidden" />
+        <input asp-for="Locomotive.Epoch" type="hidden" />
+
+        <hr />
+        <h6>Rolling stock</h6>
+        <input asp-for="Locomotive.Length" type="hidden" />
+        <input asp-for="Locomotive.NumOfAxels" type="hidden" />
+        <input asp-for="Locomotive.RailwayCompanyId" type="hidden" />
+
+        <hr />
+        <h6>Locomotive</h6>
+        <input asp-for="Locomotive.Control" type="hidden" />
+        <input asp-for="Locomotive.LocoType" type="hidden" />
+        <input asp-for="Locomotive.AutoCoupling" type="hidden" />
+        <input asp-for="Locomotive.NumOfDrivenAxels" type="hidden" />
+        <input asp-for="Locomotive.DigitalDecoderId" type="hidden" />
+
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+    <div class="col col-5">
+
+    </div>
+  </div>
+</div>
+
+@section scripts{
+  <partial name="_ValidationScriptsPartial" />
+}
