@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Http
+@using WebApp.Helpers
+@model ServiceLayer.LocomotiveService.ListLocomotiveDto
+
+<div class="card product-card">
+  <a asp-page="./Details/" asp-route-id="@Model.ProductId">
+    <img class="card-img-top" src="~/img/products/@Model.Images.FirstOrDefault()?.Path" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">@Model.Name, @Model.RailwayCompanyName</h5>
+      <p class="card-text"></p>
+    </div>
+    <ul class="list-group list-group-horizontal d-flex flex-wrap">
+      @if (!String.IsNullOrEmpty(Model.Tag))
+      {
+        <li class="list-group-item tag">@Model.Tag</li>
+      }
+      <li class="list-group-item">@Model.Scale</li>
+      <li class="list-group-item">@Model.Control</li>
+      <li class="list-group-item">@Model.RailwayCompanyName</li>
+      <li class="list-group-item">@Model.Epoch</li>
+    </ul>
+  </a>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col col-6 col-vertical-middle">
+          <div>€ @Model.Price</div>
+        </div>
+        <div class="col col-6 text-right">
+          <partial name="_AddToBasketButton" model="new Tuple<int, bool>(Model.ProductId, Model.AmountInStock > 0)"/>
+        </div>
+      </div>
+    </li>
+  </ul>
+  
+@if ((Context.Session.GetInt32(Session.IS_ADMIN) ?? 0) > 0)
+{
+  <div class="card-footer">
+    <a class="text-muted" asp-page="./AddEdit/" asp-route-id="@Model.ProductId" title="Edit"><i class="fas fa-edit"></i></a>
+  </div>
+}
+</div>

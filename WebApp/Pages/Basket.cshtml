@@ -1,0 +1,77 @@
+﻿@page
+@using ServiceLayer.ProductService.DTO 
+@model WebApp.Pages.BasketModel
+@{
+    ViewData["Title"] = "Basket";
+}
+
+<div class="container">
+  <div class="row">
+    <div class="col col-7">
+      <b>Product</b>
+    </div>
+    <div class="col col-3">
+      <b>Quantity</b>
+    </div>
+    <div class="col col-2">
+      <b>Price</b>
+    </div>
+  </div>
+  <hr />
+  @if (Model.BasketProducts.Count > 0)
+  {
+    foreach (BasketProductDto product in Model.BasketProducts)
+    {
+      <div class="row">
+        <div class="col col-3">
+          <a asp-page="Locomotives/Details/" asp-route-id="@product.ProductId">
+            <img class="w-100" src="~/img/products/@product.Image?.Path" alt="Product image">
+          </a>
+        </div>
+        <div class="col col-4">
+          @product.Name
+        </div>
+        <div class="col col-3">
+          <form class="form-inline" method="post" asp-page-handler="Update">
+            <input name="id" value="@product.ProductId" type="hidden" />
+            <input class="form-control form-control-sm" onchange="this.form.submit()" name="count" asp-for="@product.Count" />
+            <a class="btn btn-sm btn-danger ml-3" asp-page-handler="Remove" asp-route-id="@product.ProductId"><i class="fas fa-times"></i></a>
+          </form>
+        </div>
+        <div class="col col-2">
+          € @product.TotalPrice
+          @if (product.Count > 1)
+          {
+            <br />
+            <small><i>€ @product.UnitPrice per unit</i></small>
+          }
+        </div>
+      </div>
+    }
+    <div class="row">
+      <div class="col col-10">
+
+      </div>
+      <div class="col col-2">
+        <i>Total: € @Model.TotalBasketPrice</i>
+      </div>
+    </div>
+  }
+  else
+  {
+    <div class="row">
+      <div class="col col-12 text-center">
+        <br />
+        <i>The basket is empty. . .</i>
+        <br />
+        <br />
+      </div>
+    </div>
+  }
+  <hr />
+  <div class="row">
+    <div class="col">
+      <a class="btn btn-info" asp-page="/Index"><i class="fas fa-arrow-left"></i> Continue shopping</a>
+    </div>
+  </div>
+</div>

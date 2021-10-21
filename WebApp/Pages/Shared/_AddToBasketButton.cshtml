@@ -1,0 +1,10 @@
+﻿@model Tuple<int, bool>
+
+@if (Model.Item2)
+{
+  <a class="btn btn-outline-success" asp-page-handler="AddToBasket" asp-route-id="@Model.Item1">Add to basket <i class="fas fa-shopping-basket"></i></a>
+}
+else
+{
+  <a class="btn btn-outline-secondary disabled" href="#">Out of stock <i class="fas fa-shopping-basket"></i></a>
+}
