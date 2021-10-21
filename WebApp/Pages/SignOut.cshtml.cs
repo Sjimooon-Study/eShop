@@ -11,17 +11,13 @@ namespace WebApp.Pages
 {
     public class SignOutModel : PageModel
     {
-        public void OnGet()
-        {
-        }
-
-        public IActionResult OnPost()
+        public IActionResult OnGet()
         {
             HttpContext.Session.Remove(Session.USER_ID);
             HttpContext.Session.Remove(Session.USERNAME);
             HttpContext.Session.Remove(Session.IS_ADMIN);
 
-            return RedirectToPage();
+            return Page();
         }
     }
 }

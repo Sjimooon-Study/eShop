@@ -42,8 +42,7 @@
           @foreach (int value in Enum.GetValues(typeof(EScale)))
           {
             string label = typeof(EScale)
-              .GetMember(typeof(EScale)
-              .GetEnumName(value))
+              .GetMember(typeof(EScale).GetEnumName(value))
               .First()
               .GetCustomAttribute<DisplayAttribute>()
               .Name;
@@ -59,8 +58,7 @@
           @foreach (int value in Enum.GetValues(typeof(EControl)))
           {
             string label = typeof(EControl)
-              .GetMember(typeof(EControl)
-              .GetEnumName(value))
+              .GetMember(typeof(EControl).GetEnumName(value))
               .First()
               .GetCustomAttribute<DisplayAttribute>()
               .Name;
@@ -76,8 +74,7 @@
           @foreach (int value in Enum.GetValues(typeof(ELocoType)))
           {
             string label = typeof(ELocoType)
-              .GetMember(typeof(ELocoType)
-              .GetEnumName(value))
+              .GetMember(typeof(ELocoType).GetEnumName(value))
               .First()
               .GetCustomAttribute<DisplayAttribute>()
               .Name;
@@ -93,8 +90,7 @@
           @foreach (int value in Enum.GetValues(typeof(EEpoch)))
           {
             string label = typeof(EEpoch)
-              .GetMember(typeof(EEpoch)
-              .GetEnumName(value))
+              .GetMember(typeof(EEpoch).GetEnumName(value))
               .First()
               .GetCustomAttribute<DisplayAttribute>()
               .Name;
@@ -154,19 +150,19 @@
           @if (prev < 1)
           {
             <li class="page-item disabled">
-              <button class="page-link" type="submit" name="pg" value="1" disabled><i class="fas fa-fast-backward"></i></button>
+              <button class="page-link" type="submit" name="pg" value="1" disabled><i class="fas fa-angle-double-left"></i></button>
             </li>
             <li class="page-item disabled">
-              <button class="page-link" type="submit" name="pg" value="@prev" disabled><i class="fas fa-step-backward"></i></button>
+              <button class="page-link" type="submit" name="pg" value="@prev" disabled><i class="fas fa-angle-left"></i></button>
             </li>
           }
           else
           {
             <li class="page-item">
-              <button class="page-link" type="submit" name="pg" value="1"><i class="fas fa-fast-backward"></i></button>
+              <button class="page-link" type="submit" name="pg" value="1"><i class="fas fa-angle-double-left"></i></button>
             </li>
             <li class="page-item">
-              <button class="page-link" type="submit" name="pg" value="@prev"><i class="fas fa-step-backward"></i></button>
+              <button class="page-link" type="submit" name="pg" value="@prev"><i class="fas fa-angle-left"></i></button>
             </li>
           }
 
@@ -189,19 +185,19 @@
           @if (next > Model.NumberOfPages)
           {
             <li class="page-item disabled">
-              <button class="page-link" type="submit" name="pg" value="@next" disabled"><i class="fas fa-step-forward"></i></button>
+              <button class="page-link" type="submit" name="pg" value="@next" disabled"><i class="fas fa-angle-right"></i></button>
             </li>
             <li class="page-item disabled">
-              <button class="page-link" type="submit" name="pg" value="@next" disabled"><i class="fas fa-fast-forward"></i></button>
+              <button class="page-link" type="submit" name="pg" value="@next" disabled"><i class="fas fa-angle-double-right"></i></button>
             </li>
           }
           else
           {
             <li class="page-item">
-              <button class="page-link" type="submit" name="pg" value="@next"><i class="fas fa-step-forward"></i></button>
+              <button class="page-link" type="submit" name="pg" value="@next"><i class="fas fa-angle-right"></i></button>
             </li>
             <li class="page-item">
-              <button class="page-link" type="submit" name="pg" value="@Model.NumberOfPages"><i class="fas fa-fast-forward"></i></button>
+              <button class="page-link" type="submit" name="pg" value="@Model.NumberOfPages"><i class="fas fa-angle-double-right"></i></button>
             </li>
           }
         </ul>

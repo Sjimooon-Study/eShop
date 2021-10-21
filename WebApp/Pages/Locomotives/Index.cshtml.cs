@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ServiceLayer.LocomotiveService;
+using WebApp.Helpers;
 using static DataLayer.Models.ModelItem;
 using static DataLayer.Models.Products.Locomotive;
 
@@ -70,6 +71,13 @@ namespace WebApp.Pages.Locomotive
             NumberOfPages = result.Item3;
             
             AllTags = _locomotiveService.GetTags().ToList();
+        }
+
+        public IActionResult OnGetAddToBasket(int id)
+        {
+            HttpContext.AddProductToBasket(id);
+
+            return RedirectToPage("/Basket");
         }
     }
 }

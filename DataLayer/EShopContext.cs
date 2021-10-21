@@ -11,6 +11,7 @@ namespace DataLayer
         public EShopContext() { }
         public EShopContext(DbContextOptions<EShopContext> options) : base (options) { }
         
+        public DbSet<Product> Products { get; set; }
         public DbSet<DigitalDecoder> DigitalDecoders { get; set; }
         public DbSet<Locomotive> Locomotives { get; set; }
         public DbSet<RailCar> RailCars { get; set; }

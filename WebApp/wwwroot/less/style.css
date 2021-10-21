@@ -1,4 +1,14 @@
-﻿.product-card.card {
+﻿.navbar > .container > a.btn {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+.navbar > .container > a.btn:first-of-type {
+  margin-left: 0rem;
+}
+.navbar > .container > a.btn:last-of-type {
+  margin-right: 0rem;
+}
+.product-card.card {
   margin-bottom: 1.5rem;
   transition: box-shadow 0.5s;
 }
@@ -14,6 +24,13 @@
   text-decoration: none;
   cursor: pointer;
 }
+.product-card.card ul.list-group-horizontal {
+  margin: 0.5rem;
+  justify-content: center;
+}
+.product-card.card ul.list-group-horizontal .tag {
+  background-color: lightgoldenrodyellow;
+}
 form.product-listing > .row > .col > button {
   width: 100%;
 }
@@ -23,6 +40,10 @@ form.product-listing > .row > .col > .filter-group {
 }
 form.product-listing > .row > .col > .filter-group > label {
   font-weight: bolder;
+}
+.col-vertical-middle {
+  margin-top: auto;
+  margin-bottom: auto;
 }
 /* DEFAULT CSS
 -------------------------------------------------- */

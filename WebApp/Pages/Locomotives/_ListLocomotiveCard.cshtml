@@ -9,11 +9,34 @@
       <h5 class="card-title">@Model.Name, @Model.RailwayCompanyName</h5>
       <p class="card-text"></p>
     </div>
+    <ul class="list-group list-group-horizontal d-flex flex-wrap">
+      @if (!String.IsNullOrEmpty(Model.Tag))
+      {
+        <li class="list-group-item tag">@Model.Tag</li>
+      }
+      <li class="list-group-item">@Model.Scale</li>
+      <li class="list-group-item">@Model.Control</li>
+      <li class="list-group-item">@Model.RailwayCompanyName</li>
+      <li class="list-group-item">@Model.Epoch</li>
+    </ul>
   </a>
-  @if ((Context.Session.GetInt32(Session.IS_ADMIN) ?? 0) > 0)
-  {
-    <div class="card-footer">
-      <a class="text-muted" asp-page="./AddEdit/" asp-route-id="@Model.ProductId">Edit <i class="fas fa-edit"></i></a>
-    </div>
-  }
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col col-6 col-vertical-middle">
+          <div>€ @Model.Price</div>
+        </div>
+        <div class="col col-6">
+          <partial name="_AddToBasketButton" model="@Model.ProductId"/>
+        </div>
+      </div>
+    </li>
+  </ul>
+  
+@if ((Context.Session.GetInt32(Session.IS_ADMIN) ?? 0) > 0)
+{
+  <div class="card-footer">
+    <a class="text-muted" asp-page="./AddEdit/" asp-route-id="@Model.ProductId">Edit <i class="fas fa-edit"></i></a>
+  </div>
+}
 </div>

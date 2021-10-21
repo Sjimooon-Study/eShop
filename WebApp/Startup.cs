@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using ServiceLayer.LocomotiveService;
 using ServiceLayer.LocomotiveService.Concrete;
+using ServiceLayer.ProductService;
+using ServiceLayer.ProductService.Concrete;
 using ServiceLayer.UserService;
 using ServiceLayer.UserService.Concrete;
 using System;
@@ -40,6 +42,7 @@ namespace WebApp
             
             services.AddDbContext<EShopContext>(options => options = new DbContextOptionsBuilder());
 
+            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ILocomotiveService, LocomotiveService>();
             services.AddScoped<IUserService, UserService>();
 

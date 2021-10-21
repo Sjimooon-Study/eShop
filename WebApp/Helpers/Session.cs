@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using ServiceLayer.ProductService.DTO;
 
 namespace WebApp.Helpers
 {
@@ -14,13 +15,7 @@ namespace WebApp.Helpers
         public static readonly string USERNAME = "username";
         public static readonly string IS_ADMIN = "is_admin";
 
-        /// <summary>
-        /// Check whether current user has admin rights.
-        /// </summary>
-        /// <param name="httpContext">Current <see cref="HttpContext"/>.</param>
-        /// <returns>True if user is admin; otherwise false.</returns>
-        public static bool IsAdmin(this HttpContext httpContext) =>
-            (httpContext.Session.GetInt32(IS_ADMIN) ?? 0) > 0;
+        public static readonly string BASKET = "basket";
 
         /// <summary>
         /// Serialize object to string.
@@ -61,5 +56,56 @@ namespace WebApp.Helpers
 
             return new T();
         }
+
+        #region User
+        /// <summary>
+        /// Check whether current user has admin rights.
+        /// </summary>
+        /// <param name="httpContext">Current <see cref="HttpContext"/>.</param>
+        /// <returns>True if user is admin; otherwise false.</returns>
+        public static bool IsAdmin(this HttpContext httpContext) =>
+            (httpContext.Session.GetInt32(IS_ADMIN) ?? 0) > 0;
+        #endregion
+
+        #region Basket
+        /// <summary>
+        /// Get basket of the session.
+        /// </summary>
+        /// <param name="httpContext">Current <see cref="HttpContext"/>.</param>
+        /// <returns><see cref="SessionBasketDto"/> with added products.</returns>
+        public static SessionBasketDto GetBasket(this HttpContext httpContext) =>
+            httpContext.Session.GetString(BASKET).Deserialize<SessionBasketDto>();
+
+        /// <summary>
+        /// Set basket of the session.
+        /// </summary>
+        /// <param name="httpContext">Current <see cref="HttpContext"/>.</param>
+        /// <param name="basket">Basket to set.</param>
+        public static void SetBasket(this HttpContext httpContext, SessionBasketDto basket)
+        {
+            httpContext.Session.SetString(BASKET, basket.Serialize());
+        }
+
+        /// <summary>
+        /// Add product to current session basket.
+        /// </summary>
+        /// <param name="httpContext">Current <see cref="HttpContext"/>.</param>
+        /// <param name="productId">Product ID.</param>
+        public static void AddProductToBasket(this HttpContext httpContext, int productId)
+        {
+            SessionBasketDto basket = httpContext.GetBasket();
+
+            if (basket.Products.ContainsKey(productId))
+            {
+                basket.Products[productId]++;
+            }
+            else
+            {
+                basket.Products.Add(productId, 1);
+            }
+
+            httpContext.SetBasket(basket);
+        }
+        #endregion
     }
 }

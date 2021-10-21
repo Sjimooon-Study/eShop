@@ -42,6 +42,7 @@ namespace WebApp.Pages.Locomotives
             return Page();
 
         }
+
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)

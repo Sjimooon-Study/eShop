@@ -106,27 +106,42 @@ namespace DataLayer.Migrations
                         new
                         {
                             ImageId = 1,
-                            Path = ""
+                            Path = "2021_10_20_b51acd9b-05bc-415d-86ac-c3c2e17b0012.jpeg"
                         },
                         new
                         {
                             ImageId = 2,
-                            Path = ""
+                            Path = "2021_10_20_c74b3599-6852-459a-9ee7-1b9129dcf3e0.jpeg"
                         },
                         new
                         {
                             ImageId = 3,
-                            Path = ""
+                            Path = "2021_10_20_06e1d3fa-8751-4c0e-9fac-b830384b0051.jpeg"
                         },
                         new
                         {
                             ImageId = 4,
-                            Path = ""
+                            Path = "2021_10_20_8aa35a49-50cd-4950-8689-38d547c35c91.jpeg"
                         },
                         new
                         {
                             ImageId = 5,
-                            Path = ""
+                            Path = "2021_10_20_a6c0169e-1d21-47ce-acef-b0ac88de5990.jpeg"
+                        },
+                        new
+                        {
+                            ImageId = 6,
+                            Path = "2021_10_20_de2a7fc8-702f-4965-893e-816a22a4f403.jpeg"
+                        },
+                        new
+                        {
+                            ImageId = 7,
+                            Path = "2021_10_20_eb718ad5-202f-4fe7-9f36-772da6d3b9a4.jpeg"
+                        },
+                        new
+                        {
+                            ImageId = 8,
+                            Path = "2021_10_20_fa6c395b-d19f-44bc-9afc-d61d0905fe81.jpeg"
                         });
                 });
 
@@ -160,7 +175,7 @@ namespace DataLayer.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("Product");
+                    b.ToTable("Products");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Product");
                 });
@@ -294,18 +309,18 @@ namespace DataLayer.Migrations
                     b.HasData(
                         new
                         {
-                            ImagesImageId = 1,
-                            ProductsProductId = 1
-                        },
-                        new
-                        {
-                            ImagesImageId = 3,
+                            ImagesImageId = 2,
                             ProductsProductId = 2
                         },
                         new
                         {
-                            ImagesImageId = 2,
+                            ImagesImageId = 1,
                             ProductsProductId = 3
+                        },
+                        new
+                        {
+                            ImagesImageId = 3,
+                            ProductsProductId = 4
                         },
                         new
                         {
@@ -315,6 +330,16 @@ namespace DataLayer.Migrations
                         new
                         {
                             ImagesImageId = 5,
+                            ProductsProductId = 4
+                        },
+                        new
+                        {
+                            ImagesImageId = 6,
+                            ProductsProductId = 4
+                        },
+                        new
+                        {
+                            ImagesImageId = 7,
                             ProductsProductId = 4
                         });
                 });
