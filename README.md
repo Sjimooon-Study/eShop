@@ -42,6 +42,29 @@ The ServiceLayer contains interfaces (ie. `ILocomotiveService`) for accessing a 
 
 The `GetList<entity_name>` methods provide options for ordering, filtering, searching, and pagination.
 
+#### WebApp
+The pretty face of the project, calling methods in the ServiceLayer through injected services (`ProductService`, `LocomotiveService`, and `UserService`).
+The `Startup.cs` file contains these dependency injections as well as configurations of;
+
+- the DB context (EShopContext).
+- session state and cookies.
+- culture.
+- routing.
+
+##### Session State & Cookies
+Session state is used to save user information and basket contents on the web server. Data saving, retrieval, serialization, and deserialization is done through exstension methods of the `HttpContent` class all located in the `Helpers.Session` class.
+Generaly, the use of session state provides for a lightweight transfer between client and server with a single cookie.
+Though, it should be kept in mind, that the web server requires more memory.
+
+*NOTE: Note all 'gets' and 'sets' happen within the `Session` class. However, all session variable names is located here.*
+
+##### Culture
+Culture information is automaticly set from client requests. Supported cultures is, however, limited to `en` and `en-GB` only in order to enforce the usage of "." as decimal separator.
+
+##### Administrator Rights
+The preseeded admin user *(Username: admin, password: admin)* will, because of their admin rights, have a session variable set to `true`.
+This will be read and acted uppon in views where admin only content can be rendered. Some models (ie. Locomotive/AddEdit) outright refuses to respond with their own view, if the user isn't an administrator.
+
 #### NuGet Packages & Dependecies
 *ConsoleApp*
 - Microsoft.EntityFrameworkCore.Design v5.0.10
@@ -54,6 +77,7 @@ The `GetList<entity_name>` methods provide options for ordering, filtering, sear
 - Microsoft.Extensions.Logging.Console v5.0.0
 
 *ServiceLayer*
+- *None*
 
 *WebApp*
 - Microsoft.VisualStudio.Web.BrowserLink
@@ -72,6 +96,8 @@ Install-Package Microsoft.EntityFrameworkCore.Tools -ProjectName DataLayer
 Install-Package Microsoft.EntityFrameworkCore.SqlServer -ProjectName DataLayer
 Install-Package Microsoft.EntityFrameworkCore.InMemory -Projectname DataLayer
 Install-Package Microsoft.Extensions.Logging.Console -Projectname DataLayer
+Install-Package Microsoft.VisualStudio.Web.BrowserLink -Projectname WebApp
+Install-Package Microsoft.AspNetCore.Session -Projectname WebApp
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
 
@@ -94,10 +120,11 @@ A detailed description of the above and other additional commands can be found i
 The `Initial.sql` script located in `DataLayer/Migrations/Scripts` can be used to initialize the `EShopDb` database. 
 
 ## Known Issues & Limitations
-- ServiceLayer, WebApp, and UnitTest lack documentation.
 - ServiceLayer doesn't provide all types of GRUD actions for all entities.
 - Redundant fields exist in the Address table in the DataLayer.
-- Admin edit form is not complete.
+- Admin edit form is incomplete.
+- Only one product type is actively being used.
+- User creation and simulation of checkout hasn't been implemented.
 
 ## Versioning
 **v0.1.0**

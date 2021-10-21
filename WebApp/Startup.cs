@@ -34,6 +34,7 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Database
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -41,10 +42,13 @@ namespace WebApp
             });
             
             services.AddDbContext<EShopContext>(options => options = new DbContextOptionsBuilder());
+            #endregion
 
+            #region Dependency injection
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ILocomotiveService, LocomotiveService>();
             services.AddScoped<IUserService, UserService>();
+            #endregion
 
             services.AddRazorPages();
 
