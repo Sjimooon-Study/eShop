@@ -53,7 +53,10 @@
     </div>
     <div class="col col-6 text-right">
       <h3>€ @Model.Locomotive.Price</h3>
-      <small>(@Model.Locomotive.AmountInStock left in stock)</small>
+      @if (@Model.Locomotive.AmountInStock > 0)
+      {
+        <small>(@Model.Locomotive.AmountInStock left in stock)</small>
+      }
       <partial name="_AddToBasketButton" model="new Tuple<int, bool>(Model.Locomotive.ProductId, Model.Locomotive.AmountInStock > 0)" />
       <hr />
     </div>

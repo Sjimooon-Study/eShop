@@ -26,13 +26,13 @@ namespace ServiceLayer.UserService.Concrete
         {
             try
             {
-                sessionUser = _context.SiteUsers
+                sessionUser = _context.Users
                     .AsNoTracking()
                     .Where(u =>
                     (u.UserName == user.EmailUsername || u.Email == user.EmailUsername) && u.Password == user.Password)
                     .Select(u => 
                     new SessionUserDto {
-                        UserId = u.SiteUserId,
+                        UserId = u.UserId,
                         Username = u.UserName,
                         IsAdmin = u.IsAdmin
                     })

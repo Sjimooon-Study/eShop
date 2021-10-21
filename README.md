@@ -50,6 +50,7 @@ The `Startup.cs` file contains these dependency injections as well as configurat
 - session state and cookies.
 - culture.
 - routing.
+- MiniProfiler (read more [here](https://miniprofiler.com/ "miniprofiler.com")).
 
 ##### Session State & Cookies
 Session state is used to save user information and basket contents on the web server. Data saving, retrieval, serialization, and deserialization is done through exstension methods of the `HttpContent` class all located in the `Helpers.Session` class.
@@ -98,6 +99,7 @@ Install-Package Microsoft.EntityFrameworkCore.InMemory -Projectname DataLayer
 Install-Package Microsoft.Extensions.Logging.Console -Projectname DataLayer
 Install-Package Microsoft.VisualStudio.Web.BrowserLink -Projectname WebApp
 Install-Package Microsoft.AspNetCore.Session -Projectname WebApp
+Install-Package MiniProfiler.AspNetCore.Mvc -Projectname WebApp
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
 

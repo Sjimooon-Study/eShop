@@ -9,5 +9,6 @@ namespace ServiceLayer.ProductService
     public interface IProductService
     {
         public IQueryable<BasketProductDto> GetBasketProducts(SessionBasketDto basket);
+        public uint GetStock(int productId);
     }
 }

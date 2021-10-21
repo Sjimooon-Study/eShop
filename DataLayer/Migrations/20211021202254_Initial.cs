@@ -88,10 +88,10 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SiteUsers",
+                name: "Users",
                 columns: table => new
                 {
-                    SiteUserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -103,9 +103,9 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteUsers", x => x.SiteUserId);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_SiteUsers_Address_AddressId",
+                        name: "FK_Users_Address_AddressId",
                         column: x => x.AddressId,
                         principalTable: "Address",
                         principalColumn: "AddressId",
@@ -215,11 +215,6 @@ namespace DataLayer.Migrations
                 values: new object[] { 1, 23L, "Suitable for Gauge H0. The decoder is equipped with the RailCom® function. Maximum motor current: 1.2 A.", "DigitalDecoder", 0, "PluX22 sound decoder (NEM 658)", 92.4m, true, null });
 
             migrationBuilder.InsertData(
-                table: "SiteUsers",
-                columns: new[] { "SiteUserId", "AddressId", "Email", "FirstName", "IsAdmin", "LastName", "Password", "UserName" },
-                values: new object[] { 1, null, null, null, true, null, "admin", "admin" });
-
-            migrationBuilder.InsertData(
                 table: "Tag",
                 column: "TagId",
                 values: new object[]
@@ -227,6 +222,11 @@ namespace DataLayer.Migrations
                     "Sale",
                     "New"
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "AddressId", "Email", "FirstName", "IsAdmin", "LastName", "Password", "UserName" },
+                values: new object[] { 1, null, null, null, true, null, "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "RailwayCompany",
@@ -299,8 +299,8 @@ namespace DataLayer.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SiteUsers_AddressId",
-                table: "SiteUsers",
+                name: "IX_Users_AddressId",
+                table: "Users",
                 column: "AddressId");
         }
 
@@ -310,7 +310,7 @@ namespace DataLayer.Migrations
                 name: "ImageProduct");
 
             migrationBuilder.DropTable(
-                name: "SiteUsers");
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Image");

@@ -51,13 +51,16 @@ namespace WebApp.Pages
 
         public IActionResult OnPostUpdate(int id, int count)
         {
-            Basket = HttpContext.GetBasket();
-
-            if (Basket.Products.ContainsKey(id))
+            if (_productService.GetStock(id) >= count)
             {
-                Basket.Products[id] = count;
+                Basket = HttpContext.GetBasket();
 
-                HttpContext.SetBasket(Basket);
+                if (Basket.Products.ContainsKey(id))
+                {
+                    Basket.Products[id] = count;
+
+                    HttpContext.SetBasket(Basket);
+                }
             }
 
             return RedirectToPage();

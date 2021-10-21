@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EShopContext))]
-    [Migration("20211020114526_Initial")]
+    [Migration("20211021202254_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -228,9 +228,29 @@ namespace DataLayer.Migrations
                         });
                 });
 
-            modelBuilder.Entity("DataLayer.Models.SiteUser", b =>
+            modelBuilder.Entity("DataLayer.Models.Tag", b =>
                 {
-                    b.Property<int>("SiteUserId")
+                    b.Property<string>("TagId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("TagId");
+
+                    b.ToTable("Tag");
+
+                    b.HasData(
+                        new
+                        {
+                            TagId = "Sale"
+                        },
+                        new
+                        {
+                            TagId = "New"
+                        });
+                });
+
+            modelBuilder.Entity("DataLayer.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -258,39 +278,19 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SiteUserId");
+                    b.HasKey("UserId");
 
                     b.HasIndex("AddressId");
 
-                    b.ToTable("SiteUsers");
+                    b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
-                            SiteUserId = 1,
+                            UserId = 1,
                             IsAdmin = true,
                             Password = "admin",
                             UserName = "admin"
-                        });
-                });
-
-            modelBuilder.Entity("DataLayer.Models.Tag", b =>
-                {
-                    b.Property<string>("TagId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("TagId");
-
-                    b.ToTable("Tag");
-
-                    b.HasData(
-                        new
-                        {
-                            TagId = "Sale"
-                        },
-                        new
-                        {
-                            TagId = "New"
                         });
                 });
 
@@ -533,7 +533,7 @@ namespace DataLayer.Migrations
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("DataLayer.Models.SiteUser", b =>
+            modelBuilder.Entity("DataLayer.Models.User", b =>
                 {
                     b.HasOne("DataLayer.Models.Address", "Address")
                         .WithMany()

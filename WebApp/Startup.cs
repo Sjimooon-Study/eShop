@@ -76,6 +76,14 @@ namespace WebApp
                 options.SupportedUICultures = supportedCultures;
             });
             #endregion
+
+            #region MiniProfiler
+            services.AddMiniProfiler(options =>
+            {
+                options.TrackConnectionOpenClose = false;
+                options.ColorScheme = StackExchange.Profiling.ColorScheme.Dark;
+            });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,6 +93,7 @@ namespace WebApp
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+                app.UseMiniProfiler();
             }
             else
             {

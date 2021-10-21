@@ -5,9 +5,9 @@ using System.Text;
 
 namespace DataLayer.Models
 {
-    public class SiteUser
+    public class User
     {
-        public int SiteUserId { get; set; }
+        public int UserId { get; set; }
         [Required]
         public string UserName { get; set; }
         [Required]

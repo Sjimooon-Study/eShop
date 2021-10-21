@@ -16,7 +16,7 @@ namespace DataLayer
         public DbSet<Locomotive> Locomotives { get; set; }
         public DbSet<RailCar> RailCars { get; set; }
 
-        public DbSet<SiteUser> SiteUsers { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -163,10 +163,10 @@ namespace DataLayer
                     new { ProductsProductId = 4, ImagesImageId = 7}
                     ));
 
-            modelBuilder.Entity<SiteUser>().HasData(
-                new SiteUser
+            modelBuilder.Entity<User>().HasData(
+                new User
                 {
-                    SiteUserId = 1,
+                    UserId = 1,
                     UserName = "admin",
                     Password = "admin",
                     IsAdmin = true

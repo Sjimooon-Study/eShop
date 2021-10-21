@@ -53,8 +53,8 @@ CREATE TABLE [RailwayCompany] (
 );
 GO
 
-CREATE TABLE [SiteUsers] (
-    [SiteUserId] int NOT NULL IDENTITY,
+CREATE TABLE [Users] (
+    [UserId] int NOT NULL IDENTITY,
     [UserName] nvarchar(max) NOT NULL,
     [Password] nvarchar(max) NOT NULL,
     [Email] nvarchar(max) NULL,
@@ -62,8 +62,8 @@ CREATE TABLE [SiteUsers] (
     [LastName] nvarchar(max) NULL,
     [AddressId] int NULL,
     [IsAdmin] bit NOT NULL,
-    CONSTRAINT [PK_SiteUsers] PRIMARY KEY ([SiteUserId]),
-    CONSTRAINT [FK_SiteUsers_Address_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [Address] ([AddressId]) ON DELETE NO ACTION
+    CONSTRAINT [PK_Users] PRIMARY KEY ([UserId]),
+    CONSTRAINT [FK_Users_Address_AddressId] FOREIGN KEY ([AddressId]) REFERENCES [Address] ([AddressId]) ON DELETE NO ACTION
 );
 GO
 
@@ -136,14 +136,6 @@ IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId',
     SET IDENTITY_INSERT [Products] OFF;
 GO
 
-IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'SiteUserId', N'AddressId', N'Email', N'FirstName', N'IsAdmin', N'LastName', N'Password', N'UserName') AND [object_id] = OBJECT_ID(N'[SiteUsers]'))
-    SET IDENTITY_INSERT [SiteUsers] ON;
-INSERT INTO [SiteUsers] ([SiteUserId], [AddressId], [Email], [FirstName], [IsAdmin], [LastName], [Password], [UserName])
-VALUES (1, NULL, NULL, NULL, CAST(1 AS bit), NULL, N'admin', N'admin');
-IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'SiteUserId', N'AddressId', N'Email', N'FirstName', N'IsAdmin', N'LastName', N'Password', N'UserName') AND [object_id] = OBJECT_ID(N'[SiteUsers]'))
-    SET IDENTITY_INSERT [SiteUsers] OFF;
-GO
-
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'TagId') AND [object_id] = OBJECT_ID(N'[Tag]'))
     SET IDENTITY_INSERT [Tag] ON;
 INSERT INTO [Tag] ([TagId])
@@ -151,6 +143,14 @@ VALUES (N'Sale'),
 (N'New');
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'TagId') AND [object_id] = OBJECT_ID(N'[Tag]'))
     SET IDENTITY_INSERT [Tag] OFF;
+GO
+
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'UserId', N'AddressId', N'Email', N'FirstName', N'IsAdmin', N'LastName', N'Password', N'UserName') AND [object_id] = OBJECT_ID(N'[Users]'))
+    SET IDENTITY_INSERT [Users] ON;
+INSERT INTO [Users] ([UserId], [AddressId], [Email], [FirstName], [IsAdmin], [LastName], [Password], [UserName])
+VALUES (1, NULL, NULL, NULL, CAST(1 AS bit), NULL, N'admin', N'admin');
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'UserId', N'AddressId', N'Email', N'FirstName', N'IsAdmin', N'LastName', N'Password', N'UserName') AND [object_id] = OBJECT_ID(N'[Users]'))
+    SET IDENTITY_INSERT [Users] OFF;
 GO
 
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'RailwayCompanyId', N'CountryId', N'Name') AND [object_id] = OBJECT_ID(N'[RailwayCompany]'))
@@ -220,11 +220,11 @@ GO
 CREATE INDEX [IX_RailwayCompany_CountryId] ON [RailwayCompany] ([CountryId]);
 GO
 
-CREATE INDEX [IX_SiteUsers_AddressId] ON [SiteUsers] ([AddressId]);
+CREATE INDEX [IX_Users_AddressId] ON [Users] ([AddressId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20211020114526_Initial', N'5.0.10');
+VALUES (N'20211021202254_Initial', N'5.0.10');
 GO
 
 COMMIT;
