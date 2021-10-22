@@ -81,8 +81,10 @@ This will be read and acted uppon in views where admin only content can be rende
 - *None*
 
 *WebApp*
-- Microsoft.VisualStudio.Web.BrowserLink
-- Microsoft.AspNetCore.Session
+- Microsoft.VisualStudio.Web.BrowserLink v2.2.0
+- Microsoft.AspNetCore.Session v2.2.0
+- MiniProfiler.AspNetCore.Mvc v4.2.22
+- MiniProfiler.EntityFrameworkCore v4.2.22
 
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
@@ -100,6 +102,7 @@ Install-Package Microsoft.Extensions.Logging.Console -Projectname DataLayer
 Install-Package Microsoft.VisualStudio.Web.BrowserLink -Projectname WebApp
 Install-Package Microsoft.AspNetCore.Session -Projectname WebApp
 Install-Package MiniProfiler.AspNetCore.Mvc -Projectname WebApp
+Install-Package MiniProfiler.EntityFrameworkCore -Projectname WebApp
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
 

@@ -82,7 +82,7 @@ namespace WebApp
             {
                 options.TrackConnectionOpenClose = false;
                 options.ColorScheme = StackExchange.Profiling.ColorScheme.Dark;
-            });
+            }).AddEntityFramework();
             #endregion
         }
 
