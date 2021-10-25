@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ServiceLayer.ProductService.DTO;
+using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.ProductService;
 
 namespace WebApp.Helpers
 {
@@ -91,13 +93,23 @@ namespace WebApp.Helpers
         /// </summary>
         /// <param name="httpContext">Current <see cref="HttpContext"/>.</param>
         /// <param name="productId">Product ID.</param>
-        public static void AddProductToBasket(this HttpContext httpContext, int productId)
+        public static void AddProductToBasket(this HttpContext httpContext, int productId, IProductService productService)
         {
             SessionBasketDto basket = httpContext.GetBasket();
 
             if (basket.Products.ContainsKey(productId))
             {
-                basket.Products[productId]++;
+                uint stock = productService.GetStock(productId);
+                int count = basket.Products[productId];
+
+                if (stock >= count + 1)
+                {
+                    basket.Products[productId]++;
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {

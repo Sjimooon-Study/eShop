@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ServiceLayer.LocomotiveService;
+using ServiceLayer.ProductService;
 using WebApp.Helpers;
 
 namespace WebApp.Pages.Locomotives
@@ -25,9 +26,9 @@ namespace WebApp.Pages.Locomotives
             Locomotive = _locomotiveService.GetDetails(id);
         }
 
-        public IActionResult OnGetAddToBasket(int id)
+        public IActionResult OnGetAddToBasket([FromServices] IProductService productService, int id)
         {
-            HttpContext.AddProductToBasket(id);
+            HttpContext.AddProductToBasket(id, productService);
 
             return RedirectToPage("/Basket");
         }

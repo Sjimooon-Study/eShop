@@ -21,18 +21,11 @@ namespace WebApp.Pages
         
         public string ValidationMessage { get; set; }
 
-        readonly IUserService _userService;
-
-        public SignInModel(IUserService userService)
-        {
-            _userService = userService;
-        }
-
         public void OnGet()
         {
         }
 
-        public IActionResult OnPost()
+        public IActionResult OnPost([FromServices] IUserService userService) // Method injection - alternative to dependency injection.
         {
             ValidationMessage = "";
 
@@ -41,7 +34,7 @@ namespace WebApp.Pages
                 return Page();
             }
             
-            if (_userService.SignIn(SiteUser, out SessionUserDto sessionUser))
+            if (userService.SignIn(SiteUser, out SessionUserDto sessionUser))
             {
                 HttpContext.Session.SetInt32(Session.USER_ID, sessionUser.UserId);
                 HttpContext.Session.SetString(Session.USERNAME, sessionUser.Username);
