@@ -133,5 +133,9 @@ The `Initial.sql` script located in `DataLayer/Migrations/Scripts` can be used t
 - It's possible to exceed maximum stock by changing stock count for a product while it's in the basket.
 
 ## Versioning
+**v0.1.1**
+- Added MiniProfiler.
+- Basket quick fix.
+
 **v0.1.0**
 - Initial version.
