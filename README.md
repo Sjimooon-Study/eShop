@@ -126,10 +126,11 @@ The `Initial.sql` script located in `DataLayer/Migrations/Scripts` can be used t
 
 ## Known Issues & Limitations
 - ServiceLayer doesn't provide all types of GRUD actions for all entities.
-- Redundant fields exist in the Address table in the DataLayer.
+- Potentially redundant fields exist in the Address table in the DataLayer.
 - Admin edit form is incomplete.
 - Only one product type is actively being used.
 - User creation and simulation of checkout hasn't been implemented.
+- It's possible to exceed maximum stock by changing stock count for a product while it's in the basket.
 
 ## Versioning
 **v0.1.0**
