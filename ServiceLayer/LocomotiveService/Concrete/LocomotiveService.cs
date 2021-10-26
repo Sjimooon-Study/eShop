@@ -61,23 +61,6 @@ namespace ServiceLayer.LocomotiveService.Concrete
 
         #region Get
         /// <summary>
-        /// Get all locomotive details from underlying databse.
-        /// </summary>
-        /// <param name="locomotiveId"><see cref="Locomotive"/> ID.</param>
-        /// <returns>Locomotive details of <see cref="Locomotive"/> with <paramref name="locomotiveId"/>; otherwise null.</returns>
-        public DetailsLocomotiveDto GetDetails(int locomotiveId)
-        {
-            return _context.Locomotives
-                .Include(l => l.Images)
-                .Include(l => l.RailwayCompany)
-                .ThenInclude(rc => rc.Country)
-                .AsNoTracking()
-                .Where(l => l.ProductId == locomotiveId)
-                .FirstOrDefault()
-                .MapDetailsLocomotiveDto();
-        }
-
-        /// <summary>
         /// Get queryable to list locomotives on a product page.
         /// </summary>
         /// <param name="queryOptions">Options including ordering, filters, and paging.</param>
@@ -98,14 +81,21 @@ namespace ServiceLayer.LocomotiveService.Concrete
         }
 
         /// <summary>
-        /// Get all tags.
+        /// Get all locomotive details from underlying databse.
         /// </summary>
-        /// <returns>Queryable of strings.</returns>
-        public IQueryable<string> GetTags() => _context.Locomotives
-            .AsNoTracking()
-            .Where(l => l.TagId != null)
-            .Select(l => l.TagId)
-            .Distinct();
+        /// <param name="locomotiveId"><see cref="Locomotive"/> ID.</param>
+        /// <returns>Locomotive details of <see cref="Locomotive"/> with <paramref name="locomotiveId"/>; otherwise null.</returns>
+        public DetailsLocomotiveDto GetDetails(int locomotiveId)
+        {
+            return _context.Locomotives
+                .Include(l => l.Images)
+                .Include(l => l.RailwayCompany)
+                .ThenInclude(rc => rc.Country)
+                .AsNoTracking()
+                .Where(l => l.ProductId == locomotiveId)
+                .FirstOrDefault()
+                .MapDetailsLocomotiveDto();
+        }
 
         /// <summary>
         /// Get edit locomotive.
@@ -118,6 +108,16 @@ namespace ServiceLayer.LocomotiveService.Concrete
             .Where(l => l.ProductId == locomotiveId)
             .FirstOrDefault()
             .MapEditLocomotiveDto();
+
+        /// <summary>
+        /// Get all tags.
+        /// </summary>
+        /// <returns>Queryable of strings.</returns>
+        public IQueryable<string> GetTags() => _context.Locomotives
+            .AsNoTracking()
+            .Where(l => l.TagId != null)
+            .Select(l => l.TagId)
+            .Distinct();
 
         /// <summary>
         /// Get locomotive graph (incl. images) from underlying database.

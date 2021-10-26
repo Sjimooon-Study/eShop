@@ -12,6 +12,8 @@ using ServiceLayer.LocomotiveService;
 using ServiceLayer.LocomotiveService.Concrete;
 using ServiceLayer.ProductService;
 using ServiceLayer.ProductService.Concrete;
+using ServiceLayer.UserService;
+using ServiceLayer.UserService.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +43,7 @@ namespace WebAPI
             #region Dependency injection
             services.AddScoped<ILocomotiveService, LocomotiveService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IUserService, UserService>();
             #endregion
 
             #region Swagger
