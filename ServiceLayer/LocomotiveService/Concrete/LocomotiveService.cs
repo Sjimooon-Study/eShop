@@ -28,7 +28,7 @@ namespace ServiceLayer.LocomotiveService.Concrete
         public int Add(AddLocomotiveDto locomotive, bool saveChanges = true)
         {
             Locomotive locomotiveToAdd = new Locomotive()
-                .MapProductProperties(locomotive)
+                .MapProductProperties(locomotive, _context)
                 .MapModelItemProperties(locomotive)
                 .MapRollingStockProperties(locomotive)
                 .MapLocomotiveProperties(locomotive);
@@ -63,7 +63,7 @@ namespace ServiceLayer.LocomotiveService.Concrete
         /// <summary>
         /// Get all locomotive details from underlying databse.
         /// </summary>
-        /// <param name="locomotiveId"><see cref="Locomotive"/> ID</param>
+        /// <param name="locomotiveId"><see cref="Locomotive"/> ID.</param>
         /// <returns>Locomotive details of <see cref="Locomotive"/> with <paramref name="locomotiveId"/>; otherwise null.</returns>
         public DetailsLocomotiveDto GetDetails(int locomotiveId)
         {
@@ -97,18 +97,37 @@ namespace ServiceLayer.LocomotiveService.Concrete
             return Tuple.Create(locomotiveQuery, pageNumber, numberOfPages);
         }
 
+        /// <summary>
+        /// Get all tags.
+        /// </summary>
+        /// <returns>Queryable of strings.</returns>
         public IQueryable<string> GetTags() => _context.Locomotives
             .AsNoTracking()
             .Where(l => l.TagId != null)
             .Select(l => l.TagId)
             .Distinct();
 
+        /// <summary>
+        /// Get edit locomotive.
+        /// </summary>
+        /// <param name="locomotiveId"><see cref="Locomotive"/> ID.</param>
+        /// <returns>Properties of <see cref="Locomotive"/> with <paramref name="locomotiveId"/>; otherwise null.</returns>
         public EditLocomotiveDto GetEdit(int locomotiveId) => _context.Locomotives
             .Include(l => l.Images)
             .AsNoTracking()
             .Where(l => l.ProductId == locomotiveId)
             .FirstOrDefault()
             .MapEditLocomotiveDto();
+
+        /// <summary>
+        /// Get locomotive graph (incl. images) from underlying database.
+        /// </summary>
+        /// <param name="locomotiveId"><see cref="Locomotive"/> ID.</param>
+        /// <returns>Found <see cref="Locomotive"/>.</returns>
+        private Locomotive GetLocomotive(int locomotiveId) => _context.Locomotives
+            .Include(l => l.Images)
+            .Where(l => l.ProductId == locomotiveId)
+            .FirstOrDefault();
         #endregion
 
         #region Edit
@@ -119,11 +138,13 @@ namespace ServiceLayer.LocomotiveService.Concrete
         /// <returns>Number of affected entries.</returns>
         public int Edit(EditLocomotiveDto locomotive)
         {
-            Locomotive locomotiveToUpdate = new Locomotive()
-                .MapProductProperties(locomotive)
+            Locomotive locomotiveToUpdate = GetLocomotive(locomotive.Id)
+                .MapProductProperties(locomotive, _context)
                 .MapModelItemProperties(locomotive)
                 .MapRollingStockProperties(locomotive)
                 .MapLocomotiveProperties(locomotive);
+
+            _context.Entry(locomotiveToUpdate).State = EntityState.Modified;
 
             _context.Update(locomotiveToUpdate);
 

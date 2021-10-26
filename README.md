@@ -66,6 +66,9 @@ Culture information is automaticly set from client requests. Supported cultures 
 The preseeded admin user *(Username: admin, password: admin)* will, because of their admin rights, have a session variable set to `true`.
 This will be read and acted uppon in views where admin only content can be rendered. Some models (ie. Locomotive/AddEdit) outright refuses to respond with their own view, if the user isn't an administrator.
 
+#### WebAPI
+
+
 #### NuGet Packages & Dependecies
 *ConsoleApp*
 - Microsoft.EntityFrameworkCore.Design v5.0.10
@@ -86,6 +89,10 @@ This will be read and acted uppon in views where admin only content can be rende
 - MiniProfiler.AspNetCore.Mvc v4.2.22
 - MiniProfiler.EntityFrameworkCore v4.2.22
 
+*WebAPI*
+- Swashbuckle.AspNetCore v6.2.3
+- YamlDotNet v11.2.1
+
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
 
@@ -103,6 +110,8 @@ Install-Package Microsoft.VisualStudio.Web.BrowserLink -Projectname WebApp
 Install-Package Microsoft.AspNetCore.Session -Projectname WebApp
 Install-Package MiniProfiler.AspNetCore.Mvc -Projectname WebApp
 Install-Package MiniProfiler.EntityFrameworkCore -Projectname WebApp
+Install-Package Swashbuckle.AspNetCore -Projectname WebAPI
+Install-Package YamlDotNet -Projectname WebAPI
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
 
