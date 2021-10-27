@@ -22,11 +22,14 @@ namespace WebAPI.Controllers
         #region Post
         [HttpPost]
         [Route("user")]
-        public SessionUserDto PostUserSignIn(SignInUserDto user)
+        public IActionResult PostUserSignIn(SignInUserDto user)
         {
-            _userService.SignIn(user, out SessionUserDto sessionUser);
-
-            return sessionUser;
+            if (_userService.SignIn(user, out SessionUserDto sessionUser))
+            {
+                return Ok(sessionUser);
+            }
+            
+            return StatusCode(401);
         }
         #endregion
     }

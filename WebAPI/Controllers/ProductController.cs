@@ -19,6 +19,7 @@ namespace WebAPI.Controllers
             _productService = productService;
         }
 
+        #region Get
         [HttpGet]
         [Route("basket")]
         public IEnumerable<BasketProductDto> GetBasketProducts()
@@ -49,5 +50,6 @@ namespace WebAPI.Controllers
         var image = System.IO.File.OpenRead(path);
         return File(image, "image/jpeg")
         */
+        #endregion
     }
 }

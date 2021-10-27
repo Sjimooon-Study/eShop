@@ -15,6 +15,8 @@ namespace DataLayer
         public DbSet<DigitalDecoder> DigitalDecoders { get; set; }
         public DbSet<Locomotive> Locomotives { get; set; }
         public DbSet<RailCar> RailCars { get; set; }
+        
+        public DbSet<Image> Images { get; set; }
 
         public DbSet<User> Users { get; set; }
 

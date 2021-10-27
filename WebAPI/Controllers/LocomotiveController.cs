@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static DataLayer.Models.ModelItem;
 using static ServiceLayer.Utilities.Pagination;
 
 namespace WebAPI.Controllers
@@ -35,7 +36,14 @@ namespace WebAPI.Controllers
             QueryOptions queryOptions = new()
             {
                 SearchString = s,
-                FilterOptions = new(),
+                FilterOptions = new()
+                {
+                    //Tags = new List<string>(),
+                    //Scales = new List<EScale>()
+                    //Epochs = new List<EEpoch>(),
+                    //Controls = new List<EControl>(),
+                    //LocoTypes = new List<ELocoType>()
+                },
                 OrderByOptions = o,
                 PageNumber = pgn,
                 PageSize = pgs
@@ -53,9 +61,16 @@ namespace WebAPI.Controllers
         /// <returns>Locomotive details (<see cref="DetailsLocomotiveDto"/>).</returns>
         [HttpGet]
         [Route("details/{id:int}")]
-        public DetailsLocomotiveDto GetDetailsLocomotive(int id)
+        public IActionResult GetDetailsLocomotive(int id)
         {
-            return _locomotiveService.GetDetails(id);
+            DetailsLocomotiveDto locomotive = _locomotiveService.GetDetails(id);
+
+            if (locomotive != null)
+            {
+                return Ok(locomotive);
+            }
+            
+            return NotFound();
         }
         
         /// <summary>
@@ -65,9 +80,16 @@ namespace WebAPI.Controllers
         /// <returns>Locomotive to be edited (<see cref="EditLocomotiveDto"/>).</returns>
         [HttpGet]
         [Route("edit/{id:int}")]
-        public EditLocomotiveDto GetEditLocomotive(int id)
+        public IActionResult GetEditLocomotive(int id)
         {
-            return _locomotiveService.GetEdit(id);
+            EditLocomotiveDto locomotive = _locomotiveService.GetEdit(id);
+
+            if (locomotive != null)
+            {
+                return Ok(locomotive);
+            }
+
+            return NotFound();
         }
         #endregion
         
@@ -130,7 +152,7 @@ namespace WebAPI.Controllers
                 return NoContent();
             }
         
-            return BadRequest();
+            return NotFound();
         }
         #endregion
     }

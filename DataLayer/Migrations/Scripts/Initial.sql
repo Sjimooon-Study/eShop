@@ -18,10 +18,10 @@ CREATE TABLE [Country] (
 );
 GO
 
-CREATE TABLE [Image] (
+CREATE TABLE [Images] (
     [ImageId] int NOT NULL IDENTITY,
     [Path] nvarchar(max) NULL,
-    CONSTRAINT [PK_Image] PRIMARY KEY ([ImageId])
+    CONSTRAINT [PK_Images] PRIMARY KEY ([ImageId])
 );
 GO
 
@@ -98,7 +98,7 @@ CREATE TABLE [ImageProduct] (
     [ImagesImageId] int NOT NULL,
     [ProductsProductId] int NOT NULL,
     CONSTRAINT [PK_ImageProduct] PRIMARY KEY ([ImagesImageId], [ProductsProductId]),
-    CONSTRAINT [FK_ImageProduct_Image_ImagesImageId] FOREIGN KEY ([ImagesImageId]) REFERENCES [Image] ([ImageId]) ON DELETE CASCADE,
+    CONSTRAINT [FK_ImageProduct_Images_ImagesImageId] FOREIGN KEY ([ImagesImageId]) REFERENCES [Images] ([ImageId]) ON DELETE CASCADE,
     CONSTRAINT [FK_ImageProduct_Products_ProductsProductId] FOREIGN KEY ([ProductsProductId]) REFERENCES [Products] ([ProductId]) ON DELETE CASCADE
 );
 GO
@@ -113,9 +113,9 @@ IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'CountryId',
     SET IDENTITY_INSERT [Country] OFF;
 GO
 
-IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ImageId', N'Path') AND [object_id] = OBJECT_ID(N'[Image]'))
-    SET IDENTITY_INSERT [Image] ON;
-INSERT INTO [Image] ([ImageId], [Path])
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ImageId', N'Path') AND [object_id] = OBJECT_ID(N'[Images]'))
+    SET IDENTITY_INSERT [Images] ON;
+INSERT INTO [Images] ([ImageId], [Path])
 VALUES (1, N'2021_10_20_b51acd9b-05bc-415d-86ac-c3c2e17b0012.jpeg'),
 (2, N'2021_10_20_c74b3599-6852-459a-9ee7-1b9129dcf3e0.jpeg'),
 (3, N'2021_10_20_06e1d3fa-8751-4c0e-9fac-b830384b0051.jpeg'),
@@ -124,8 +124,8 @@ VALUES (1, N'2021_10_20_b51acd9b-05bc-415d-86ac-c3c2e17b0012.jpeg'),
 (6, N'2021_10_20_de2a7fc8-702f-4965-893e-816a22a4f403.jpeg'),
 (7, N'2021_10_20_eb718ad5-202f-4fe7-9f36-772da6d3b9a4.jpeg'),
 (8, N'2021_10_20_fa6c395b-d19f-44bc-9afc-d61d0905fe81.jpeg');
-IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ImageId', N'Path') AND [object_id] = OBJECT_ID(N'[Image]'))
-    SET IDENTITY_INSERT [Image] OFF;
+IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ImageId', N'Path') AND [object_id] = OBJECT_ID(N'[Images]'))
+    SET IDENTITY_INSERT [Images] OFF;
 GO
 
 IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'ProductId', N'AmountInStock', N'Description', N'Discriminator', N'Interface', N'Name', N'Price', N'Sound', N'TagId') AND [object_id] = OBJECT_ID(N'[Products]'))
@@ -224,8 +224,9 @@ CREATE INDEX [IX_Users_AddressId] ON [Users] ([AddressId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20211021202254_Initial', N'5.0.10');
+VALUES (N'20211027183341_Initial', N'5.0.10');
 GO
 
 COMMIT;
 GO
+

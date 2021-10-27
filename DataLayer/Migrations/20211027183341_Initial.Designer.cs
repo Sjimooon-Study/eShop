@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EShopContext))]
-    [Migration("20211021202254_Initial")]
+    [Migration("20211027183341_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,7 +102,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("ImageId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
 
                     b.HasData(
                         new

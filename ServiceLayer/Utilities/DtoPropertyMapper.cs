@@ -118,6 +118,14 @@ namespace ServiceLayer
             product.TagId = properties.Tag;
             product.AmountInStock = properties.AmountInStock;
 
+            // If needed; create new image list
+            bool newImageList = false;
+            if (product.Images == null)
+            {
+                product.Images = new List<Image>();
+                newImageList = true;
+            }
+            
             // Add images
             foreach (AddEditImageDto image in properties.Images)
             {
@@ -125,14 +133,21 @@ namespace ServiceLayer
                 {
                     product.Images.Add(new Image { Path = image.Path });
                 }
+                else if (newImageList)
+                {
+                    product.Images.Add(context.Images.Find(image.ImageId));
+                }
             }
 
             // Remove images
-            foreach (Image image in product.Images)
+            if (!newImageList)
             {
-                if (!properties.Images.Any(i => i.ImageId == image.ImageId))
+                foreach (Image image in product.Images)
                 {
-                    product.Images.Remove(image);
+                    if (!properties.Images.Any(i => i.ImageId == image.ImageId))
+                    {
+                        product.Images.Remove(image);
+                    }
                 }
             }
 
