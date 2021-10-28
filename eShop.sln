@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csp
 		{6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3} = {6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor", "Blazor\Blazor.csproj", "{50F0B95C-8A27-4246-AF89-3F4A37EB254F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor", "Blazor\Blazor.csproj", "{50F0B95C-8A27-4246-AF89-3F4A37EB254F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

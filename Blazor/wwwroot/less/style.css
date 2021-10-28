@@ -1,5 +1,20 @@
-﻿/* Default */
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+.btn-default {
+  background-color: rgb(142 130 0);
+  color: #fff;
+  border-color: rgb(142 130 0);
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.btn-default .open .dropdown-toggle.btn-default {
+  background-color: rgb(108 99 0);
+  color: #fff;
+  border-color: rgb(108 99 0);
+  box-shadow: 0 0 0 0.2rem rgba(108, 99, 1, 0.2);
+}
+/* Default */
 html,
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -7,11 +22,6 @@ body {
 a,
 .btn-link {
   color: #0366d6;
-}
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
 }
 .content {
   padding-top: 1.1rem;

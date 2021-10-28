@@ -1,4 +1,17 @@
-﻿
+﻿@import "variables.less";
+
+.btn-default {
+    background-color: @color-light-gold;
+    color: #fff;
+    border-color: @color-light-gold;
+
+    &:hover, &:focus, &:active, &.active, .open .dropdown-toggle.btn-default {
+        background-color: @color-gold;
+        color: #fff;
+        border-color: @color-gold;
+        box-shadow: @shadow-gold;
+    }
+}
 
 /* Default */
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
@@ -9,12 +22,6 @@ html, body {
 
 a, .btn-link {
     color: #0366d6;
-}
-
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
 }
 
 .content {
