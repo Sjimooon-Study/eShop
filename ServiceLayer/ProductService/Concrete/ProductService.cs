@@ -44,7 +44,6 @@ namespace ServiceLayer.ProductService.Concrete
             .Where(p => p.ProductId == productId)
             .Select(p => p.AmountInStock)
             .FirstOrDefault();
-            
         #endregion
     }
 }

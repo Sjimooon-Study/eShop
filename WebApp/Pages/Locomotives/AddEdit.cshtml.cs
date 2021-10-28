@@ -63,7 +63,7 @@ namespace WebApp.Pages.Locomotives
                         image.CopyTo(stream);
                     }
 
-                    Locomotive.AddedImages.Add(new AddImageDto { Path = fileName });
+                    Locomotive.Images.Add(new AddEditImageDto { Path = fileName });
                 }
             }
 

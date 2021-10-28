@@ -24,8 +24,7 @@ namespace UnitTests
                 Description = "The 023 series was a true all-round genius. The locomotive hauled commuter trains, fast and express trains. Sometimes they hauled even freight trains. The newly designed locomotive of the class 023 (which until 1968 was designated class 23) was being used even in the epoch IV. On Dec. 31 1971, 76 locomotives were a permanent part of the rolling stock of the DB and without exception they were stationed at the three railway depots Saarbrücken, Kaiserslautern and Crailsheim.",
                 Price = 229.9M,
                 AmountInStock = 1,
-                ReusedImages = new List<EditImageDto>(),
-                AddedImages = new List<AddImageDto>(),
+                Images = new List<AddEditImageDto>(),
                 Tag = "New",
 
                 Scale = ModelItem.EScale.HO,

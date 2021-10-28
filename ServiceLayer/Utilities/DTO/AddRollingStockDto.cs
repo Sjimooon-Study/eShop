@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ServiceLayer
 {
-    public abstract class AddRollingStockDto : AddModelItemDto
+    public abstract class AddRollingStockDto : AddEditModelItemDto
     {
         public float Length { get; set; }
         public int NumOfAxels { get; set; }

@@ -20,7 +20,7 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Image",
+                name: "Images",
                 columns: table => new
                 {
                     ImageId = table.Column<int>(type: "int", nullable: false)
@@ -29,7 +29,7 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Image", x => x.ImageId);
+                    table.PrimaryKey("PK_Images", x => x.ImageId);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,9 +171,9 @@ namespace DataLayer.Migrations
                 {
                     table.PrimaryKey("PK_ImageProduct", x => new { x.ImagesImageId, x.ProductsProductId });
                     table.ForeignKey(
-                        name: "FK_ImageProduct_Image_ImagesImageId",
+                        name: "FK_ImageProduct_Images_ImagesImageId",
                         column: x => x.ImagesImageId,
-                        principalTable: "Image",
+                        principalTable: "Images",
                         principalColumn: "ImageId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -195,7 +195,7 @@ namespace DataLayer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Image",
+                table: "Images",
                 columns: new[] { "ImageId", "Path" },
                 values: new object[,]
                 {
@@ -313,7 +313,7 @@ namespace DataLayer.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Image");
+                name: "Images");
 
             migrationBuilder.DropTable(
                 name: "Products");

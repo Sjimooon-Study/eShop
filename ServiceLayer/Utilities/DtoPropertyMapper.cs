@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using DataLayer;
 
 namespace ServiceLayer
 {
@@ -30,18 +32,18 @@ namespace ServiceLayer
         }
 
         /// <summary>
-        /// Map collection of <see cref="Image"/> to <see cref="EditImageDto"/>. Takes null.
+        /// Map collection of <see cref="Image"/> to <see cref="AddEditImageDto"/>. Takes null.
         /// </summary>
         /// <param name="images"></param>
-        /// <returns>Collection of <see cref="EditImageDto"/>.</returns>
-        public static ICollection<EditImageDto> MapEditImageToDto(this ICollection<Image> images)
+        /// <returns>Collection of <see cref="AddEditImageDto"/>.</returns>
+        public static ICollection<AddEditImageDto> MapAddEditImageToDto(this ICollection<Image> images)
         {
             if (images == null)
             {
-                return new List<EditImageDto>();
+                return new List<AddEditImageDto>();
             }
 
-            return images.Select(i => new EditImageDto
+            return images.Select(i => new AddEditImageDto
             {
                 ImageId = i.ImageId,
                 Path = i.Path
@@ -51,13 +53,13 @@ namespace ServiceLayer
 
         #region Add
         /// <summary>
-        /// Map <see cref="AddModelItemDto"/> to <see cref="ModelItem"/>.
+        /// Map <see cref="AddEditModelItemDto"/> to <see cref="ModelItem"/>.
         /// </summary>
         /// <typeparam name="T">Derivative of <see cref="ModelItem"/>.</typeparam>
         /// <param name="modelItem"><typeparamref name="T"/> to map.</param>
         /// <param name="properties">Properties to map.</param>
         /// <returns><typeparamref name="T"/> with populated properties.</returns>
-        public static T MapModelItemProperties<T>(this T modelItem, AddModelItemDto properties) where T : ModelItem
+        public static T MapModelItemProperties<T>(this T modelItem, AddEditModelItemDto properties) where T : ModelItem
         {
             modelItem.Scale = properties.Scale;
             modelItem.Epoch = properties.Epoch;
@@ -108,25 +110,45 @@ namespace ServiceLayer
         /// <param name="product"><typeparamref name="T"/> to map.</param>
         /// <param name="properties">Properties to map.</param>
         /// <returns><typeparamref name="T"/> with populated properties.</returns>
-        public static T MapProductProperties<T>(this T product, AddEditProductDto properties) where T : Product
+        public static T MapProductProperties<T>(this T product, AddEditProductDto properties, EShopContext context) where T : Product
         {
             product.Name = properties.Name;
             product.Description = properties.Description;
             product.Price = properties.Price;
-            product.Images = new List<Image>();
             product.TagId = properties.Tag;
             product.AmountInStock = properties.AmountInStock;
 
-            // Add existing images
-            foreach (EditImageDto image in properties.ReusedImages)
+            // If needed; create new image list
+            bool newImageList = false;
+            if (product.Images == null)
             {
-                product.Images.Add(new Image { ImageId = image.ImageId, Path = image.Path });
+                product.Images = new List<Image>();
+                newImageList = true;
+            }
+            
+            // Add images
+            foreach (AddEditImageDto image in properties.Images)
+            {
+                if (image.ImageId == 0)
+                {
+                    product.Images.Add(new Image { Path = image.Path });
+                }
+                else if (newImageList)
+                {
+                    product.Images.Add(context.Images.Find(image.ImageId));
+                }
             }
 
-            // Add new images
-            foreach (AddImageDto image in properties.AddedImages)
+            // Remove images
+            if (!newImageList)
             {
-                product.Images.Add(new Image { Path = image.Path });
+                foreach (Image image in product.Images)
+                {
+                    if (!properties.Images.Any(i => i.ImageId == image.ImageId))
+                    {
+                        product.Images.Remove(image);
+                    }
+                }
             }
 
             return product;
@@ -161,9 +183,14 @@ namespace ServiceLayer
         /// Map <see cref="Locomotive"/> to <see cref="DetailsLocomotiveDto"/>.
         /// </summary>
         /// <param name="locomotive"><see cref="Locomotive"/> to map.</param>
-        /// <returns>Populated <see cref="DetailsLocomotiveDto"/>.</returns>
+        /// <returns>Populated <see cref="DetailsLocomotiveDto"/>; otherwise null.</returns>
         public static DetailsLocomotiveDto MapDetailsLocomotiveDto(this Locomotive locomotive)
         {
+            if (locomotive == null)
+            {
+                return null;
+            }
+            
             return new DetailsLocomotiveDto()
             {
                 ProductId = locomotive.ProductId,
@@ -193,13 +220,18 @@ namespace ServiceLayer
         /// <returns><see cref="EditLocomotiveDto"/> with populated properties.</returns>
         public static EditLocomotiveDto MapEditLocomotiveDto(this Locomotive locomotive)
         {
+            if (locomotive == null)
+            {
+                return null;
+            }
+
             return new EditLocomotiveDto()
             {
                 Name = locomotive.Name,
                 Description = locomotive.Description,
                 Price = locomotive.Price,
                 AmountInStock = locomotive.AmountInStock,
-                ReusedImages = locomotive.Images.MapEditImageToDto(),
+                Images = locomotive.Images.MapAddEditImageToDto(),
                 Tag = locomotive.TagId,
                 Scale = locomotive.Scale,
                 Epoch = locomotive.Epoch,
