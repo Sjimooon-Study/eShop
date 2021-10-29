@@ -1,0 +1,31 @@
+﻿@page "/Locomotives/"
+@using ServiceLayer.LocomotiveService
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h2>Locomotives</h2>
+    </div>
+  </div>
+  <hr />
+  @{ int itemsPerRow = 3; }
+  @for (int i = 0; i < (Locomotives.Count / itemsPerRow) + 1; i++)
+  {
+    <div class="row">
+      @for (int j = (i * itemsPerRow); j < (i * itemsPerRow) + itemsPerRow; j++)
+      {
+        if (j >= Locomotives.Count)
+        {
+          break;
+        }
+        <div class="col col-@(12 / itemsPerRow)">
+          <Blazor.Components.ListLocomotiveCard Locomotive="Locomotives[j]"></Blazor.Components.ListLocomotiveCard>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+@code {
+  public List<ListLocomotiveDto> Locomotives { get; set; } = TestData.GetListLocomotives();
+}

@@ -23,6 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\Unit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csproj", "{1370A97F-D71C-419B-A27A-B78CC08D8555}"
 	ProjectSection(ProjectDependencies) = postProject
+		{825DAD02-1A8B-477B-B944-53D7D97769E3} = {825DAD02-1A8B-477B-B944-53D7D97769E3}
 		{6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3} = {6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3}
 	EndProjectSection
 EndProject
@@ -32,6 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csp
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor", "Blazor\Blazor.csproj", "{50F0B95C-8A27-4246-AF89-3F4A37EB254F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3} = {6D4CEA7C-A4EB-4E8A-B96B-C2B6759AC3C3}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,36 @@
 ﻿@import "variables.less";
 
+/* Product card */
+.product-card.card {
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.5s;
+
+    &:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    > a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
+
+    ul.list-group-horizontal {
+        margin: 0.5rem;
+        justify-content: center;
+
+        .tag {
+            background-color: lightgoldenrodyellow;
+        }
+    }
+}
+
+/* Button */
 .btn-default {
     background-color: @color-light-gold;
     color: #fff;

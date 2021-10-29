@@ -1,28 +1,25 @@
-﻿@page "{id}"
-@using ServiceLayer 
-@model WebApp.Pages.Locomotives.DetailsModel
-@{
-    ViewData["Title"] = Model.Locomotive.Name;
-}
+﻿@page "/locomotives/details/{LocomotiveId:int}"
+@using ServiceLayer
+@using ServiceLayer.LocomotiveService
 
 <div class="container">
-  <h2>@Model.Locomotive.Name</h2>
+  <h2>@Locomotive.Name</h2>
   <div class="row">
     <div class="col">
-      @if (Model.Locomotive.Images?.Count > 1)
+      @if (Locomotive.Images?.Count > 1)
       {
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
           <ol class="carousel-indicators">
             @{ int slideNum = 0; }
-            @foreach (ImageDto image in Model.Locomotive.Images)
+            @foreach (ImageDto image in Locomotive.Images)
             {
-              <li style="background-color: gray" data-target="#carouselExampleIndicators" data-slide-to="@slideNum++" class="@(Model.Locomotive.Images.First() == image ? "active" : "")"></li>
+              <li style="background-color: gray" data-target="#carouselExampleIndicators" data-slide-to="@slideNum++" class="@(Locomotive.Images.First() == image ? "active" : "")"></li>
             }
           </ol>
           <div class="carousel-inner">
-            @foreach (ImageDto image in Model.Locomotive.Images)
+            @foreach (ImageDto image in Locomotive.Images)
             {
-              <div class="carousel-item @(Model.Locomotive.Images.First() == image ? "active" : "")">
+              <div class="carousel-item @(Locomotive.Images.First() == image ? "active" : "")">
                 <img class="d-block w-100" src="~/img/products/@image.Path" alt="Product image">
               </div>
             }
@@ -39,25 +36,25 @@
       }
       else
       {
-        <img class="d-block w-100" src="~/img/products/@Model.Locomotive.Images.FirstOrDefault()?.Path" alt="Product image">
+        <img class="d-block w-100" src="~/img/products/@Locomotive.Images.FirstOrDefault()?.Path" alt="Product image">
       }
     </div>
   </div>
   <div class="row">
     <div class="col col-12">
-      <p>@Model.Locomotive.Description</p>
+      <p>@Locomotive.Description</p>
       <hr />
     </div>
     <div class="col col-6">
-      <h2><i style="color: darkred">@Model.Locomotive.Tag</i></h2>
+      <h2><i style="color: darkred">@Locomotive.Tag</i></h2>
     </div>
     <div class="col col-6 text-right">
-      <h3>€ @Model.Locomotive.Price</h3>
-      @if (@Model.Locomotive.AmountInStock > 0)
+      <h3>€ @Locomotive.Price</h3>
+      @if (@Locomotive.AmountInStock > 0)
       {
-        <small>(@Model.Locomotive.AmountInStock left in stock)</small>
+        <small>(@Locomotive.AmountInStock left in stock)</small>
       }
-      <partial name="_AddToBasketButton" model="new Tuple<int, bool>(Model.Locomotive.ProductId, Model.Locomotive.AmountInStock > 0)" />
+      @*<partial name="_AddToBasketButton" model="new Tuple<int, bool>(Locomotive.ProductId, Locomotive.AmountInStock > 0)" />*@
     </div>
     <div class="col">
       <div class="row">
@@ -70,23 +67,23 @@
             <tbody>
               <tr>
                 <th scope="row">Name</th>
-                <td>@Model.Locomotive.Name</td>
+                <td>@Locomotive.Name</td>
               </tr>
               <tr>
                 <th scope="row">Railway company</th>
-                <td>@Model.Locomotive.RailwayCompanyName</td>
+                <td>@Locomotive.RailwayCompanyName</td>
               </tr>
               <tr>
                 <th scope="row">Country</th>
-                <td>@Model.Locomotive.RailwatCompanyCountryName</td>
+                <td>@Locomotive.RailwatCompanyCountryName</td>
               </tr>
               <tr>
                 <th scope="row">Epoch</th>
-                <td>@Model.Locomotive.Epoch</td>
+                <td>@Locomotive.Epoch</td>
               </tr>
               <tr>
                 <th scope="row">Locomotive type</th>
-                <td>@Model.Locomotive.LocoType</td>
+                <td>@Locomotive.LocoType</td>
               </tr>
             </tbody>
           </table>
@@ -98,27 +95,27 @@
             <tbody>
               <tr>
                 <th scope="row">Scale</th>
-                <td>@Model.Locomotive.Scale</td>
+                <td>@Locomotive.Scale</td>
               </tr>
               <tr>
                 <th scope="row">Length</th>
-                <td>@Model.Locomotive.Length cm</td>
+                <td>@Locomotive.Length cm</td>
               </tr>
               <tr>
                 <th scope="row">Number of axels</th>
-                <td>@Model.Locomotive.NumOfAxels</td>
+                <td>@Locomotive.NumOfAxels</td>
               </tr>
               <tr>
                 <th scope="row">Number of driven axels</th>
-                <td>@Model.Locomotive.NumOfDrivenAxels</td>
+                <td>@Locomotive.NumOfDrivenAxels</td>
               </tr>
               <tr>
                 <th scope="row">Control</th>
-                <td>@Model.Locomotive.Control</td>
+                <td>@Locomotive.Control</td>
               </tr>
               <tr>
                 <th scope="row">Auto coupling</th>
-                <td>@(Model.Locomotive.AutoCoupling ? "Yes" : "No")</td>
+                <td>@(Locomotive.AutoCoupling ? "Yes" : "No")</td>
               </tr>
             </tbody>
           </table>
@@ -128,3 +125,9 @@
     </div>
   </div>
 </div>
+
+@code {
+    [Parameter]
+    public int LocomotiveId { get; set; }
+    public DetailsLocomotiveDto Locomotive { get; set; } = TestData.GetDetailsLocomotive();
+}
