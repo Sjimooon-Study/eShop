@@ -25,20 +25,22 @@
         <div class="col col-6 col-vertical-middle">
           <div>€ @Locomotive.Price</div>
         </div>
-        @*<div class="col col-6 text-right">
-            <partial name="_AddToBasketButton" model="new Tuple<int, bool>(Locomotive.ProductId, Locomotive.AmountInStock > 0)" />
-          </div>*@
+        <div class="col col-6 text-right">
+          <AddToBasketButton @ref="BasketButton" ProductId="Locomotive.ProductId" InStock="Locomotive.AmountInStock > 0"></AddToBasketButton>
+        </div>
       </div>
     </li>
   </ul>
 </div>
 
 @code {
-  [Parameter]
-  public ListLocomotiveDto Locomotive { get; set; }
+    [Parameter]
+    public ListLocomotiveDto Locomotive { get; set; }
 
-  private void Navigate()
-  {
-    nav.NavigateTo($"/locomotives/details/{Locomotive.ProductId}");
-  }
+    public AddToBasketButton BasketButton { get; set; }
+
+    private void Navigate()
+    {
+      nav.NavigateTo($"/locomotives/details/{Locomotive.ProductId}");
+    }
 }

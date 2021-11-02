@@ -93,6 +93,7 @@ This will be read and acted uppon in views where admin only content can be rende
 - Microsoft.AspNet.WebApi.Core v5.2.7
 - Swashbuckle.AspNetCore v6.2.3
 - YamlDotNet v11.2.1
+- Microsoft.AspNetCore.Components.WebAssembly.Server v5.0.11
 
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
@@ -114,6 +115,7 @@ Install-Package MiniProfiler.EntityFrameworkCore -Projectname WebApp
 Install-Package Microsoft.AspNet.WebApi.Core -Projectname WebAPI
 Install-Package Swashbuckle.AspNetCore -Projectname WebAPI
 Install-Package YamlDotNet -Projectname WebAPI
+Install-Package Microsoft.AspNetCore.Components.WebAssembly.Server -Projectname WebAPI
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
 

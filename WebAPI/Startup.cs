@@ -50,14 +50,21 @@ namespace WebAPI
             services.AddSwaggerGen();
             #endregion
 
-            services.AddControllers(options =>
-            {
-                options.OutputFormatters.Insert(0, new YamlOutputFormatter(new SerializerBuilder().WithNamingConvention(new CamelCaseNamingConvention()).Build()));
-                options.InputFormatters.Insert(0, new YamlInputFormatter(new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention()).Build()));
-            })
-            .AddXmlSerializerFormatters()
-            .AddXmlDataContractSerializerFormatters();
-            
+            #region WebApp hosting
+            services.AddRazorPages();
+            #endregion
+
+            #region Formatters
+            services.AddControllers().AddXmlSerializerFormatters().AddXmlDataContractSerializerFormatters();
+
+            //services.AddControllers(options =>
+            //{
+            //    options.OutputFormatters.Insert(0, new YamlOutputFormatter(new SerializerBuilder().WithNamingConvention(new CamelCaseNamingConvention()).Build()));
+            //    options.InputFormatters.Insert(0, new YamlInputFormatter(new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention()).Build()));
+            //})
+            //.AddXmlSerializerFormatters()
+            //.AddXmlDataContractSerializerFormatters();
+            #endregion
 
             services.Configure<IISServerOptions>(options =>
             {
@@ -88,6 +95,18 @@ namespace WebAPI
             {
                 endpoints.MapControllers();
             });
+
+            #region WebApp hosting
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
+
+            });
+            #endregion
         }
     }
 }

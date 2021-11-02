@@ -1,0 +1,15 @@
+﻿@if (InStock)
+{
+  <a class="btn btn-outline-success">Add to basket <i class="fas fa-shopping-basket"></i></a>
+}
+else
+{
+  <a class="btn btn-outline-secondary disabled" href="#">Out of stock <i class="fas fa-shopping-basket"></i></a>
+}
+
+@code {
+    [Parameter]
+    public int ProductId { get; set; }
+    [Parameter]
+    public bool InStock { get; set; }
+}
