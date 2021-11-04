@@ -66,6 +66,10 @@ namespace WebAPI
             //.AddXmlDataContractSerializerFormatters();
             #endregion
 
+            #region CORS
+            services.AddCors();
+            #endregion
+
             services.Configure<IISServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
@@ -88,6 +92,13 @@ namespace WebAPI
             #endregion
 
             app.UseRouting();
+
+            #region CORS
+            app.UseCors(options => {
+                options.AllowAnyOrigin();
+                options.AllowAnyHeader();
+            });
+            #endregion
 
             app.UseAuthorization();
 
