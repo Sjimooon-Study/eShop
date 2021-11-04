@@ -94,12 +94,12 @@ namespace WebAPI
             app.UseRouting();
 
             #region CORS
-            app.UseCors(options => {
-                options.AllowAnyMethod();
-                //options.AllowAnyOrigin();
-                options.AllowAnyHeader();
-                options.SetIsOriginAllowed(origin => true);
-                options.AllowCredentials();
+            app.UseCors(options =>
+            {
+                options
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowAnyOrigin();
             });
             #endregion
 

@@ -1,6 +1,15 @@
 ﻿@page "/Locomotives/"
 @using ServiceLayer.LocomotiveService
+@using Microsoft.AspNetCore.WebUtilities
+@using System.Web
+@using System.Collections.Specialized 
+@using System.Reflection;
+@using System.ComponentModel.DataAnnotations;
+@using static DataLayer.Models.ModelItem;
+@using static DataLayer.Models.Products.Locomotive
 @inject IHttpClientFactory httpClientFactory
+@inject NavigationManager nav
+@inject IJSRuntime JS
 
 <div class="container">
   <div class="row">
@@ -8,6 +17,48 @@
       <h2>Locomotives</h2>
     </div>
   </div>
+
+  <div class="row">
+    <div class="col col-12">
+      <div class="input-group">
+        <input class="form-control" type="search" value="@SearchParameter" @onchange="Search" placeholder="Search" />
+        <div class="input-group-append">
+          <button class="btn btn-default" @onclick="() => Search(new ChangeEventArgs { Value = SearchParameter })">
+            <span class="oi oi-magnifying-glass"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="row">
+    <div class="col col-4 col-md-3 col-vertical-middle">
+      Order by:
+    </div>
+    <div class="col col-8 col-md-3 col-vertical-middle">
+      <select class="form-control form-control-sm" id="order_by" @onchange="ChangeOrderAsync">
+        @foreach (int value in Enum.GetValues(typeof(EOrderByOptions)))
+        {
+          string label = typeof(EOrderByOptions)
+            .GetMember(typeof(EOrderByOptions).GetEnumName(value))
+            .First()
+            .GetCustomAttribute<DisplayAttribute>()
+            .Name;
+          @if (value == (int)OrderByOptions)
+          {
+            <option value="@value" selected>@label</option>
+          }
+          else
+          {
+            <option value="@value">@label</option>
+          }
+        }
+      </select>
+    </div>
+  </div>
+
   <hr />
   @{ int itemsPerRow = 3; }
   @for (int i = 0; i < (Locomotives.Count / itemsPerRow) + 1; i++)
@@ -28,12 +79,80 @@
 </div>
 
 @code {
-  public List<ListLocomotiveDto> Locomotives { get; set; } = new();
+    private readonly string _SEARCH = "s";
+    private readonly string _ORDER = "o";
+    private readonly string _PAGE_NUMBER = "pgn";
+    private readonly string _PAGE_SIZE = "pgs";
 
-  protected override async Task OnInitializedAsync()
-  {
-    var client = httpClientFactory.CreateClient(Globals.LOCAL_API);
+    public List<ListLocomotiveDto> Locomotives { get; set; } = new();
 
-    Locomotives = await client.GetFromJsonAsync<List<ListLocomotiveDto>>("locomotive/list");
-  }
+    private HttpClient Client { get; set; }
+
+    private string SearchParameter { get; set; }
+    private EOrderByOptions OrderByOptions { get; set; } = EOrderByOptions.Default;
+
+    protected override async Task OnInitializedAsync()
+    {
+      Client = httpClientFactory.CreateClient(Globals.LOCAL_API);
+
+      var query = nav.ToAbsoluteUri(nav.Uri).Query;
+      if (QueryHelpers.ParseQuery(query).TryGetValue(_SEARCH, out var search))
+      {
+        SearchParameter = search;
+      }
+      if (QueryHelpers.ParseQuery(query).TryGetValue(_ORDER, out var order))
+      {
+        if (EOrderByOptions.TryParse(order, out EOrderByOptions orderResult))
+        {
+          OrderByOptions = orderResult;
+        }
+      }
+
+      await GetLocomotivesAsync();
+    }
+
+    private async Task GetLocomotivesAsync()
+    {
+      try
+      {
+        Locomotives = await Client.GetFromJsonAsync<List<ListLocomotiveDto>>($"locomotive/list{new Uri(nav.Uri).Query}");
+      }
+      catch (Exception) { }
+    }
+
+    private async Task Search(ChangeEventArgs eventArgs)
+    {
+      SearchParameter = (string)eventArgs.Value;
+      nav.NavigateTo(GetUriWithUpdatedQueryString(_SEARCH, SearchParameter));
+      await OnInitializedAsync();
+    }
+
+    private async Task ChangeOrderAsync(ChangeEventArgs eventArgs)
+    {
+      if (EOrderByOptions.TryParse(eventArgs.Value.ToString(), out EOrderByOptions result))
+      {
+        OrderByOptions = result;
+      }
+      nav.NavigateTo(GetUriWithUpdatedQueryString(_ORDER, ((int)OrderByOptions).ToString()));
+      await OnInitializedAsync();
+    }
+
+    private string GetUriWithUpdatedQueryString(string key, string value)
+    {
+      Uri uri = new(nav.Uri);
+
+      NameValueCollection newQueryString = HttpUtility.ParseQueryString(uri.Query);
+
+      newQueryString.Remove(key);
+
+      string pagePath = uri.GetLeftPart(UriPartial.Path);
+
+      if (!String.IsNullOrWhiteSpace(value))
+      {
+        newQueryString.Add(key, value);
+      }
+
+      return newQueryString.Count > 0 ? $"{pagePath}?{newQueryString}" : pagePath;
+    }
+
 }

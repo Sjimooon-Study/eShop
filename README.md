@@ -97,8 +97,9 @@ The web API can be ran by outside VS by executing the following command from the
 - Microsoft.AspNetCore.Components.WebAssembly.Server v5.0.11
 
 *Blazor*
-- Blazored.LocalStorage v4.1.5
 - Microsoft.Extensions.Http v5.0.0
+- Microsoft.AspNetCore.WebUtilities v2.2.0
+- Blazored.LocalStorage v4.1.5
 - Blazored.Toast v3.2.2
 
 *UnitTests*
@@ -122,8 +123,9 @@ Install-Package Microsoft.AspNet.WebApi.Core -Projectname WebAPI
 Install-Package Swashbuckle.AspNetCore -Projectname WebAPI
 Install-Package YamlDotNet -Projectname WebAPI
 Install-Package Microsoft.AspNetCore.Components.WebAssembly.Server -Projectname WebAPI
-Install-Package Blazored.LocalStorage -Projectname Blazor
 Install-Package Microsoft.Extensions.Http -Projectname Blazor
+Install-Package Microsoft.AspNetCore.WebUtilities -Projectname Blazor
+Install-Package Blazored.LocalStorage -Projectname Blazor
 Install-Package Blazored.Toast -Projectname Blazor
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
