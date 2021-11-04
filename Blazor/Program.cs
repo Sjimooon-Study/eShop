@@ -1,5 +1,6 @@
 using Blazor.Helpers.LocalStorage;
 using Blazored.LocalStorage;
+using Blazored.Toast;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,9 @@ namespace Blazor
 
             builder.Services.AddBlazoredLocalStorage();
 
+            builder.Services.AddBlazoredToast();
+
+            #region Http Client
             builder.Services.AddHttpClient(Globals.LOCAL_API, client =>
             {
                 //client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress); // API hosted
@@ -33,6 +37,7 @@ namespace Blazor
             });
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            #endregion
 
             await builder.Build().RunAsync();
         }

@@ -99,6 +99,7 @@ The web API can be ran by outside VS by executing the following command from the
 *Blazor*
 - Blazored.LocalStorage v4.1.5
 - Microsoft.Extensions.Http v5.0.0
+- Blazored.Toast v3.2.2
 
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
@@ -123,6 +124,7 @@ Install-Package YamlDotNet -Projectname WebAPI
 Install-Package Microsoft.AspNetCore.Components.WebAssembly.Server -Projectname WebAPI
 Install-Package Blazored.LocalStorage -Projectname Blazor
 Install-Package Microsoft.Extensions.Http -Projectname Blazor
+Install-Package Blazored.Toast -Projectname Blazor
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
 

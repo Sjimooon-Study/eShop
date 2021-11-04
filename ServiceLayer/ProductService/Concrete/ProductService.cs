@@ -51,9 +51,20 @@ namespace ServiceLayer.ProductService.Concrete
         /// <returns>Queryable of strings.</returns>
         public IQueryable<string> GetTags() => _context.Products
             .AsNoTracking()
-            .Where(l => l.TagId != null)
-            .Select(l => l.TagId)
+            .Where(p => p.TagId != null)
+            .Select(p => p.TagId)
             .Distinct();
+
+        /// <summary>
+        /// Get product name.
+        /// </summary>
+        /// <param name="id">Product ID.</param>
+        /// <returns>Product name.</returns>
+        public string GetName(int id) => _context.Products
+            .AsNoTracking()
+            .Where(p => p.ProductId == id)
+            .Select(p => p.Name)
+            .FirstOrDefault();
         #endregion
     }
 }

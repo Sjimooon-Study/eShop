@@ -1,4 +1,5 @@
 ﻿using Blazored.LocalStorage;
+using Blazored.Toast.Services;
 using ServiceLayer.ProductService;
 using ServiceLayer.ProductService.DTO;
 using System;
@@ -16,44 +17,58 @@ namespace Blazor.Helpers.LocalStorage
 
         private readonly ILocalStorageService _localStorageService;
         private readonly HttpClient _httpClient;
+        private readonly IToastService _toastService;
 
-        public Basket(ILocalStorageService localStorageService, HttpClient httpClient)
+        public Basket(ILocalStorageService localStorageService, HttpClient httpClient, IToastService toastService)
         {
             _localStorageService = localStorageService;
             _httpClient = httpClient;
+            _toastService = toastService;
         }
 
         #region Add
         public async Task AddAsync(int id)
         {
-            if (await _localStorageService.ContainKeyAsync(BASKET))
+            try
             {
-                SessionBasketDto basket = await GetBasketAsync();
+                uint stock = await _httpClient.GetFromJsonAsync<uint>($"product/stock/{id}");
+                string name = await _httpClient.GetStringAsync($"product/name/{id}");
 
-                try
+                if (await _localStorageService.ContainKeyAsync(BASKET))
                 {
-                    uint stock = await _httpClient.GetFromJsonAsync<uint>($"product/stock/{id}");
+                    SessionBasketDto basket = await GetBasketAsync();
 
-                    if (basket.Products.ContainsKey(id) && basket.Products[id] < stock)
+                    if (basket.Products.ContainsKey(id))
                     {
-                        basket.Products[id]++; // Add to existing basket
-                        SetBasketAsync(basket);
+                        if (basket.Products[id] < stock)
+                        {
+                            basket.Products[id]++; // Add to existing basket
+                            SetBasketAsync(basket);
+                            ToastAddAnotherProduct(name);
+                            return;
+                        }
                     }
                     else if (stock >= 1)
                     {
                         basket.Products.Add(id, 1); // Add new product to basket
                         SetBasketAsync(basket);
+                        ToastAddNewProduct(name);
+                        return;
                     }
                 }
-                catch (Exception) { }
+                else
+                {
+                    // Add new basket with new product
+                    SessionBasketDto basket = new();
+                    basket.Products.Add(id, 1);
+                    SetBasketAsync(basket);
+                    ToastAddNewProduct(name);
+                    return;
+                }
             }
-            else
-            {
-                // Add new basket with new product
-                SessionBasketDto basket = new();
-                basket.Products.Add(id, 1);
-                SetBasketAsync(basket);
-            }
+            catch (Exception e) { return; }
+
+            ToastNotEnoughStock();
         }
         #endregion
 
@@ -126,7 +141,7 @@ namespace Blazor.Helpers.LocalStorage
             }
         }
 
-        public async Task<SessionBasketDto> GetBasketAsync()
+        private async Task<SessionBasketDto> GetBasketAsync()
         {
             return await _localStorageService.GetItemAsync<SessionBasketDto>(BASKET);
         }
@@ -162,6 +177,7 @@ namespace Blazor.Helpers.LocalStorage
                         else if (count > stock)
                         {
                             basket.Products[id] = (int)stock;
+                            ToastNotEnoughStock();
                         }
 
                         SetBasketAsync(basket);
@@ -169,6 +185,23 @@ namespace Blazor.Helpers.LocalStorage
                 }
                 catch (Exception) { }
             }
+        }
+        #endregion
+
+        #region Toast
+        private void ToastAddNewProduct(string name)
+        {
+            _toastService.ShowSuccess($"Added {name} to basket.");
+        }
+
+        private void ToastAddAnotherProduct(string name)
+        {
+            _toastService.ShowSuccess($"Added another {name} to basket.");
+        }
+        
+        private void ToastNotEnoughStock()
+        {
+            _toastService.ShowError("Not enough stock.", "SORRY");
         }
         #endregion
     }

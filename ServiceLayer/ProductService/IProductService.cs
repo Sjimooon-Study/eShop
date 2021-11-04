@@ -11,5 +11,6 @@ namespace ServiceLayer.ProductService
         public IQueryable<BasketProductDto> GetBasketProducts(SessionBasketDto basket);
         public uint GetStock(int productId);
         IQueryable<string> GetTags();
+        public string GetName(int id);
     }
 }

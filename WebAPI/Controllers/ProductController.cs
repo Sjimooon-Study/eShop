@@ -43,6 +43,13 @@ namespace WebAPI.Controllers
             return _productService.GetTags().ToList();
         }
 
+        [HttpGet]
+        [Route("name/{id:int}")]
+        public string GetName(int id)
+        {
+            return _productService.GetName(id);
+        }
+
         /*
         public async Task<IActionResult> Method(int productId, int imageNumber)
         // Get image DTO
