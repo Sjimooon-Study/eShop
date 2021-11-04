@@ -20,15 +20,6 @@ namespace WebAPI.Controllers
         }
 
         #region Get
-        [HttpGet]
-        [Route("basket")]
-        public IEnumerable<BasketProductDto> GetBasketProducts()
-        {
-            //_productService.GetBasketProducts();
-
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Get current stock for specific product.
         /// </summary>
@@ -50,6 +41,18 @@ namespace WebAPI.Controllers
         var image = System.IO.File.OpenRead(path);
         return File(image, "image/jpeg")
         */
+        #endregion
+
+        #region Put
+        /// <summary>
+        /// Get list of <see cref="BasketProductDto"/> from <see cref="SessionBasketDto"/>.
+        /// </summary>
+        /// <param name="basket"><see cref="BasketProductDto"/> with products.</param>
+        /// <returns>List of <see cref="BasketProductDto"/>.</returns>
+        [HttpPut]
+        [Route("basket")]
+        public List<BasketProductDto> GetBasketProducts(SessionBasketDto basket) =>
+            _productService.GetBasketProducts(basket).ToList();
         #endregion
     }
 }

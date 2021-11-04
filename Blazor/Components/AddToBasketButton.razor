@@ -1,10 +1,12 @@
-﻿@if (InStock)
+﻿@using Helpers.LocalStorage
+
+@if (InStock)
 {
-  <a class="btn btn-outline-success">Add to basket <i class="fas fa-shopping-basket"></i></a>
+  <button class="btn btn-outline-success" @onclick="AddToBasket">Add to basket <i class="fas fa-shopping-basket"></i></button>
 }
 else
 {
-  <a class="btn btn-outline-secondary disabled" href="#">Out of stock <i class="fas fa-shopping-basket"></i></a>
+  <button class="btn btn-outline-secondary disabled">Out of stock <i class="fas fa-shopping-basket"></i></button>
 }
 
 @code {
@@ -12,4 +14,21 @@ else
     public int ProductId { get; set; }
     [Parameter]
     public bool InStock { get; set; }
+
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
+
+    private Basket Basket { get; set; }
+
+    protected override void OnInitialized()
+    {
+      Basket = MainLayout.Basket;
+    }
+
+    private async Task AddToBasket()
+    {
+      await Basket.AddAsync(ProductId);
+      MainLayout.UpdateAsync();
+      StateHasChanged();
+    }
 }

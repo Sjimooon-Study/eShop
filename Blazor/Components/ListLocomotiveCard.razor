@@ -3,7 +3,7 @@
 
 <div class="card product-card">
   <a @onclick="Navigate">
-    <img class="card-img-top" src="~/img/products/@Locomotive.Images.FirstOrDefault()?.Path" alt="Card image cap">
+    <img class="card-img-top" src="/img/products/@Locomotive.Images.FirstOrDefault()?.Path" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">@Locomotive.Name, @Locomotive.RailwayCompanyName</h5>
       <p class="card-text"></p>
@@ -26,7 +26,7 @@
           <div>€ @Locomotive.Price</div>
         </div>
         <div class="col col-6 text-right">
-          <AddToBasketButton @ref="BasketButton" ProductId="Locomotive.ProductId" InStock="Locomotive.AmountInStock > 0"></AddToBasketButton>
+          <AddToBasketButton ProductId="Locomotive.ProductId" InStock="Locomotive.AmountInStock > 0"></AddToBasketButton>
         </div>
       </div>
     </li>
@@ -36,8 +36,6 @@
 @code {
     [Parameter]
     public ListLocomotiveDto Locomotive { get; set; }
-
-    public AddToBasketButton BasketButton { get; set; }
 
     private void Navigate()
     {

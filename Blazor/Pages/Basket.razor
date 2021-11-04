@@ -1,0 +1,142 @@
+﻿@page "/basket"
+@using ServiceLayer.ProductService.DTO
+@using Helpers.LocalStorage
+@inject NavigationManager nav
+@inject HttpClient httpClient
+
+<div class="container">
+  <div class="row">
+    <div class="col col-7">
+      <b>Product</b>
+    </div>
+    <div class="col col-3">
+      <b>Quantity</b>
+    </div>
+    <div class="col col-2">
+      <b>Price</b>
+    </div>
+  </div>
+  <hr />
+
+  @if (BasketProducts?.Count > 0)
+  {
+    foreach (BasketProductDto product in BasketProducts)
+    {
+      <div class="row">
+        <div class="col col-3 hover_pointer" @onclick="() => NavigateToLocomotive(product.ProductId)">
+            <img class="w-100" src="/img/products/@product.Image?.Path" alt="Product image">
+        </div>
+        <div class="col col-4 hover_pointer" @onclick="() => NavigateToLocomotive(product.ProductId)">
+          @product.Name
+        </div>
+        <div class="col col-3">
+          <div class="row">
+            <div class="col col-8">
+              <input class="form-control form-control-sm" type="number" value="@product.Count" @onchange="async (eventArgs) => await ChangeCountAsync(product.ProductId, eventArgs)" />
+            </div>
+            <div class="col">
+              <button class="btn btn-sm btn-danger" @onclick="async () => await RemoveAsync(product.ProductId)"><span class="oi oi-x" aria-hidden="true"></span></button>
+            </div>
+          </div>
+        </div>
+        <div class="col col-2">
+          € @product.TotalPrice
+          @if (product.Count > 1)
+          {
+            <br />
+            <small><i>€ @product.UnitPrice per unit</i></small>
+          }
+        </div>
+      </div>
+    }
+    <div class="row">
+      <div class="col col-10">
+
+      </div>
+      <div class="col col-2">
+        <i>Total: € @TotalBasketPrice</i>
+      </div>
+    </div>
+  }
+  else
+  {
+    <div class="row">
+      <div class="col col-12 text-center">
+        <br />
+        <i>The basket is empty. . .</i>
+        <br />
+        <br />
+      </div>
+    </div>
+  }
+
+  <hr />
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-default" @onclick="NavigateToIndex"><i class="fas fa-arrow-left"></i> Continue shopping</button>
+    </div>
+  </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    protected MainLayout MainLayout { get; set; }
+
+    private List<BasketProductDto> BasketProducts { get; set; }
+    private decimal TotalBasketPrice { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+      await UpdateBasketAsync();
+    }
+
+    private async Task UpdateBasketAsync()
+    {
+      BasketProducts = await MainLayout.Basket.GetBasketProductsAsync();
+
+      MainLayout.UpdateAsync();
+      CalculateTotalBasketPrice();
+
+      await OnInitializedAsync();
+    }
+
+    private void CalculateTotalBasketPrice()
+    {
+      TotalBasketPrice = 0;
+
+      if (BasketProducts != null)
+      {
+        foreach (BasketProductDto product in BasketProducts)
+        {
+          TotalBasketPrice += product.TotalPrice * product.Count;
+        }
+      }
+    }
+
+    private async Task ChangeCountAsync(int id, ChangeEventArgs eventArgs)
+    {
+      if (Int32.TryParse(eventArgs.Value.ToString(), out int newCount))
+      {
+        BasketProducts.Where(p => p.ProductId == id).FirstOrDefault().Count = newCount;
+
+        await MainLayout.Basket.SetCountAsync(id, newCount);
+        await UpdateBasketAsync();
+      }
+    }
+
+    private async Task RemoveAsync(int id)
+    {
+      await MainLayout.Basket.RemoveAllAsync(id);
+      await UpdateBasketAsync();
+    }
+
+    private void NavigateToLocomotive(int id)
+    {
+      nav.NavigateTo($"/locomotives/details/{id}");
+    }
+
+    private void NavigateToIndex()
+    {
+      nav.NavigateTo("/");
+    }
+}

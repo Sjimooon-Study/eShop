@@ -95,6 +95,9 @@ This will be read and acted uppon in views where admin only content can be rende
 - YamlDotNet v11.2.1
 - Microsoft.AspNetCore.Components.WebAssembly.Server v5.0.11
 
+*Blazor*
+- Blazored.LocalStorage v4.1.5
+
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
 
@@ -116,6 +119,7 @@ Install-Package Microsoft.AspNet.WebApi.Core -Projectname WebAPI
 Install-Package Swashbuckle.AspNetCore -Projectname WebAPI
 Install-Package YamlDotNet -Projectname WebAPI
 Install-Package Microsoft.AspNetCore.Components.WebAssembly.Server -Projectname WebAPI
+Install-Package Blazored.LocalStorage -Projectname Blazor
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
 

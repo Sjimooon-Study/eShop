@@ -1,17 +1,49 @@
 ﻿@inherits LayoutComponentBase
+@using Blazor.Components
+@using Helpers.LocalStorage
+@inject Blazored.LocalStorage.ILocalStorageService localStorageService
+@inject HttpClient httpClient
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
+  <div class="sidebar">
+    <NavMenu />
+  </div>
+
+  <div class="main">
+    <div class="top-row px-4">
+      <BasketButton @ref="BasketButton"></BasketButton>
     </div>
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
-
-        <div class="content px-4">
-            @Body
-        </div>
+    <div class="content px-4">
+      <CascadingValue Value="this">
+        @* Body can call 'MainLayout.<method_name>()' in code block below, when setting member: '[CascadingParameter] protected MainLayout MainLayout { get; set; }' *@
+        @Body
+      </CascadingValue>
     </div>
+  </div>
 </div>
+
+@code {
+    public Basket Basket { get; set; }
+
+    protected override void OnInitialized()
+    {
+      Basket = new(localStorageService, httpClient);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+      if (firstRender)
+      {
+        UpdateAsync();
+      }
+    }
+
+    private BasketButton BasketButton { get; set; }
+
+    public async void UpdateAsync()
+    {
+      BasketButton.Count = await Basket.GetCountAsync();
+      StateHasChanged();
+    }
+} 
