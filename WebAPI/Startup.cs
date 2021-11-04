@@ -95,8 +95,11 @@ namespace WebAPI
 
             #region CORS
             app.UseCors(options => {
-                options.AllowAnyOrigin();
+                options.AllowAnyMethod();
+                //options.AllowAnyOrigin();
                 options.AllowAnyHeader();
+                options.SetIsOriginAllowed(origin => true);
+                options.AllowCredentials();
             });
             #endregion
 

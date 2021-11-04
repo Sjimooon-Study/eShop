@@ -115,7 +115,7 @@ namespace Blazor.Helpers.LocalStorage
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"/product/basket", await GetBasketAsync());
+                HttpResponseMessage response = await _httpClient.PutAsJsonAsync($"product/basket", await GetBasketAsync());
                 string content = await response.Content.ReadAsStringAsync();
 
                 return content.Deserialize<List<BasketProductDto>>(true);

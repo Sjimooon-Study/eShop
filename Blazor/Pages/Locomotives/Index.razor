@@ -1,6 +1,6 @@
 ﻿@page "/Locomotives/"
 @using ServiceLayer.LocomotiveService
-@inject HttpClient httpClient
+@inject IHttpClientFactory httpClientFactory
 
 <div class="container">
   <div class="row">
@@ -28,10 +28,12 @@
 </div>
 
 @code {
-    public List<ListLocomotiveDto> Locomotives { get; set; } = new();
+  public List<ListLocomotiveDto> Locomotives { get; set; } = new();
 
-    protected override async Task OnInitializedAsync()
-    {
-      Locomotives = await httpClient.GetFromJsonAsync<List<ListLocomotiveDto>>("/locomotive/list");
-    }
+  protected override async Task OnInitializedAsync()
+  {
+    var client = httpClientFactory.CreateClient(Globals.LOCAL_API);
+
+    Locomotives = await client.GetFromJsonAsync<List<ListLocomotiveDto>>("locomotive/list");
+  }
 }

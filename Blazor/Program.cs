@@ -21,6 +21,17 @@ namespace Blazor
 
             builder.Services.AddBlazoredLocalStorage();
 
+            builder.Services.AddHttpClient(Globals.LOCAL_API, client =>
+            {
+                //client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress); // API hosted
+                client.BaseAddress = new Uri("http://localhost:4020"); // CORS
+            });
+
+            builder.Services.AddScoped<HttpClient>(sp => {
+                IHttpClientFactory factory = sp.GetRequiredService<IHttpClientFactory>();
+                return factory.CreateClient(Globals.LOCAL_API);
+            });
+
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
             await builder.Build().RunAsync();

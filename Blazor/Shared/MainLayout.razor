@@ -2,7 +2,7 @@
 @using Blazor.Components
 @using Helpers.LocalStorage
 @inject Blazored.LocalStorage.ILocalStorageService localStorageService
-@inject HttpClient httpClient
+@inject IHttpClientFactory httpClientFactory
 
 <div class="page">
   <div class="sidebar">
@@ -24,26 +24,26 @@
 </div>
 
 @code {
-    public Basket Basket { get; set; }
+  public Basket Basket { get; set; }
 
-    protected override void OnInitialized()
+  protected override void OnInitialized()
+  {
+    Basket = new(localStorageService, httpClientFactory.CreateClient(Globals.LOCAL_API));
+  }
+
+  protected override void OnAfterRender(bool firstRender)
+  {
+    if (firstRender)
     {
-      Basket = new(localStorageService, httpClient);
+      UpdateAsync();
     }
+  }
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-      if (firstRender)
-      {
-        UpdateAsync();
-      }
-    }
+  private BasketButton BasketButton { get; set; }
 
-    private BasketButton BasketButton { get; set; }
-
-    public async void UpdateAsync()
-    {
-      BasketButton.Count = await Basket.GetCountAsync();
-      StateHasChanged();
-    }
+  public async void UpdateAsync()
+  {
+    BasketButton.Count = await Basket.GetCountAsync();
+    StateHasChanged();
+  }
 } 

@@ -2,7 +2,7 @@
 @using ServiceLayer
 @using ServiceLayer.LocomotiveService
 @using Blazor.Components
-@inject HttpClient httpClient
+@inject IHttpClientFactory httpClientFactory
 @inject IJSRuntime JSRuntime
 
 <div class="container">
@@ -139,7 +139,9 @@
 
   protected override async Task OnInitializedAsync()
   {
-    Locomotive = await httpClient.GetFromJsonAsync<DetailsLocomotiveDto>($"/locomotive/details/{LocomotiveId}");
+    var client = httpClientFactory.CreateClient(Globals.LOCAL_API);
+
+    Locomotive = await client.GetFromJsonAsync<DetailsLocomotiveDto>($"locomotive/details/{LocomotiveId}");
   }
 
   protected override async Task OnAfterRenderAsync(bool firstRender)

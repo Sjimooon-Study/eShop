@@ -2,7 +2,6 @@
 @using ServiceLayer.ProductService.DTO
 @using Helpers.LocalStorage
 @inject NavigationManager nav
-@inject HttpClient httpClient
 
 <div class="container">
   <div class="row">
@@ -24,7 +23,7 @@
     {
       <div class="row">
         <div class="col col-3 hover_pointer" @onclick="() => NavigateToLocomotive(product.ProductId)">
-            <img class="w-100" src="/img/products/@product.Image?.Path" alt="Product image">
+          <img class="w-100" src="/img/products/@product.Image?.Path" alt="Product image">
         </div>
         <div class="col col-4 hover_pointer" @onclick="() => NavigateToLocomotive(product.ProductId)">
           @product.Name
@@ -79,64 +78,64 @@
 </div>
 
 @code {
-    [CascadingParameter]
-    protected MainLayout MainLayout { get; set; }
+  [CascadingParameter]
+  protected MainLayout MainLayout { get; set; }
 
-    private List<BasketProductDto> BasketProducts { get; set; }
-    private decimal TotalBasketPrice { get; set; }
+  private List<BasketProductDto> BasketProducts { get; set; }
+  private decimal TotalBasketPrice { get; set; }
 
-    protected override async Task OnInitializedAsync()
+  protected override async Task OnInitializedAsync()
+  {
+    await UpdateBasketAsync();
+  }
+
+  private async Task UpdateBasketAsync()
+  {
+    BasketProducts = await MainLayout.Basket.GetBasketProductsAsync();
+
+    MainLayout.UpdateAsync();
+    CalculateTotalBasketPrice();
+
+    await OnInitializedAsync();
+  }
+
+  private void CalculateTotalBasketPrice()
+  {
+    TotalBasketPrice = 0;
+
+    if (BasketProducts != null)
     {
-      await UpdateBasketAsync();
-    }
-
-    private async Task UpdateBasketAsync()
-    {
-      BasketProducts = await MainLayout.Basket.GetBasketProductsAsync();
-
-      MainLayout.UpdateAsync();
-      CalculateTotalBasketPrice();
-
-      await OnInitializedAsync();
-    }
-
-    private void CalculateTotalBasketPrice()
-    {
-      TotalBasketPrice = 0;
-
-      if (BasketProducts != null)
+      foreach (BasketProductDto product in BasketProducts)
       {
-        foreach (BasketProductDto product in BasketProducts)
-        {
-          TotalBasketPrice += product.TotalPrice * product.Count;
-        }
+        TotalBasketPrice += product.TotalPrice * product.Count;
       }
     }
+  }
 
-    private async Task ChangeCountAsync(int id, ChangeEventArgs eventArgs)
+  private async Task ChangeCountAsync(int id, ChangeEventArgs eventArgs)
+  {
+    if (Int32.TryParse(eventArgs.Value.ToString(), out int newCount))
     {
-      if (Int32.TryParse(eventArgs.Value.ToString(), out int newCount))
-      {
-        BasketProducts.Where(p => p.ProductId == id).FirstOrDefault().Count = newCount;
+      BasketProducts.Where(p => p.ProductId == id).FirstOrDefault().Count = newCount;
 
-        await MainLayout.Basket.SetCountAsync(id, newCount);
-        await UpdateBasketAsync();
-      }
-    }
-
-    private async Task RemoveAsync(int id)
-    {
-      await MainLayout.Basket.RemoveAllAsync(id);
+      await MainLayout.Basket.SetCountAsync(id, newCount);
       await UpdateBasketAsync();
     }
+  }
 
-    private void NavigateToLocomotive(int id)
-    {
-      nav.NavigateTo($"/locomotives/details/{id}");
-    }
+  private async Task RemoveAsync(int id)
+  {
+    await MainLayout.Basket.RemoveAllAsync(id);
+    await UpdateBasketAsync();
+  }
 
-    private void NavigateToIndex()
-    {
-      nav.NavigateTo("/");
-    }
+  private void NavigateToLocomotive(int id)
+  {
+    nav.NavigateTo($"/locomotives/details/{id}");
+  }
+
+  private void NavigateToIndex()
+  {
+    nav.NavigateTo("/");
+  }
 }

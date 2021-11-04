@@ -67,7 +67,8 @@ The preseeded admin user *(Username: admin, password: admin)* will, because of t
 This will be read and acted uppon in views where admin only content can be rendered. Some models (ie. Locomotive/AddEdit) outright refuses to respond with their own view, if the user isn't an administrator.
 
 #### WebAPI
-
+The web API can be ran by outside VS by executing the following command from the folder in which its executable is located.
+`WebAPI.exe --urls "http://*:4020"`
 
 #### NuGet Packages & Dependecies
 *ConsoleApp*
@@ -97,6 +98,7 @@ This will be read and acted uppon in views where admin only content can be rende
 
 *Blazor*
 - Blazored.LocalStorage v4.1.5
+- Microsoft.Extensions.Http v5.0.0
 
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
@@ -120,6 +122,7 @@ Install-Package Swashbuckle.AspNetCore -Projectname WebAPI
 Install-Package YamlDotNet -Projectname WebAPI
 Install-Package Microsoft.AspNetCore.Components.WebAssembly.Server -Projectname WebAPI
 Install-Package Blazored.LocalStorage -Projectname Blazor
+Install-Package Microsoft.Extensions.Http -Projectname Blazor
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
 
