@@ -32,6 +32,17 @@ namespace WebAPI.Controllers
             return _productService.GetStock(id);
         }
 
+        /// <summary>
+        /// Get all product tags.
+        /// </summary>
+        /// <returns>List of product tags.</returns>
+        [HttpGet]
+        [Route("tags")]
+        public List<string> GetTags()
+        {
+            return _productService.GetTags().ToList();
+        }
+
         /*
         public async Task<IActionResult> Method(int productId, int imageNumber)
         // Get image DTO

@@ -44,6 +44,16 @@ namespace ServiceLayer.ProductService.Concrete
             .Where(p => p.ProductId == productId)
             .Select(p => p.AmountInStock)
             .FirstOrDefault();
+
+        /// <summary>
+        /// Get all tags.
+        /// </summary>
+        /// <returns>Queryable of strings.</returns>
+        public IQueryable<string> GetTags() => _context.Products
+            .AsNoTracking()
+            .Where(l => l.TagId != null)
+            .Select(l => l.TagId)
+            .Distinct();
         #endregion
     }
 }

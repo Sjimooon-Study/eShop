@@ -2,7 +2,7 @@
 @inject NavigationManager nav
 
 <div class="card product-card">
-  <a @onclick="Navigate">
+  <a @onclick="NavigateToLocomotive">
     <img class="card-img-top" src="/img/products/@Locomotive.Images.FirstOrDefault()?.Path" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title">@Locomotive.Name, @Locomotive.RailwayCompanyName</h5>
@@ -31,14 +31,29 @@
       </div>
     </li>
   </ul>
+
+  @if (MainLayout.EditMode)
+  {
+    <div class="card-footer">
+      <a class="text-muted hover_pointer" @onclick="NavigateToEdit" title="Edit"><span class="oi oi-pencil"></span></a>
+    </div>
+  }
 </div>
 
 @code {
     [Parameter]
     public ListLocomotiveDto Locomotive { get; set; }
 
-    private void Navigate()
+    [CascadingParameter]
+    private MainLayout MainLayout { get; set; }
+
+    private void NavigateToLocomotive()
     {
       nav.NavigateTo($"/locomotives/details/{Locomotive.ProductId}");
+    }
+
+    private void NavigateToEdit()
+    {
+      nav.NavigateTo($"/locomotives/edit/{Locomotive.ProductId}");
     }
 }

@@ -2,6 +2,10 @@
 @using ServiceLayer
 @using ServiceLayer.LocomotiveService
 @using Blazor.Components
+@using System.Reflection;
+@using System.ComponentModel.DataAnnotations;
+@using static DataLayer.Models.ModelItem;
+@using static DataLayer.Models.Products.Locomotive
 @inject IHttpClientFactory httpClientFactory
 @inject IJSRuntime JSRuntime
 
@@ -88,7 +92,14 @@
                 </tr>
                 <tr>
                   <th scope="row">Locomotive type</th>
-                  <td>@Locomotive.LocoType</td>
+                  @{
+                    string locoTypeLabel = typeof(ELocoType)
+                      .GetMember(typeof(ELocoType).GetEnumName(Locomotive.LocoType))
+                      .First()
+                      .GetCustomAttribute<DisplayAttribute>()
+                      .Name;
+                  }
+                  <td>@locoTypeLabel</td>
                 </tr>
               </tbody>
             </table>
@@ -100,7 +111,14 @@
               <tbody>
                 <tr>
                   <th scope="row">Scale</th>
-                  <td>@Locomotive.Scale</td>
+                  @{
+                    string scaleLabel = typeof(EScale)
+                      .GetMember(typeof(EScale).GetEnumName(Locomotive.LocoType))
+                      .First()
+                      .GetCustomAttribute<DisplayAttribute>()
+                      .Name;
+                  }
+                  <td>@scaleLabel</td>
                 </tr>
                 <tr>
                   <th scope="row">Length</th>
