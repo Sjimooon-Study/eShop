@@ -1,15 +1,13 @@
-﻿@page "/Locomotives/"
+﻿@page "/locomotives"
 @using ServiceLayer.LocomotiveService
 @using Microsoft.AspNetCore.WebUtilities
 @using System.Web
-@using System.Collections.Specialized 
+@using System.Collections.Specialized
 @using System.Reflection;
 @using System.ComponentModel.DataAnnotations;
-@using static DataLayer.Models.ModelItem;
-@using static DataLayer.Models.Products.Locomotive
 @inject IHttpClientFactory httpClientFactory
 @inject NavigationManager nav
-@inject IJSRuntime JS
+@inject IToastService toastService
 
 <div class="container">
   <div class="row">
@@ -95,17 +93,27 @@
     {
       Client = httpClientFactory.CreateClient(Globals.LOCAL_API);
 
-      var query = nav.ToAbsoluteUri(nav.Uri).Query;
+      // Parse/validate query string
+      string query = nav.ToAbsoluteUri(nav.Uri).Query;
+      string newUri = null;
       if (QueryHelpers.ParseQuery(query).TryGetValue(_SEARCH, out var search))
       {
         SearchParameter = search;
       }
       if (QueryHelpers.ParseQuery(query).TryGetValue(_ORDER, out var order))
       {
-        if (EOrderByOptions.TryParse(order, out EOrderByOptions orderResult))
+        if (EOrderByOptions.TryParse(order, out EOrderByOptions orderResult) && EOrderByOptions.IsDefined(orderResult))
         {
           OrderByOptions = orderResult;
         }
+        else
+        {
+          newUri = GetUriWithUpdatedQueryString(_ORDER, null);
+        }
+      }
+      if (!String.IsNullOrEmpty(newUri))
+      {
+        nav.NavigateTo(newUri);
       }
 
       await GetLocomotivesAsync();
@@ -117,7 +125,10 @@
       {
         Locomotives = await Client.GetFromJsonAsync<List<ListLocomotiveDto>>($"locomotive/list{new Uri(nav.Uri).Query}");
       }
-      catch (Exception) { }
+      catch (Exception e)
+      {
+        toastService.ShowError(Globals.UNABLE_TO_FETCH_PRODUCTS + e.Message, Globals.SYSTEM_ERROR);
+      }
     }
 
     private async Task Search(ChangeEventArgs eventArgs)
@@ -133,6 +144,10 @@
       {
         OrderByOptions = result;
       }
+      else
+      {
+        OrderByOptions = EOrderByOptions.Default;
+      }
       nav.NavigateTo(GetUriWithUpdatedQueryString(_ORDER, ((int)OrderByOptions).ToString()));
       await OnInitializedAsync();
     }
@@ -140,12 +155,10 @@
     private string GetUriWithUpdatedQueryString(string key, string value)
     {
       Uri uri = new(nav.Uri);
-
+      string pagePath = uri.GetLeftPart(UriPartial.Path);
       NameValueCollection newQueryString = HttpUtility.ParseQueryString(uri.Query);
 
       newQueryString.Remove(key);
-
-      string pagePath = uri.GetLeftPart(UriPartial.Path);
 
       if (!String.IsNullOrWhiteSpace(value))
       {
@@ -154,5 +167,4 @@
 
       return newQueryString.Count > 0 ? $"{pagePath}?{newQueryString}" : pagePath;
     }
-
 }

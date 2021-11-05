@@ -6,6 +6,7 @@
 @using static DataLayer.Models.Products.Locomotive
 @inject NavigationManager nav
 @inject IHttpClientFactory httpClientFactory
+@inject IToastService toastService
 
 <div class="container">
   <h2>Edit locomotive</h2>
@@ -218,7 +219,10 @@
         AllTags.RemoveAll(s => String.IsNullOrWhiteSpace(s));
         AllTags.Add("");
       }
-      catch (Exception) { }
+      catch (Exception e)
+      {
+        toastService.ShowError(e.Message, Globals.SYSTEM_ERROR);
+      }
     }
 
     private void ValidSubmit()
@@ -228,6 +232,9 @@
         Client.PutAsJsonAsync<EditLocomotiveDto>($"locomotive/edit", Locomotive);
         nav.NavigateTo("locomotives");
       }
-      catch (Exception) { }
+      catch (Exception e)
+      {
+        toastService.ShowError(e.Message, Globals.SYSTEM_ERROR);
+      }
     }
 }

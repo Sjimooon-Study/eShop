@@ -66,7 +66,11 @@ namespace Blazor.Helpers.LocalStorage
                     return;
                 }
             }
-            catch (Exception e) { return; }
+            catch (Exception e)
+            {
+                _toastService.ShowError(e.Message, Globals.SYSTEM_ERROR);
+                return;
+            }
 
             ToastNotEnoughStock();
         }
@@ -135,8 +139,9 @@ namespace Blazor.Helpers.LocalStorage
 
                 return content.Deserialize<List<BasketProductDto>>(true);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _toastService.ShowError(e.Message, Globals.SYSTEM_ERROR);
                 return new List<BasketProductDto>();
             }
         }
@@ -183,7 +188,10 @@ namespace Blazor.Helpers.LocalStorage
                         SetBasketAsync(basket);
                     }
                 }
-                catch (Exception) { }
+                catch (Exception e)
+                {
+                    _toastService.ShowError(e.Message, Globals.SYSTEM_ERROR);
+                }
             }
         }
         #endregion
@@ -201,7 +209,7 @@ namespace Blazor.Helpers.LocalStorage
         
         private void ToastNotEnoughStock()
         {
-            _toastService.ShowError("Not enough stock.", "SORRY");
+            _toastService.ShowError(Globals.NOT_ENOUGH_STOCK, Globals.SORRY);
         }
         #endregion
     }
