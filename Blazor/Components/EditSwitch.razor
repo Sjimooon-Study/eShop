@@ -1,0 +1,20 @@
+﻿@if (MainLayout.EditMode)
+{
+  <button class="btn btn-danger mr-3" @onclick="() => SwitchMode(false)">Edit mode: On</button>
+}
+else
+{
+  <button class="btn btn-outline-secondary mr-3" @onclick="() => SwitchMode(true)">Edit mode: Off</button>
+}
+
+@code {
+  [CascadingParameter]
+  private MainLayout MainLayout { get; set; }
+
+  private async void SwitchMode(bool state)
+  {
+    await MainLayout.User.SetEditModeAsync(state);
+
+    MainLayout.UpdateAsync();
+  }
+}

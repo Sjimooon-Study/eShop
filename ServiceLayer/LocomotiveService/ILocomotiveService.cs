@@ -12,7 +12,6 @@ namespace ServiceLayer.LocomotiveService
 
         DetailsLocomotiveDto GetDetails(int locomotiveId);
         Tuple<IQueryable<ListLocomotiveDto>, ushort, ushort> GetList(QueryOptions queryOptions);
-        IQueryable<string> GetTags();
         EditLocomotiveDto GetEdit(int locomotiveId);
 
         int Edit(EditLocomotiveDto locomotiveDto);

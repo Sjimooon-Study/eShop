@@ -36,10 +36,12 @@ namespace WebApp.Pages.Locomotive
         public List<EControl> Controls { get; set; }
 
         readonly ILocomotiveService _locomotiveService;
+        readonly IProductService _productService;
 
-        public IndexModel(ILocomotiveService locomotiveService)
+        public IndexModel(ILocomotiveService locomotiveService, IProductService productService)
         {
             _locomotiveService = locomotiveService;
+            _productService = productService;
         }
 
         public void OnGet(int? pg = 1)
@@ -71,7 +73,7 @@ namespace WebApp.Pages.Locomotive
             QueryOptions.PageNumber = result.Item2;
             NumberOfPages = result.Item3;
             
-            AllTags = _locomotiveService.GetTags().ToList();
+            AllTags = _productService.GetTags().ToList();
         }
 
         public IActionResult OnGetAddToBasket([FromServices] IProductService productService, int id)

@@ -1,0 +1,99 @@
+﻿@import url('/css/open-iconic/font/css/open-iconic-bootstrap.min.css');
+@import "variables.less";
+
+.hover_pointer:hover {
+    cursor: pointer;
+}
+
+.col-vertical-middle {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+/* Product card */
+.product-card.card {
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.5s;
+
+    &:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    > a {
+        color: inherit;
+        text-decoration: none;
+
+        &:hover {
+            color: inherit;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
+
+    ul.list-group-horizontal {
+        margin: 0.5rem;
+        justify-content: center;
+
+        .tag {
+            background-color: lightgoldenrodyellow;
+        }
+    }
+}
+
+/* Button */
+.btn-default {
+    background-color: @color-light-gold;
+    color: #fff;
+    border-color: @color-light-gold;
+
+    &:hover, &:focus, &:active, &.active, .open .dropdown-toggle.btn-default {
+        background-color: @color-gold;
+        color: #fff;
+        border-color: @color-gold;
+        box-shadow: @shadow-gold;
+    }
+}
+
+/* Default */
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}

@@ -1,0 +1,240 @@
+﻿@page "/locomotives/edit/{LocomotiveId:int}"
+@using ServiceLayer.LocomotiveService
+@using System.Reflection;
+@using System.ComponentModel.DataAnnotations;
+@using static DataLayer.Models.ModelItem;
+@using static DataLayer.Models.Products.Locomotive
+@inject NavigationManager nav
+@inject IHttpClientFactory httpClientFactory
+@inject IToastService toastService
+
+<div class="container">
+  <h2>Edit locomotive</h2>
+  <div class="row">
+    <div class="col col-7">
+      @if (Locomotive != null)
+      {
+        <EditForm Model="@Locomotive" OnValidSubmit="@ValidSubmit">
+          <DataAnnotationsValidator />
+          <ValidationSummary />
+
+          <div class="form-group">
+            <label>Name</label>
+            <InputText class="form-control" id="name" @bind-Value="Locomotive.Name" />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <InputTextArea class="form-control" id="description" @bind-Value="Locomotive.Description" />
+          </div>
+          <div class="form-group">
+            <label>Price</label>
+            <InputNumber class="form-control" id="price" @bind-Value="Locomotive.Price" />
+          </div>
+          @*<div class="form-group">
+              <label>Amount in stock</label>
+              <InputNumber class="form-control" id="amountInStock" @bind-Value="Locomotive.AmountInStock" />
+            </div>*@
+
+          @*Images*@
+
+          <div class="form-group">
+            <label>Tag</label>
+            <InputSelect class="form-control" id="tag" @bind-Value="Locomotive.Tag">
+              @foreach (string tag in AllTags)
+              {
+                @if (String.IsNullOrWhiteSpace(tag) && String.IsNullOrWhiteSpace(Locomotive.Tag))
+                {
+                  <option value="" selected>None</option>
+                }
+                else if (String.IsNullOrWhiteSpace(tag))
+                {
+                  <option value="">None</option>
+                }
+                else if (tag == Locomotive.Tag)
+                {
+                  <option value="@tag" selected>@tag</option>
+                }
+                else
+                {
+                  <option value="@tag">@tag</option>
+                }
+              }
+            </InputSelect>
+          </div>
+
+          <hr />
+
+          <div class="form-group">
+            <label>Scale</label>
+            <InputSelect class="form-control" id="scale" @bind-Value="Locomotive.Scale">
+              @foreach (int value in Enum.GetValues(typeof(EScale)))
+              {
+                string label = typeof(EScale)
+                  .GetMember(typeof(EScale).GetEnumName(value))
+                  .First()
+                  .GetCustomAttribute<DisplayAttribute>()
+                  .Name;
+                @if (value == (int)Locomotive.Scale)
+                {
+                  <option value="@value" selected>@label</option>
+                }
+                else
+                {
+                  <option value="@value">@label</option>
+                }
+              }
+            </InputSelect>
+          </div>
+          <div class="form-group">
+            <label>Epoch</label>
+            <InputSelect class="form-control" id="epoch" @bind-Value="Locomotive.Epoch">
+              @foreach (int value in Enum.GetValues(typeof(EEpoch)))
+              {
+                string label = typeof(EEpoch)
+                  .GetMember(typeof(EEpoch).GetEnumName(value))
+                  .First()
+                  .GetCustomAttribute<DisplayAttribute>()
+                  .Name;
+                @if (value == (int)Locomotive.Epoch)
+                {
+                  <option value="@value" selected>@label</option>
+                }
+                else
+                {
+                  <option value="@value">@label</option>
+                }
+              }
+            </InputSelect>
+          </div>
+
+          <hr />
+
+          @* Railway company *@
+
+          <div class="form-group">
+            <label>Lenght (cm)</label>
+            <InputNumber class="form-control" id="length" @bind-Value="Locomotive.Length" />
+          </div>
+          <div class="form-group">
+            <label>Number of axels</label>
+            <InputNumber class="form-control" id="numOfAxels" @bind-Value="Locomotive.NumOfAxels" />
+          </div>
+
+          <hr />
+
+          <div class="form-group">
+            <label>Number of driven axels</label>
+            <InputNumber class="form-control" id="numOfDrivenAxels" @bind-Value="Locomotive.NumOfDrivenAxels" />
+          </div>
+          <div class="form-group">
+            <label>Locomotive type</label>
+            <InputSelect class="form-control" id="locoType" @bind-Value="Locomotive.LocoType">
+              @foreach (int value in Enum.GetValues(typeof(ELocoType)))
+              {
+                string label = typeof(ELocoType)
+                  .GetMember(typeof(ELocoType).GetEnumName(value))
+                  .First()
+                  .GetCustomAttribute<DisplayAttribute>()
+                  .Name;
+                int test = (int)Locomotive.LocoType;
+                @if (value == (int)Locomotive.LocoType)
+                {
+                  <option value="@value" selected>@label</option>
+                }
+                else
+                {
+                  <option value="@value">@label</option>
+                }
+              }
+            </InputSelect>
+          </div>
+          <div class="form-group">
+            <label>Control</label>
+            <InputSelect class="form-control" id="control" @bind-Value="Locomotive.Control">
+              @foreach (int value in Enum.GetValues(typeof(EControl)))
+              {
+                string label = typeof(EControl)
+                  .GetMember(typeof(EControl).GetEnumName(value))
+                  .First()
+                  .GetCustomAttribute<DisplayAttribute>()
+                  .Name;
+                int test = (int)Locomotive.Control;
+                @if (value == (int)Locomotive.Control)
+                {
+                  <option value="@value" selected>@label</option>
+                }
+                else
+                {
+                  <option value="@value">@label</option>
+                }
+              }
+            </InputSelect>
+          </div>
+          <div class="form-group">
+            <label>Auto coupling</label>
+            <InputCheckbox class="form-control" id="autoCoupling" @bind-Value="Locomotive.AutoCoupling" />
+          </div>
+          @* Digital decorder *@
+
+          <button class="btn btn-default" type="submit">Save</button>
+
+          <br />
+          <br />
+        </EditForm>
+      }
+    </div>
+    <div class="col col-5">
+
+    </div>
+  </div>
+</div>
+
+@code {
+    [Parameter]
+    public int LocomotiveId { get; set; }
+
+    private EditLocomotiveDto Locomotive { get; set; }
+
+    private List<string> AllTags { get; set; } = new List<string>();
+
+    [CascadingParameter]
+    private MainLayout MainLayout { get; set; }
+
+    private HttpClient Client { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+      if (!MainLayout.EditMode)
+      {
+        nav.NavigateTo("locomotives");
+        return;
+      }
+
+      Client = httpClientFactory.CreateClient(Globals.LOCAL_API);
+
+      try
+      {
+        Locomotive = await Client.GetFromJsonAsync<EditLocomotiveDto>($"locomotive/edit/{LocomotiveId}");
+        AllTags = await Client.GetFromJsonAsync<List<string>>("product/tags");
+        AllTags.RemoveAll(s => String.IsNullOrWhiteSpace(s));
+        AllTags.Add("");
+      }
+      catch (Exception e)
+      {
+        toastService.ShowError(e.Message, Globals.SYSTEM_ERROR);
+      }
+    }
+
+    private void ValidSubmit()
+    {
+      try
+      {
+        Client.PutAsJsonAsync<EditLocomotiveDto>($"locomotive/edit", Locomotive);
+        nav.NavigateTo("locomotives");
+      }
+      catch (Exception e)
+      {
+        toastService.ShowError(e.Message, Globals.SYSTEM_ERROR);
+      }
+    }
+}

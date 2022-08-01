@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Blazor</title>
+  <base href="/" />
+  <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+  <link href="Blazor.styles.css" rel="stylesheet" />
+  <link href="less/style.css" rel="stylesheet" />
+  <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
+  <script type="text/javascript">
+    function startCarousels() {
+      $('.carousel').carousel({ interval: 4000 });
+    }
+  </script>
+</head>
+
+<body>
+  <div id="app">Loading...</div>
+
+  <div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+  </div>
+  <script src="_framework/blazor.webassembly.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>

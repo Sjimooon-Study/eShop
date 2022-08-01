@@ -20,15 +20,6 @@ namespace WebAPI.Controllers
         }
 
         #region Get
-        [HttpGet]
-        [Route("basket")]
-        public IEnumerable<BasketProductDto> GetBasketProducts()
-        {
-            //_productService.GetBasketProducts();
-
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Get current stock for specific product.
         /// </summary>
@@ -41,6 +32,24 @@ namespace WebAPI.Controllers
             return _productService.GetStock(id);
         }
 
+        /// <summary>
+        /// Get all product tags.
+        /// </summary>
+        /// <returns>List of product tags.</returns>
+        [HttpGet]
+        [Route("tags")]
+        public List<string> GetTags()
+        {
+            return _productService.GetTags().ToList();
+        }
+
+        [HttpGet]
+        [Route("name/{id:int}")]
+        public string GetName(int id)
+        {
+            return _productService.GetName(id);
+        }
+
         /*
         public async Task<IActionResult> Method(int productId, int imageNumber)
         // Get image DTO
@@ -50,6 +59,18 @@ namespace WebAPI.Controllers
         var image = System.IO.File.OpenRead(path);
         return File(image, "image/jpeg")
         */
+        #endregion
+
+        #region Put
+        /// <summary>
+        /// Get list of <see cref="BasketProductDto"/> from <see cref="SessionBasketDto"/>.
+        /// </summary>
+        /// <param name="basket"><see cref="BasketProductDto"/> with products.</param>
+        /// <returns>List of <see cref="BasketProductDto"/>.</returns>
+        [HttpPut]
+        [Route("basket")]
+        public List<BasketProductDto> GetBasketProducts(SessionBasketDto basket) =>
+            _productService.GetBasketProducts(basket).ToList();
         #endregion
     }
 }

@@ -1,0 +1,59 @@
+﻿@using ServiceLayer.LocomotiveService
+@inject NavigationManager nav
+
+<div class="card product-card">
+  <a @onclick="NavigateToLocomotive">
+    <img class="card-img-top" src="/img/products/@Locomotive.Images.FirstOrDefault()?.Path" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">@Locomotive.Name, @Locomotive.RailwayCompanyName</h5>
+      <p class="card-text"></p>
+    </div>
+    <ul class="list-group list-group-horizontal d-flex flex-wrap">
+      @if (!String.IsNullOrEmpty(Locomotive.Tag))
+      {
+        <li class="list-group-item tag">@Locomotive.Tag</li>
+      }
+      <li class="list-group-item">@Locomotive.Scale</li>
+      <li class="list-group-item">@Locomotive.Control</li>
+      <li class="list-group-item">@Locomotive.RailwayCompanyName</li>
+      <li class="list-group-item">@Locomotive.Epoch</li>
+    </ul>
+  </a>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col col-6 col-vertical-middle">
+          <div>€ @Locomotive.Price</div>
+        </div>
+        <div class="col col-6 text-right">
+          <AddToBasketButton ProductId="Locomotive.ProductId" InStock="Locomotive.AmountInStock > 0"></AddToBasketButton>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  @if (MainLayout.EditMode)
+  {
+    <div class="card-footer">
+      <a class="text-muted hover_pointer" @onclick="NavigateToEdit" title="Edit"><span class="oi oi-pencil"></span></a>
+    </div>
+  }
+</div>
+
+@code {
+    [Parameter]
+    public ListLocomotiveDto Locomotive { get; set; }
+
+    [CascadingParameter]
+    private MainLayout MainLayout { get; set; }
+
+    private void NavigateToLocomotive()
+    {
+      nav.NavigateTo($"/locomotives/details/{Locomotive.ProductId}");
+    }
+
+    private void NavigateToEdit()
+    {
+      nav.NavigateTo($"/locomotives/edit/{Locomotive.ProductId}");
+    }
+}

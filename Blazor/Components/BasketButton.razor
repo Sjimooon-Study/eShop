@@ -1,0 +1,21 @@
+﻿@inject NavigationManager nav
+
+<button class="btn btn-default" @onclick="Navigate"><span class="oi oi-basket"></span> Basket @(_count > 0 ? $"({_count})" : "")</button>
+
+@code {
+  private int _count;
+  public int Count
+  {
+    get => _count;
+    set
+    {
+      _count = value;
+      StateHasChanged();
+    }
+  }
+
+  private void Navigate()
+  {
+    nav.NavigateTo("/basket");
+  }
+}

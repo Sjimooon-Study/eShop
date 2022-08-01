@@ -110,16 +110,6 @@ namespace ServiceLayer.LocomotiveService.Concrete
             .MapEditLocomotiveDto();
 
         /// <summary>
-        /// Get all tags.
-        /// </summary>
-        /// <returns>Queryable of strings.</returns>
-        public IQueryable<string> GetTags() => _context.Locomotives
-            .AsNoTracking()
-            .Where(l => l.TagId != null)
-            .Select(l => l.TagId)
-            .Distinct();
-
-        /// <summary>
         /// Get locomotive graph (incl. images) from underlying database.
         /// </summary>
         /// <param name="locomotiveId"><see cref="Locomotive"/> ID.</param>

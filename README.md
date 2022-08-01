@@ -67,7 +67,8 @@ The preseeded admin user *(Username: admin, password: admin)* will, because of t
 This will be read and acted uppon in views where admin only content can be rendered. Some models (ie. Locomotive/AddEdit) outright refuses to respond with their own view, if the user isn't an administrator.
 
 #### WebAPI
-
+The web API can be ran by outside VS by executing the following command from the folder in which its executable is located.
+`WebAPI.exe --urls "http://*:4020"`
 
 #### NuGet Packages & Dependecies
 *ConsoleApp*
@@ -93,6 +94,13 @@ This will be read and acted uppon in views where admin only content can be rende
 - Microsoft.AspNet.WebApi.Core v5.2.7
 - Swashbuckle.AspNetCore v6.2.3
 - YamlDotNet v11.2.1
+- Microsoft.AspNetCore.Components.WebAssembly.Server v5.0.11
+
+*Blazor*
+- Microsoft.Extensions.Http v5.0.0
+- Microsoft.AspNetCore.WebUtilities v2.2.0
+- Blazored.LocalStorage v4.1.5
+- Blazored.Toast v3.2.2
 
 *UnitTests*
 - Microsoft.EntityFrameworkCore v5.0.10
@@ -114,6 +122,11 @@ Install-Package MiniProfiler.EntityFrameworkCore -Projectname WebApp
 Install-Package Microsoft.AspNet.WebApi.Core -Projectname WebAPI
 Install-Package Swashbuckle.AspNetCore -Projectname WebAPI
 Install-Package YamlDotNet -Projectname WebAPI
+Install-Package Microsoft.AspNetCore.Components.WebAssembly.Server -Projectname WebAPI
+Install-Package Microsoft.Extensions.Http -Projectname Blazor
+Install-Package Microsoft.AspNetCore.WebUtilities -Projectname Blazor
+Install-Package Blazored.LocalStorage -Projectname Blazor
+Install-Package Blazored.Toast -Projectname Blazor
 Install-Package Microsoft.EntityFrameworkCore -Projectname UnitTests
 ```
 

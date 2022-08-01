@@ -1,0 +1,18 @@
+﻿[
+  {
+    "outputFile": "wwwroot/less/style.css",
+    "inputFile": "wwwroot/less/style.less"
+  },
+  {
+    "outputFile": "Shared/MainLayout.razor.css",
+    "inputFile": "Shared/MainLayout.razor.less"
+  },
+  {
+    "outputFile": "Shared/NavMenu.razor.css",
+    "inputFile": "Shared/NavMenu.razor.less"
+  },
+  {
+    "outputFile": "wwwroot/less/variables.css",
+    "inputFile": "wwwroot/less/variables.less"
+  }
+]

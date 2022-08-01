@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
         /// <returns>List of <see cref="ListLocomotiveDto"/>.</returns>
         [HttpGet]
         [Route("list")]
-        public IEnumerable<ListLocomotiveDto> GetListLocomotives(string s = "", EOrderByOptions o = EOrderByOptions.Default, ushort pgn = 1, EPageSize pgs = EPageSize.PS10)
+        public List<ListLocomotiveDto> GetListLocomotives(string s = "", EOrderByOptions o = EOrderByOptions.Default, ushort pgn = 1, EPageSize pgs = EPageSize.PS10)
         {
             QueryOptions queryOptions = new()
             {

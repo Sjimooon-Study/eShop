@@ -1,0 +1,69 @@
+﻿@inherits LayoutComponentBase
+@using Blazor.Components
+@using Helpers.LocalStorage
+@using Blazored.Toast.Configuration
+@inject Blazored.LocalStorage.ILocalStorageService localStorageService
+@inject IHttpClientFactory httpClientFactory
+@inject IToastService toastService
+
+<div class="page">
+  <div class="sidebar">
+    <NavMenu />
+  </div>
+
+  <CascadingValue Value="this">
+    <div class="main">
+      <div class="top-row px-4">
+        <div class="ml-3">
+          <EditSwitch></EditSwitch>
+        </div>
+        <BasketButton @ref="BasketButton"></BasketButton>
+      </div>
+
+      <BlazoredToasts Position="ToastPosition.BottomRight"
+                      Timeout="10"
+                      IconType="IconType.FontAwesome"
+                      SuccessClass="success-toast-override"
+                      SuccessIcon="oi oi-check"
+                      ErrorIcon="oi oi-circle-x"
+                      MaxToastCount="3"
+                      ShowProgressBar="true" />
+
+      <div class="content px-4">
+        @* Body can call 'MainLayout.<method_name>()' in code block below, when setting member: '[CascadingParameter] protected MainLayout MainLayout { get; set; }' *@
+        @Body
+      </div>
+    </div>
+  </CascadingValue>
+</div>
+
+@code {
+  public Basket Basket { get; set; }
+  public User User { get; set; }
+
+  public bool EditMode { get; set; }
+
+  private BasketButton BasketButton { get; set; }
+
+  public async void UpdateAsync()
+  {
+    BasketButton.Count = await Basket.GetCountAsync();
+    EditMode = await User.IsInEditModeAsync();
+    StateHasChanged();
+  }
+
+  protected override async Task OnInitializedAsync()
+  {
+    Basket = new(localStorageService, httpClientFactory.CreateClient(Globals.LOCAL_API), toastService);
+    User = await User.Create(localStorageService);
+    EditMode = false;
+  }
+
+  protected override void OnAfterRender(bool firstRender)
+  {
+    if (firstRender)
+    {
+      UpdateAsync();
+    }
+  }
+} 
